@@ -1,5 +1,4 @@
 import numpy as np
-import time
 
 
 class Grid:
@@ -43,7 +42,6 @@ class Grid:
         :param pos_y: The y axis point of the grid where the user want to check.
         :return: A boolean object.
         """
-
         user_point = self.grid[pos_y:pos_y + 1, pos_x:pos_x + 1]
         if user_point == " ":
             # Checks if the point is empty, if yes it returns True if no then it returns False.
@@ -53,7 +51,6 @@ class Grid:
 
 
 if __name__ == "__main__":
-    start = time.perf_counter()
     plane = Grid(80, 24)
     plane.insert(0, 0, ["┌"])
     plane.insert(0, 23, ["└"])
