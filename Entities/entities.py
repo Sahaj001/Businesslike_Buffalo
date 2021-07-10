@@ -12,7 +12,7 @@ class Entity:
         self.which_screen = which_screen
 
         # Processing ascii file
-        with open(os.path.join(ASCII_FOLDER, ascii_file), "r") as file:
+        with open(os.path.join(ASCII_FOLDER, ascii_file), "r", encoding="utf8") as file:
             ascii_lst = file.read().splitlines()
 
         self.height = len(ascii_lst)  # Finding the height of the ascii art
@@ -32,10 +32,10 @@ class Entity:
 class Tree(Entity):
     def __init__(self, x: int, y: int, which_screen: int):
         ascii_file = "tree.txt"
-        super.__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
 
 
 class Bar(Entity):
     def __init__(self, x: int, y: int, which_screen: int):
         ascii_file = "bar.txt"
-        super.__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
