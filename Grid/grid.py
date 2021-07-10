@@ -1,4 +1,8 @@
 def create_line(width_of_line: int) -> str:
+    """
+    :param width_of_line: The width of the line it wants to create.
+    :return: A string having length = width_of_line
+    """
     line = ""
     for _ in range(width_of_line):
         line += " "
@@ -6,6 +10,9 @@ def create_line(width_of_line: int) -> str:
 
 
 class Grid:
+    """
+    Used to create grid in which objects can be rendered.
+    """
     def __init__(self, width: int = 100, height: int = 100):
         """
         :param width: The width of the grid
@@ -22,35 +29,35 @@ class Grid:
     def __repr__(self) -> str:
         return '\n'.join(self.grid)
 
-    def insert(self, pos_x: int, pos_y: int, object_to_be_rendered: str):
+    def insert(self, pos_x: int, pos_y: int, object_to_be_rendered: str) -> None:
         """
         :param pos_x: The x axis point of the grid where object is to be rendered.
         :param pos_y: The y axis point of the grid where object is to be rendered.
         :param object_to_be_rendered: The object you want to render.
-        :return: Returns nothing.
+        :return: Nothing.
         """
         line = self.grid[pos_y]
-        # converts line to a list
+        # Converts line to a list.
         mutated_line = list(map(lambda line_elem: line_elem, line))
-        # adds the object to the desired place
+        # Adds the object to the desired place.
         mutated_line[pos_x] = object_to_be_rendered
-        # converts the line to a string
+        # Converts the line to a string.
         self.grid[pos_y] = ''.join(mutated_line)
 
-    def check(self, pos_x, pos_y):
+    def check(self, pos_x: int, pos_y: int) -> bool:
         """
         :param pos_x: The x axis point of the grid where the user want to check.
         :param pos_y: The y axis point of the grid where the user want to check.
-        :return: Returns a boolean object depending if the position specified by the user is empty or occupied
+        :return: A boolean object depending if the position specified by the user is empty or occupied
         """
         line = self.grid[pos_y]
-        # converts line to a list
+        # Converts line to a list.
         mutated_line = list(map(lambda line_elem: line_elem, line))
-        # gets the point where the user want to check
+        # Gets the point where the user want to check.
         user_point = mutated_line[pos_x]
 
         if user_point == " ":
-            # checks if the point is empty, if yes it return True if no then it returns False
+            # Checks if the point is empty, if yes it returns True if no then it returns False.
             return True
         else:
             return False
