@@ -1,8 +1,8 @@
 def create_line(width_of_line: int) -> str:
+    """Returns a line.
 
-    """
     :param width_of_line: The width of the line it wants to create.
-    :return: A string having length = width_of_line
+    :return: A string having length width_of_line
     """
     line = ""
     for _ in range(width_of_line):
@@ -11,11 +11,14 @@ def create_line(width_of_line: int) -> str:
 
 
 class Grid:
-    """Used to create grid in which objects can be rendered."""
+    """
+    Used to create grid in which objects can be rendered.
+    If you ever see the word point in this file it means the cartesian point i.e (x,y).
+    """
 
     def __init__(self, width: int = 100, height: int = 100):
+        """Initialises the arguments.
 
-        """
         :param width: The width of the grid
         :param height: The height of the grid
         """
@@ -31,8 +34,8 @@ class Grid:
         return '\n'.join(self.grid)
 
     def insert(self, pos_x: int, pos_y: int, object_to_be_rendered: str) -> None:
+        """Inserts a object to the specified point.
 
-        """
         :param pos_x: The x axis point of the grid where object is to be rendered.
         :param pos_y: The y axis point of the grid where object is to be rendered.
         :param object_to_be_rendered: The object you want to render.
@@ -47,11 +50,11 @@ class Grid:
         self.grid[pos_y] = ''.join(mutated_line)
 
     def check(self, pos_x: int, pos_y: int) -> bool:
-        """
+        """Checks whether the user specified point is blank or not
 
         :param pos_x: The x axis point of the grid where the user want to check.
         :param pos_y: The y axis point of the grid where the user want to check.
-        :return: A boolean object depending if the position specified by the user is empty or occupied
+        :return: A boolean object.
         """
         line = self.grid[pos_y]
         # Converts line to a list.
