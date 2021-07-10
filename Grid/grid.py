@@ -11,8 +11,8 @@ def create_line(width_of_line: int) -> str:
 
 
 class Grid:
-    """
-    Used to create grid in which objects can be rendered.
+    """Used to create grid in which objects can be rendered.
+
     If you ever see the word point in this file it means the cartesian point i.e (x,y).
     """
 
