@@ -27,3 +27,15 @@ class Entity:
     def render(self) -> np.ndarray:
         """A method that returns the rendered table"""
         return self.rendered_table
+
+
+class Tree(Entity):
+    def __init__(self, x: int, y: int, which_screen: int):
+        ascii_file = "tree.txt"
+        super.__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
+class Bar(Entity):
+    def __init__(self, x: int, y: int, which_screen: int):
+        ascii_file = "bar.txt"
+        super.__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
