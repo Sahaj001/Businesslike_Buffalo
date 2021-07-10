@@ -13,7 +13,7 @@ class Entity:
 
         # Processing ascii file
         with open(os.path.join(ASCII_FOLDER, ascii_file), "r", encoding="utf8") as file:
-            ascii_lst = file.read().splitlines()
+            ascii_lst = file.read().strip().splitlines()
 
         self.height = len(ascii_lst)  # Finding the height of the ascii art
         self.width = max([len(line) for line in ascii_lst])  # Finding the width of the ascii art
