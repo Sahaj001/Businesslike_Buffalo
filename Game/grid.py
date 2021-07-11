@@ -1,6 +1,6 @@
-import numpy as np
 from typing import List, Union
 import entities
+import numpy as np
 import person
 
 
