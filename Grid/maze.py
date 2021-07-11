@@ -83,6 +83,6 @@ class Maze:
         # Return a 2D array representation of the maze made out of 1s and 0s
         try:
             new_array_ = np.reshape(array_1, (11, 31))
-            return new_array_
+            return new_array_: np.array
         except ValueError:
-            return array_1
+            return array_1: np.array
