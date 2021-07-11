@@ -65,15 +65,15 @@ class Grid:
         """
         self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
 
-    def update_entity(self, entity: entities.Entity, old_x: int, old_y: int):
-        """Updates an entity object's position
+    def update_entity(self, entity: entities.Entity, old_x: int, old_y: int) -> None:
+        """Updates an entity object's position.
 
         :param old_x: The old x axis point of the object before it moved.
         :param old_y: The old y axis point of the object before it moved.
         :type entity: Object, imported from entity.py
         :return:
         """
-        self.grid[old_y:old_y+entity.height, old_x:old_x + entity.width] = \
+        self.grid[old_y:old_y + entity.height, old_x:old_x + entity.width] = \
             np.full((np.size(entity.render(), 0), np.size(entity.render(), 1)), " ")
 
         self.grid[entity.y:entity.y + entity.height, entity.x:entity.width + entity.x] = entity.render()
