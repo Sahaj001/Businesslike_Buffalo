@@ -38,7 +38,7 @@ class Maze:
             neighb = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
             shuffle(neighb)
             for (x1, y1) in neighb:
-                if seen[y1][x1]: return seen[y1][x1] #continue
+                if seen[y1][x1]: continue
                 if x1 == x: wall[max(y, y1)][x] = "┼  "
                 if y1 == y: cells[y][max(x, x1)] = "   "
                 explore(x1, y1)
@@ -66,6 +66,7 @@ class Maze:
                         continue
             print(new_arr)
             arry.append(new_arr)
-        return np.array(arry)
+        arr = np.array(arry)
+        return np.vstack(arr)
         #print(arry)
-                    
+               
