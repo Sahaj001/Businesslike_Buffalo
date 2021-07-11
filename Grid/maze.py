@@ -57,7 +57,7 @@ class Maze:
             new_arr = np.zeros([1,wid])
             print(row)
             if row == []:
-                break
+                continue
             for ind, ch in enumerate(''.join(row)):
                 for c in ch:
                     if c == '┼' or c == '─' or c == '|':
@@ -66,7 +66,10 @@ class Maze:
                         continue
             print(new_arr)
             arry.append(new_arr)
-        arr = np.array(arry)
-        return np.vstack(arr)
-        #print(arry)
-               
+        arry1 = np.array(arry).flatten()
+        try:
+            new_arry = np.reshape(arry1, (11,31))
+            return new_arry
+        except:
+            return arry1
+                    
