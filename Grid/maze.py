@@ -13,11 +13,14 @@ maze_chars = ['│', '─', '┌', '┬', '┐', '├', '┼', '┤', '└', '�
 
 
 class Maze:
+    '''
+    A class that randomly generates a maze with a set width and height.
+    It can be represented in text(cells) and numpy array form(rows)
+    '''
     def __init__(self, width, height):
         self.height = height
         self.width = width
         self.cells = []
-        self.lines = []
         self.rows = self.make_lines()
 
     # Create and display the maze
