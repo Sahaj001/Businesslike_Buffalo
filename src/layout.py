@@ -1,21 +1,17 @@
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
-from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
 from prompt_toolkit.layout.containers import HSplit, Window, WindowAlign
-from prompt_toolkit.layout.layout import Layout
-from prompt_toolkit.widgets import TextArea, Frame
 from prompt_toolkit.layout.controls import FormattedTextControl
+from prompt_toolkit.layout.layout import Layout
+from prompt_toolkit.widgets import Frame, TextArea
 
 
 class Game:
-    """
-    Specifies the main layout of the game
-    i.e. the play area and the rest of the UI
-    """
+    """Specifies the main layout of the game i.e. the play area and the rest of the UI"""
 
     def __init__(self):
         """Initializes the Layout"""
-
         # TODO: get the text from "Screen" Object
         self.text = """
         The main game goes here
@@ -50,8 +46,9 @@ class Game:
             full_screen=True,
         )
 
-    def get_key_bindings(self):
+    def get_key_bindings(self) -> KeyBindings:
         """Add different key bindings to control the player/UI
+
         :return: KeyBindings Object
         """
         kb = KeyBindings()
@@ -59,34 +56,33 @@ class Game:
         # Exit
         @kb.add("c-c")
         @kb.add("c-q")
-        def _(event):
-            "Pressing Ctrl-Q or Ctrl-C will exit the user interface."
+        def _(event: KeyPressEvent) -> None:
             event.app.exit()
 
         # Movement
         @kb.add("left")
-        def go_left(event):
+        def go_left(event: KeyPressEvent) -> None:
             new_text = self.text + "\nLeft Pressed"
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
 
         @kb.add("right")
-        def go_right(event):
+        def go_right(event: KeyPressEvent) -> None:
             new_text = self.text + "\nRight Pressed"
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
 
         @kb.add("up")
-        def go_up(event):
+        def go_up(event: KeyPressEvent) -> None:
             new_text = self.text + "\nUp Pressed"
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
 
         @kb.add("down")
-        def go_down(event):
+        def go_down(event: KeyPressEvent) -> None:
             new_text = self.text + "\nDown Pressed"
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
@@ -94,7 +90,7 @@ class Game:
 
         # Display the next Message
         @kb.add("n")
-        def next_message(event):
+        def next_message(event: KeyPressEvent) -> None:
             self.current_message = (self.current_message + 1) % 4
             self.message_box.body = Window(
                 FormattedTextControl(self.messages[self.current_message]),
@@ -103,7 +99,7 @@ class Game:
 
         return kb
 
-    def run(self):
+    def run(self) -> None:
         """Run the Application"""
         self.application.run()
 
