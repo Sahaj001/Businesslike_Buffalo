@@ -1,10 +1,13 @@
 import numpy as np
 
+'''
 class Line:
     def __init__(self, arr):
         self.array = arr
-#    def display(self, pos):
-        
+    def display(self):
+'''
+
+maze_chars = ['│', '─', '┌', '┬', '┐','├','┼', '┤','└', '┴', '┘']
         
 from random import shuffle, randrange
 
@@ -13,8 +16,8 @@ class Maze:
         self.height = height
         self.width = width
         self.cells = []
-        self.rows = np.zeros([self.width, self.height])
         self.lines = []
+        self.rows = self.make_lines()
         
     # Create and display the maze
     def create_maze(self):
@@ -35,7 +38,7 @@ class Maze:
             neighb = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
             shuffle(neighb)
             for (x1, y1) in neighb:
-                if seen[y1][x1]: continue
+                if seen[y1][x1]: return seen[y1][x1] #continue
                 if x1 == x: wall[max(y, y1)][x] = "┼  "
                 if y1 == y: cells[y][max(x, x1)] = "   "
                 explore(x1, y1)
@@ -48,23 +51,21 @@ class Maze:
             
     # Make the sequence of line objects to represent the maze
     def make_lines(self):
+        arry = []
         for row in self.cells:
             wid = (self.width*3)+1
             new_arr = np.zeros([1,wid])
             print(row)
+            if row == []:
+                break
             for ind, ch in enumerate(''.join(row)):
                 for c in ch:
                     if c == '┼' or c == '─' or c == '|':
                         new_arr[0][ind] = 1
                     else:
-                        new_arr[0][ind] = 0
-                        
+                        continue
             print(new_arr)
-            np.append(self.rows, new_arr)
-            self.lines.append(Line(new_arr))
-        print(self.rows)
+            arry.append(new_arr)
+        return np.array(arry)
+        #print(arry)
                     
-
-maz = Maze(10,5)
-maz.create_maze()
-maz.make_lines()
