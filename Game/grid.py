@@ -1,7 +1,8 @@
-from typing import List, Union
+import typing
 
-import entities
 import numpy as np
+from typing import List, Union
+import entities
 import person
 
 
@@ -40,20 +41,26 @@ class Grid:
         """
         self.grid[pos_y:pos_y + object_height, pos_x:pos_x + object_width] = np.array(object_to_be_rendered)
 
-    def check(self, entity: entities.Entity, direction_is_negative: bool = False) -> bool:
+    def check(self, entity: entities.Entity, direction: typing.Literal['left', 'up', 'down', 'right']) -> bool:
         """Checks whether the user specified point is blank or not
 
         :type entity: object, imported from entities.py
-        :param direction_is_negative: if True then it will check in negative direction i.e left and down
+        :param direction : The direction in which you want to check
         :return: A boolean object.
         """
-        # adding/subtracting 2 and 3 because adding 0 and 1 would return the object's own position.
-        if direction_is_negative:
-            user_point = self.grid[entity.y - 3:entity.y - 2, entity.x - 3:entity.x - 2]
+        if direction == "left":
+            user_point = self.grid[entity.y:entity.y+entity.height, entity.x-1:entity.x]
+        elif direction == "right":
+            user_point = self.grid[entity.y:entity.y+entity.height, entity.x+entity.width:entity.x + 2]
+        elif direction == "up":
+            user_point = self.grid[entity.y-1:entity.y, entity.x:entity.x+entity.width]
         else:
-            user_point = self.grid[entity.y + 2:entity.y + 3, entity.x + 2:entity.x + 3]
+            # also could be written as elif direction == "down".
+            user_point = self.grid[entity.y+entity.height: entity.y+2, entity.x:entity.x+entity.width]
 
-        if user_point == [[" "]]:
+        print(user_point)
+
+        if np.all(user_point == " "):
             # Checks if the point is empty, if yes it returns True if no then it returns False.
             return True
         else:
@@ -66,8 +73,8 @@ class Grid:
         """
         self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
 
-    def update_entity(self, entity: entities.Entity, old_x: int, old_y: int) -> None:
-        """Updates an entity object's position.
+    def update_entity(self, entity: entities.Entity, old_x: int, old_y: int):
+        """Updates an entity object's position
 
         :param old_x: The old x axis point of the object before it moved.
         :param old_y: The old y axis point of the object before it moved.
@@ -95,22 +102,12 @@ if __name__ == "__main__":
     for plane1_y in range(1, 11):
         plane1.insert(0, plane1_y, ["│"])
         plane1.insert(11, plane1_y, ["│"])
-    print(plane1)
-    p.move('right', plane1)
-    plane1.update_entity(p, p.old_x, p.old_y)
-    print(plane1)
-    p.move('right', plane1)
-    plane1.update_entity(p, p.old_x, p.old_y)
-    print(plane1)
-    p.move('right', plane1)
-    plane1.update_entity(p, p.old_x, p.old_y)
-    print(plane1)
-    p.move('right', plane1)
-    plane1.update_entity(p, p.old_x, p.old_y)
-    print(plane1)
-    p.move('right', plane1)
-    plane1.update_entity(p, p.old_x, p.old_y)
-    print(plane1)
-    p.move('left', plane1)
-    plane1.update_entity(p, p.old_x, p.old_y)
-    print(plane1)
+
+    # while True:
+    #     os.system('clear')
+    #     user_response = random.choice(['right'])
+    #     print(user_response)
+    #     p.move(user_response, plane1)
+    #     plane1.update_entity(p, p.old_x, p.old_y)
+    #     print(plane1)
+    #     time.sleep(1)
