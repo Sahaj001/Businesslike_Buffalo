@@ -13,9 +13,7 @@ class Screen:
         self.GRID_HEIGHT = height
         self.BOX_PADDING_X = 24
         self.BOX_PADDING_Y = 12
-        self.screens = []
-        for i in range(9):
-            self.screens.append(Grid(self.GRID_WIDTH, self.GRID_HEIGHT))
+        self.screens = {i: Grid(self.GRID_WIDTH, self.GRID_HEIGHT) for i in range(1, 10)}
         self.current_screen = 5
 
         # Screen 1 (index 0)
@@ -90,8 +88,10 @@ class Screen:
         # To be fixed
         if entity.x >= self.GRID_WIDTH:
             self.current_screen += 1
-        if entity.x < 0:
+            entity.setCoords(0, entity.y)
+        elif entity.x < 0:
             self.current_screen -= 1
+            entity.setCoords(self.GRID_WIDTH-1, entity.y)
 
         self.screens[self.current_screen - 1].update_entity(entity, p.old_x, p.old_y)
 
@@ -113,10 +113,10 @@ class Screen:
 # For testing
 if __name__ == '__main__':
     screen = Screen(88, 24)
-    p = Person(5, 5, 1)
+    p = Person(85, 5, 1)
     screen.insertEntity(p)
-    for i in range(10):
-        p.move('left', screen.getCurrentScreen())
+    for i in range(25):
+        p.move('right', screen.getCurrentScreen())
         screen.updateEntity(p)
         print(screen.render())
-        time.sleep(1)
+        time.sleep(0.1)
