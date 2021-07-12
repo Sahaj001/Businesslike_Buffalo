@@ -1,4 +1,3 @@
-import os
 import random
 import time
 
@@ -8,7 +7,6 @@ import pygments.lexers
 from prompt_toolkit import print_formatted_text
 from prompt_toolkit.formatted_text import PygmentsTokens
 from prompt_toolkit.styles import Style
-
 
 lexer = pygments.lexers.load_lexer_from_file("regex.py", lexername='CustomLexer')
 
@@ -35,7 +33,7 @@ if __name__ == "__main__":
 
     while True:
         tokens = list(pygments.lex(str(plane1), lexer=lexer))
-        # os.system('clear') if sys is windows then do os.system('cls')
+        # os.system('clear') if sys is windows then do os.system('cls') also import os at the start : )
         user_response = random.choice(['right', 'left', 'up', 'down'])
         print(user_response)
         p.move(user_response, plane1)
