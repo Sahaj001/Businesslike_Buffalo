@@ -3,7 +3,6 @@ from typing import List, Union
 
 import entities
 import numpy as np
-import person
 
 
 class Grid:
