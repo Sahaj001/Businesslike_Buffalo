@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-ASCII_FOLDER = "assets/ascii"
+ASCII_FOLDER = "../assets/ascii"
 
 
 class Entity:
@@ -41,7 +41,7 @@ class Entity:
 
     def __repr__(self):
         mutated_table = np.c_[self.rendered_table, np.full((self.height, 1), "\n")]
-        return ''.join(mutated_table.ravel().tolist())
+        return "".join(mutated_table.ravel().tolist())
 
     def render(self) -> np.ndarray:
         """A method that returns the rendered table as a 2D numpy array."""
