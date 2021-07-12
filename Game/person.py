@@ -1,3 +1,5 @@
+from typing import Literal
+
 import entities
 import grid
 
@@ -21,7 +23,7 @@ class Person(entities.Entity):
         direction_dict = {'left': 'И', 'right': 'N'}
         self.rendered_table[1:2] = [direction_dict[direction]]
 
-    def move(self, key: str, plane: grid.Grid) -> None:
+    def move(self, key: Literal["left", "right", "up", "down"], plane: grid.Grid) -> None:
         """A function which toggles player movement.
 
         :param key: Key pressed by the user.

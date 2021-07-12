@@ -58,8 +58,6 @@ class Grid:
             # also could be written as elif direction == "down".
             user_point = self.grid[entity.y+entity.height: entity.y+2, entity.x:entity.x+entity.width]
 
-        print(user_point)
-
         if np.all(user_point == " "):
             # Checks if the point is empty, if yes it returns True if no then it returns False.
             return True
@@ -85,29 +83,3 @@ class Grid:
             np.full((np.size(entity.render(), 0), np.size(entity.render(), 1)), " ")
 
         self.grid[entity.y:entity.y + entity.height, entity.x:entity.width + entity.x] = entity.render()
-
-
-if __name__ == "__main__":
-    p = person.Person(5, 5, 1)
-    plane1 = Grid(12, 12)
-    plane1.insert_entity(p)
-    plane1.insert(0, 0, ["┌"])
-    plane1.insert(0, 11, ["└"])
-    for plane1_x in range(1, 11):
-        plane1.insert(plane1_x, 0, ["─"])
-        plane1.insert(plane1_x, 11, ["─"])
-    plane1.insert(11, 0, ["┐"])
-    plane1.insert(11, 11, ["┘"])
-
-    for plane1_y in range(1, 11):
-        plane1.insert(0, plane1_y, ["│"])
-        plane1.insert(11, plane1_y, ["│"])
-
-    # while True:
-    #     os.system('clear')
-    #     user_response = random.choice(['right'])
-    #     print(user_response)
-    #     p.move(user_response, plane1)
-    #     plane1.update_entity(p, p.old_x, p.old_y)
-    #     print(plane1)
-    #     time.sleep(1)
