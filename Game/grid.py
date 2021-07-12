@@ -1,7 +1,7 @@
 import typing
+from typing import List, Union
 
 import numpy as np
-from typing import List, Union
 import entities
 import person
 
@@ -73,7 +73,7 @@ class Grid:
         """
         self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
 
-    def update_entity(self, entity: entities.Entity, old_x: int, old_y: int):
+    def update_entity(self, entity: entities.Entity, old_x: int, old_y: int) -> None:
         """Updates an entity object's position
 
         :param old_x: The old x axis point of the object before it moved.
