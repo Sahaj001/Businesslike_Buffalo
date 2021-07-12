@@ -13,7 +13,7 @@ class Person(entities.Entity):
         self.old_x = x
         self.old_y = y
 
-    def adjust_face(self, direction : str) -> None:
+    def adjust_face(self, direction: str) -> None:
         """Adjusts the face based on the current direction the user moved.
 
         :return: Nothing.
