@@ -86,20 +86,26 @@ class Screen:
         :return:
         """
         if entity.x >= self.GRID_WIDTH:
+            self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen += 1
+            self.screens[self.current_screen].add_entity(entity)
             entity.setCoords(0, entity.y)
         elif entity.x < 0:
+            self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen -= 1
+            self.screens[self.current_screen].add_entity(entity)
             entity.setCoords(self.GRID_WIDTH-1, entity.y)
         # To be fixed
         if entity.y < 0:
+            self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen -= 3
+            self.screens[self.current_screen].add_entity(entity)
             entity.setCoords(entity.x, self.GRID_HEIGHT-1)
         if entity.y >= self.GRID_HEIGHT:
+            self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen += 3
+            self.screens[self.current_screen].add_entity(entity)
             entity.setCoords(entity.x, 0)
-
-        # self.screens[self.current_screen].update_entity(entity, p.old_x, p.old_y)
 
     def getCurrentScreen(self) -> Grid:
         """Get the Grid object for the current screen
@@ -113,6 +119,7 @@ class Screen:
 
         :returns: stringified grid of current screen
         """
+        self.screens[self.current_screen].render_screen()
         return str(self.screens[self.current_screen])
 
 
