@@ -21,6 +21,7 @@ class Grid:
         self.width = width - 1
         self.height = height - 1
         grid = np.full((height, width), " ")
+        self.grid_bin = np.zeros((height, width))
         self.grid = grid
 
     def __repr__(self) -> str:
@@ -40,6 +41,7 @@ class Grid:
         :return: Nothing.
         """
         self.grid[pos_y:pos_y + object_height, pos_x:pos_x + object_width] = np.array(object_to_be_rendered)
+        self.grid_bin[pos_y: pos_y + object_height, pos_x: pos_x + object_width] = 1
 
     def check(self, entity: entities.Entity, direction: typing.Literal['left', 'up', 'down', 'right']) -> bool:
         """Checks whether the user specified point is blank or not
@@ -49,27 +51,30 @@ class Grid:
         :return: A boolean object.
         """
         if direction == "left":
-            user_point = self.grid[entity.y:entity.y+entity.height, entity.x-1:entity.x]
+            user_point = self.grid_bin[entity.y:entity.y+entity.height, entity.x-1:entity.x]
         elif direction == "right":
-            user_point = self.grid[entity.y:entity.y+entity.height, entity.x+entity.width:entity.x + 2]
+            user_point = self.grid_bin[entity.y:entity.y+entity.height, entity.x+entity.width:entity.x + 2]
         elif direction == "up":
-            user_point = self.grid[entity.y-1:entity.y, entity.x:entity.x+entity.width]
+            user_point = self.grid_bin[entity.y-1:entity.y, entity.x:entity.x+entity.width]
         else:
             # also could be written as elif direction == "down".
-            user_point = self.grid[entity.y+entity.height: entity.y+2, entity.x:entity.x+entity.width]
+            user_point = self.grid_bin[entity.y+entity.height: entity.y+2, entity.x:entity.x+entity.width]
 
-        if np.all(user_point == " "):
+        if np.all(user_point == 0):
             # Checks if the point is empty, if yes it returns True if no then it returns False.
             return True
         else:
             return False
 
-    def insert_entity(self, entity: entities.Entity) -> None:
+    def insert_entity(self, entity: entities.Entity, ignore_presence: bool = False) -> None:
         """Inserts a object of entity class to its specified point.
 
         :type entity: Object, imported from entities.py
+        :param ignore_presence: Doesn't changes the binary matrix if it is False.
         """
         self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
+        if not ignore_presence:
+            self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = 1
 
     def update_entity(self, entity: entities.Entity, old_x: int, old_y: int) -> None:
         """Updates an entity object's position
