@@ -12,8 +12,10 @@ class Entity:
     that can be accessed for rendering.
     """
 
-    def __init__(self, ascii_file: str, x: int, y: int, which_screen: int) -> None:
-        """Initialises Entity object based on ASCII stored in file.
+    def __init__(
+        self, ascii_file: str, x: int, y: int, which_screen: int, unique_name: str
+    ) -> None:
+        """Initializes Entity object based on ASCII stored in file.
 
         :param ascii_file: The filename containing the ascii art in the ascii folder.
         :param x: The x position of the entity.
@@ -23,6 +25,7 @@ class Entity:
         self.x = x
         self.y = y
         self.which_screen = which_screen
+        self.unique_name = unique_name
 
         # Processing ascii file
         with open(os.path.join(ASCII_FOLDER, ascii_file), "r", encoding="utf8") as file:
@@ -85,6 +88,6 @@ class Fountain(Entity):
 
 
 if __name__ == "__main__":
-    items = [Tree(1, 2, 1), Bar(1, 2, 3), Fountain(1, 2, 3)]
+    items = [Tree(1, 2, 1, "tree1"), Bar(1, 2, 3, "bar1"), Fountain(1, 2, "fountain1")]
     for item in items:
         print(item.render())
