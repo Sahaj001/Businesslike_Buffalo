@@ -99,12 +99,12 @@ class Screen:
             self.current_screen += 3
             entity.setCoords(entity.x, 0)
 
-        self.screens[self.current_screen].update_entity(entity, p.old_x, p.old_y)
+        # self.screens[self.current_screen].update_entity(entity, p.old_x, p.old_y)
 
     def getCurrentScreen(self) -> Grid:
         """Get the Grid object for the current screen
 
-        :returns: Gridd Object of current screen
+        :returns: Grid Object of current screen
         """
         return self.screens[self.current_screen]
 

@@ -7,10 +7,10 @@ import grid
 class Person(entities.Entity):
     """The Person class or the player is a controllable Entity in the game."""
 
-    def __init__(self, x: int, y: int, which_screen: int):
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str):
         """Creates a person based on the person ascii file in the ascii folder."""
         ascii_file = "person.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
         self.facing = 'left'
         self.old_x = x
         self.old_y = y

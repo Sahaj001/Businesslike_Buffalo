@@ -1,3 +1,4 @@
+# from numpy import unicode_
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
@@ -6,22 +7,25 @@ from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
 
+from person import Person
+from screen import Screen
+
 
 class Game:
     """Specifies the main layout of the game i.e. the play area and the rest of the UI"""
 
     def __init__(self):
         """Initializes the Layout"""
-        # TODO: get the text from "Screen" Object
-        self.text = """
-        The main game goes here
-        """
+        self.screen = Screen(88, 24)
+        self.player = Person(20, 20, 5, unique_name="Bob")
 
-        # TODO: Add the typing animation and come up with a neater approach to import/store the messages
+        self.screen.insertEntity(self.player)
+
+        # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
 
-        self.game_field = TextArea(style="class:output-field", text=self.text)
+        self.game_field = TextArea(style="class:output-field", text=self.screen.render())
         self.message_box = Frame(
             body=Window(
                 FormattedTextControl(self.messages[self.current_message]),
@@ -62,28 +66,41 @@ class Game:
         # Movement
         @kb.add("left")
         def go_left(event: KeyPressEvent) -> None:
-            new_text = self.text + "\nLeft Pressed"
+            self.player.move('left', self.screen.getCurrentScreen())
+            self.screen.updateEntity(self.player)
+            new_text = self.screen.render()
+
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
 
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
-            new_text = self.text + "\nRight Pressed"
+            self.player.move('right', self.screen.getCurrentScreen())
+            self.screen.updateEntity(self.player)
+            new_text = self.screen.render()
+
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
 
         @kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
-            new_text = self.text + "\nUp Pressed"
+            self.player.move('up', self.screen.getCurrentScreen())
+            self.screen.updateEntity(self.player)
+            new_text = self.screen.render()
+
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
 
         @kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
-            new_text = self.text + "\nDown Pressed"
+            self.player.move('down', self.screen.getCurrentScreen())
+            self.screen.updateEntity(self.player)
+
+            new_text = self.screen.render()
+
             self.game_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
@@ -105,4 +122,6 @@ class Game:
 
 
 if __name__ == "__main__":
-    Game().run()
+    game = Game()
+
+    game.run()
