@@ -37,7 +37,7 @@ class Maze:
             neighbor = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
             shuffle(neighbor)
            
-            for (x1:int, y1:int) in neighbor:
+            for (x1, y1) in neighbor:
                 # If the selected cell has been explored, ignore it
                 if seen[y1][x1]: 
                     continue
@@ -85,12 +85,13 @@ class Maze:
         array_1 = np.array(array_).flatten()
         # Return a 2D array representation of the maze made out of 1s and 0s and make the numpy matrix representation of the maze
         try:
-            new_array_ = np.reshape(array_1, (11, 31))
+            new_array_ = np.reshape(array_1, ((self.height*2)+1, (self.width*3)+1))
             self.rows = new_array_
             return new_array_ 
         except ValueError:
-            self.rows = array_1
-            return array_1
+            new_array_ = np.reshape(array_1, ((self.height*2)+1, (self.width*3)+1))
+            self.rows = new_array_
+            return new_array_ 
         
     # Initialize locations for the player's spawn point and the objective
     def spawn_and_key(self) -> None:
@@ -131,9 +132,9 @@ class Maze:
             self.cells[key] = key_cells
         # Represent the key and spawn points on the cells attribute
         spawn_cells = list(''.join(cells[y_pos_spawn]))
-        spawn_cells[spawn_pos[1]:int] = '@'
+        spawn_cells[spawn_pos[1]] = '@'
         # Update the row and cells in the maze
-        self.cells[y_pos_spawn:int] = spawn_cells
+        self.cells[y_pos_spawn] = spawn_cells
 
     # Display the maze
     def display(self) -> None:
