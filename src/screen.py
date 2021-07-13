@@ -77,7 +77,7 @@ class Screen:
 
         :param person: Object, imported from entities.py
         """
-        self.screens[self.current_screen].insert_entity(entity)
+        self.screens[self.current_screen].add_entity(entity)
 
     def updateEntity(self, entity: Entity) -> None:
         """Updates an entity object's position

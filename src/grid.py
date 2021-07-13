@@ -54,7 +54,7 @@ class Grid:
         self.grid_entities.pop(name_index)
         return
 
-    def render_screen(self) -> None:
+    def render_screen(self) -> str:
         """Renders all entities in self.grid_entities into the grid.
 
         It renders those of lower y value before those of greater y value.
@@ -64,7 +64,7 @@ class Grid:
 
         for entity in sorted_entities:
             self.insert_entity(entity)
-        return
+        return str(self)
 
     def insert(
         self,

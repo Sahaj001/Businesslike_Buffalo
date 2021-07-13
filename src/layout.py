@@ -68,6 +68,9 @@ class Game:
         def go_left(event: KeyPressEvent) -> None:
             self.player.move('left', self.screen.getCurrentScreen())
             self.screen.updateEntity(self.player)
+            # TEMPORARY
+            self.screen.screens[self.screen.current_screen].render_screen()
+
             new_text = self.screen.render()
 
             self.game_field.buffer.document = Document(
@@ -78,6 +81,9 @@ class Game:
         def go_right(event: KeyPressEvent) -> None:
             self.player.move('right', self.screen.getCurrentScreen())
             self.screen.updateEntity(self.player)
+            # TEMPORARY
+            self.screen.screens[self.screen.current_screen].render_screen()
+
             new_text = self.screen.render()
 
             self.game_field.buffer.document = Document(
@@ -88,6 +94,9 @@ class Game:
         def go_up(event: KeyPressEvent) -> None:
             self.player.move('up', self.screen.getCurrentScreen())
             self.screen.updateEntity(self.player)
+            # TEMPORARY
+            self.screen.screens[self.screen.current_screen].render_screen()
+
             new_text = self.screen.render()
 
             self.game_field.buffer.document = Document(
@@ -98,6 +107,8 @@ class Game:
         def go_down(event: KeyPressEvent) -> None:
             self.player.move('down', self.screen.getCurrentScreen())
             self.screen.updateEntity(self.player)
+            # TEMPORARY
+            self.screen.screens[self.screen.current_screen].render_screen()
 
             new_text = self.screen.render()
 
