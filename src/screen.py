@@ -95,7 +95,6 @@ class Screen:
             self.current_screen -= 1
             self.screens[self.current_screen].add_entity(entity)
             entity.setCoords(self.GRID_WIDTH-1, entity.y)
-        # To be fixed
         if entity.y < 0:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen -= 3
@@ -126,7 +125,7 @@ class Screen:
 # For testing
 if __name__ == '__main__':
     screen = Screen(88, 24)
-    p = Person(80, 5, 1)
+    p = Person(80, 5, 1, "Bob")
     screen.insertEntity(p)
     for i in range(25):
         p.move('right', screen.getCurrentScreen())
