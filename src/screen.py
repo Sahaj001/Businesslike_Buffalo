@@ -100,8 +100,8 @@ class Screen:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen -= 3
             self.screens[self.current_screen].add_entity(entity)
-            entity.setCoords(entity.x, self.GRID_HEIGHT-1)
-        if entity.y >= self.GRID_HEIGHT:
+            entity.setCoords(entity.x, self.GRID_HEIGHT-2)
+        if entity.y >= self.GRID_HEIGHT-1:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen += 3
             self.screens[self.current_screen].add_entity(entity)
