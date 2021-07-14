@@ -63,31 +63,31 @@ class Entity:
 class Tree(Entity):
     """A derived Entity class creating a tree object."""
 
-    def __init__(self, x: int, y: int, which_screen: int) -> None:
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates a tree based on the tree ascii file in the ascii folder."""
         ascii_file = "tree.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
 class Bar(Entity):
     """A derived Entity class creating a bar object."""
 
-    def __init__(self, x: int, y: int, which_screen: int) -> None:
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates a bar based on the bar ascii file in the ascii folder."""
         ascii_file = "bar.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
 class Fountain(Entity):
     """A derived Entity class creating a fountain object."""
 
-    def __init__(self, x: int, y: int, which_screen: int) -> None:
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates a fountain based on the fountain ascii file in the ascii folder."""
         ascii_file = "fountain.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
 if __name__ == "__main__":
-    items = [Tree(1, 2, 1, "tree1"), Bar(1, 2, 3, "bar1"), Fountain(1, 2, "fountain1")]
+    items = [Tree(1, 2, 1, "tree1"), Bar(1, 2, 3, "bar1"), Fountain(1, 2, 5, "fountain1")]
     for item in items:
         print(item.render())
