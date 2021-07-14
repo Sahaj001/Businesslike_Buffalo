@@ -79,11 +79,13 @@ class Game:
         self.body = FloatContainer(
             content=self.container,
             floats=[
-                #  Float(
-                #      Frame(
-                #          Window(FormattedTextControl("Text"), width=88, height=24),
-                #      )
-                #  )
+                Float(
+                    Frame(
+                        Window(FormattedTextControl("Quests completed: 0/3"), width=22, height=1),
+                    ),
+                    right=5,
+                    top=2,
+                )
             ]
         )
 
@@ -166,13 +168,13 @@ class Game:
         @kb.add("x")
         def action(event: KeyPressEvent) -> None:
             if (self.player.x, self.player.y) == self.maze_trigger_coords:
-                self.body.floats = [
+                self.body.floats.append(
                     Float(
                         Frame(
                             Window(FormattedTextControl("Render the maze here"), width=88, height=24),
                         )
                     )
-                ]
+                )
                 self.message_box.body = Window(
                     FormattedTextControl("Start the maze"),
                     align=WindowAlign.CENTER
@@ -196,7 +198,15 @@ class Game:
         # Quit mini-game
         @kb.add("q")
         def quit_minigame(event: KeyPressEvent) -> None:
-            self.body.floats = []
+            self.body.floats = [
+                Float(
+                    Frame(
+                        Window(FormattedTextControl("Quests completed: 0/3"), width=22, height=1),
+                    ),
+                    right=5,
+                    top=2,
+                )
+            ]
 
         # Display the next Message
         @kb.add("n")
