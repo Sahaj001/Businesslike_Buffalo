@@ -6,6 +6,26 @@ import numpy as np
 import entities
 
 
+def parse_array(array: np.ndarray, desired_change_dict: dict) -> np.ndarray:
+    """Replaces elements of the array passed in with a desired value.
+
+    :param array: The array you want to change.
+    :param desired_change_dict: Key of this dict will be the element you want to replace and
+     Value will be value which you want it to replace with.
+    :return: Returns the parsed array.
+    """
+    new_arr = array
+    for array_row in enumerate(array):
+        for array_row_elem in enumerate(array_row[1]):
+            try:
+                desired_change_dict[array_row_elem[1]]
+            except KeyError:
+                pass
+            else:
+                new_arr[array_row[0], array_row_elem[0]] = desired_change_dict[array_row_elem[1]]
+    return new_arr
+
+
 class Grid:
     """Used to create grid in which objects can be rendered.
 
@@ -18,33 +38,30 @@ class Grid:
         :param width: The width of the grid
         :param height: The height of the grid
         """
-        self.true_height = height
-        self.true_width = width
-
         self.width = width - 1
         self.height = height - 1
         self.initialize_grid()
-
+        self.grid_bin = np.zeros((height, width))
         self.grid_entities = []
 
     def __repr__(self) -> str:
         mutated_grid = np.c_[self.grid, np.full((self.height + 1, 1), "\n")]
         return "".join(mutated_grid.ravel())
 
-    def initialize_grid(self) -> None:
-        """Initializes the grid to be an array of space characters."""
-        grid = np.full((self.true_height, self.true_width), " ")
-        self.grid = grid
+    def add_entity(self, entity: entities.Entity, presence: bool) -> None:
+        """Adds a specified entity to the grid."""
+        self.grid_entities.append((entity, presence))
         return
 
-    def add_entity(self, entity: entities.Entity) -> None:
-        """Adds a specified entity to the grid."""
-        self.grid_entities.append(entity)
+    def initialize_grid(self) -> None:
+        """Initializes the grid to be an array of space characters."""
+        grid = np.full((self.height+1, self.width+1), " ")
+        self.grid = grid
         return
 
     def remove_entity(self, entity_unique_name: str) -> None:
         """Given the unique entity name, it will remove the entity from the grid."""
-        names = [entity.unique_name for entity in self.grid_entities]
+        names = [entity[0].unique_name for entity in self.grid_entities]
         try:
             name_index = names.index(entity_unique_name)
         except ValueError:
@@ -59,20 +76,20 @@ class Grid:
 
         It renders those of lower y value before those of greater y value.
         """
-        sorted_entities = sorted(self.grid_entities, key=lambda entity: entity.x)
+        sorted_entities = sorted(self.grid_entities, key=lambda entity_: entity_[0].x)
         self.initialize_grid()
 
-        for entity in sorted_entities:
-            self.insert_entity(entity)
+        for entity, presence in sorted_entities:
+            self.insert_entity(entity, presence)
         return str(self)
 
     def insert(
-        self,
-        pos_x: int,
-        pos_y: int,
-        object_to_be_rendered: Union[List[str], List[List]],
-        object_height: int = 1,
-        object_width: int = 1,
+            self,
+            pos_x: int,
+            pos_y: int,
+            object_to_be_rendered: Union[List[str], List[List]],
+            object_height: int = 1,
+            object_width: int = 1,
     ) -> None:
         """Inserts a object to the specified point.
 
@@ -83,15 +100,9 @@ class Grid:
         :param object_height: The object's height.
         :return: Nothing.
         """
-        self.grid[
-            pos_y:pos_y + object_height, pos_x:pos_x + object_width
-        ] = np.array(object_to_be_rendered)
+        self.grid[pos_y:pos_y + object_height, pos_x:pos_x + object_width] = np.array(object_to_be_rendered)
 
-    def check(
-        self,
-        entity: entities.Entity,
-        direction: typing.Literal["left", "up", "down", "right"],
-    ) -> bool:
+    def check(self, entity: entities.Entity, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
 
         :type entity: object, imported from entities.py
@@ -99,36 +110,33 @@ class Grid:
         :return: A boolean object.
         """
         if direction == "left":
-            user_point = self.grid[
-                entity.y:entity.y + entity.height, entity.x - 1:entity.x
-            ]
+            user_point = self.grid_bin[entity.y:entity.y + entity.height, entity.x - 1:entity.x]
+
         elif direction == "right":
-            user_point = self.grid[
-                entity.y:entity.y + entity.height,
-                entity.x + entity.width:entity.x + entity.width + 1,
-            ]
+            user_point = self.grid[entity.y:entity.y + entity.height,
+                                   entity.x + entity.width:entity.x + entity.width + 1]
         elif direction == "up":
-            user_point = self.grid[
-                entity.y - 1:entity.y, entity.x:entity.x + entity.width
-            ]
+            user_point = self.grid_bin[entity.y - 1:entity.y, entity.x:entity.x + entity.width]
+
         else:
             # also could be written as elif direction == "down".
-            user_point = self.grid[
-                entity.y + entity.height:entity.y + entity.height + 1,
-                entity.x:entity.x + entity.width,
-            ]
+            user_point = self.grid_bin[entity.y + entity.height:entity.y + entity.height + 1,
+                                       entity.x:entity.x + entity.width]
 
-        if np.all(user_point == " "):
+        if np.all(user_point == 0):
             # Checks if the point is empty, if yes it returns True if no then it returns False.
             return True
         else:
             return False
 
-    def insert_entity(self, entity: entities.Entity) -> None:
+    def insert_entity(self, entity: entities.Entity, ignore_presence: bool = False) -> None:
         """Inserts a object of entity class to its specified point.
 
         :type entity: Object, imported from entities.py
+        :param ignore_presence: Doesn't changes the binary matrix if it is False.
         """
-        self.grid[
-            entity.y:entity.y + entity.height, entity.x:entity.x + entity.width
-        ] = entity.render()
+        self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
+        if not ignore_presence:
+            self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = \
+                parse_array(self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] == " ",
+                            {True: 0, False: 1})

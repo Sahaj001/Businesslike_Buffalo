@@ -1,12 +1,16 @@
 # from numpy import unicode_
+import pygments
+import pygments.lexers
 from prompt_toolkit.application import Application
-from prompt_toolkit.document import Document
+from prompt_toolkit.formatted_text import PygmentsTokens
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
 from prompt_toolkit.layout.containers import HSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
-from prompt_toolkit.widgets import Frame, TextArea
+from prompt_toolkit.styles import Style
+from prompt_toolkit.widgets import Frame
 
+from entities import Bar, Fountain, Tree
 from person import Person
 from screen import Screen
 
@@ -17,15 +21,37 @@ class Game:
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
+        self.tree = Tree(10, 20, 5, unique_name="Tree1")
         self.player = Person(84, 20, 5, unique_name="Bob")
-
-        self.screen.insertEntity(self.player)
-
+        self.bar = Bar(50, 3, 5, unique_name="bar1")
+        self.fountian = Fountain(30, 5, 5, unique_name="fountain1")
+        self.screen.insert_entity(self.player, True)
+        self.screen.insert_entity(self.tree)
+        self.screen.insert_entity(self.bar)
+        self.screen.insert_entity(self.fountian)
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
+        self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
+        self.style = Style.from_dict({
+            "pygments.player": "#0000ff",
+            "pygments.leaves": "#00cd00",
+            "pygments.trunk": "#964B00",
+            "pygments.bar": "#db9146",
+            "pygments.fountainbase": "#ff7a7a",
+            "pygments.water": "#0025d2",
+            "pygments.wall": "#ff7a7a",
+        })
 
-        self.game_field = TextArea(style="class:output-field", text=self.screen.render())
+        tokens = list(pygments.lex(str(self.screen.render()), lexer=self.lexer))
+
+        self.game_field = Frame(
+            body=Window(FormattedTextControl(
+                text=PygmentsTokens(tokens)
+            )),
+            style="bg:#7cc5d9"
+        )
+
         self.message_box = Frame(
             body=Window(
                 FormattedTextControl(self.messages[self.current_message]),
@@ -44,10 +70,12 @@ class Game:
         )
 
         self.application = Application(
-            layout=Layout(self.container, focused_element=self.game_field),
+            layout=Layout(self.container),
             key_bindings=self.get_key_bindings(),
             mouse_support=True,
             full_screen=True,
+            style=self.style,
+            refresh_interval=0.5,
         )
 
     def get_key_bindings(self) -> KeyBindings:
@@ -66,47 +94,55 @@ class Game:
         # Movement
         @kb.add("left")
         def go_left(event: KeyPressEvent) -> None:
-            self.player.move('left', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.player.move('left', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
+            tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.buffer.document = Document(
-                text=new_text, cursor_position=len(new_text)
-            )
+            self.game_field.body = Window(
+                FormattedTextControl(
+                    text=PygmentsTokens(tokens)
+                ))
 
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
-            self.player.move('right', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.player.move('right', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
+            tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.buffer.document = Document(
-                text=new_text, cursor_position=len(new_text)
-            )
+            self.game_field.body = Window(
+                FormattedTextControl(
+                    text=PygmentsTokens(tokens)
+                ))
 
         @kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
-            self.player.move('up', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.player.move('up', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
+            tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.buffer.document = Document(
-                text=new_text, cursor_position=len(new_text)
-            )
+            self.game_field.body = Window(
+                FormattedTextControl(
+                    text=PygmentsTokens(tokens)
+                ))
 
         @kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
-            self.player.move('down', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.player.move('down', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
+            tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.buffer.document = Document(
-                text=new_text, cursor_position=len(new_text)
-            )
+            self.game_field.body = Window(
+                FormattedTextControl(
+                    text=PygmentsTokens(tokens)
+                ))
 
         # Display the next Message
         @kb.add("n")
@@ -126,5 +162,4 @@ class Game:
 
 if __name__ == "__main__":
     game = Game()
-
     game.run()
