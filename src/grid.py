@@ -113,11 +113,8 @@ class Grid:
             user_point = self.grid_bin[entity.y:entity.y + entity.height, entity.x - 1:entity.x]
 
         elif direction == "right":
-            user_point = self.grid_bin[entity.y:entity.y + entity.height,
-                                       entity.x + entity.width:entity.x + entity.width + 1]
-
             user_point = self.grid[entity.y:entity.y + entity.height,
-                         entity.x + entity.width:entity.x + entity.width + 1]
+                                   entity.x + entity.width:entity.x + entity.width + 1]
         elif direction == "up":
             user_point = self.grid_bin[entity.y - 1:entity.y, entity.x:entity.x + entity.width]
 
@@ -125,10 +122,6 @@ class Grid:
             # also could be written as elif direction == "down".
             user_point = self.grid_bin[entity.y + entity.height:entity.y + entity.height + 1,
                                        entity.x:entity.x + entity.width]
-            user_point = self.grid[
-                entity.y + entity.height:entity.y + entity.height + 1,
-                entity.x:entity.x + entity.width,
-            ]
 
         if np.all(user_point == 0):
             # Checks if the point is empty, if yes it returns True if no then it returns False.
