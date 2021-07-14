@@ -42,11 +42,11 @@ class Entity:
         # Storing the rendered table
         self.rendered_table = np.array([list(line) for line in ascii_lst])
 
-    def setCoords(self, x: int, y: int) -> None:
+    def set_coordinates(self, x: int, y: int) -> None:
         """Set the player coordinates
 
-        :param x: X coordintate to set
-        :param y: Y coordintate to set
+        :param x: X coordinates to set
+        :param y: Y coordinates to set
         """
         self.x = x
         self.y = y
@@ -85,9 +85,3 @@ class Fountain(Entity):
         """Creates a fountain based on the fountain ascii file in the ascii folder."""
         ascii_file = "fountain.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
-
-
-if __name__ == "__main__":
-    items = [Tree(1, 2, 1, "tree1"), Bar(1, 2, 3, "bar1"), Fountain(1, 2, "fountain1")]
-    for item in items:
-        print(item.render())

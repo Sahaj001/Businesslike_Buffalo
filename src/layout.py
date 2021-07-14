@@ -1,4 +1,6 @@
 # from numpy import unicode_
+from typing import List, Any
+
 import pygments
 import pygments.lexers
 from pygments.token import Token
@@ -25,8 +27,8 @@ class Game:
         self.tree = Tree(20, 20, 5, unique_name="Tree1")
         self.player = Person(84, 20, 5, unique_name="Bob")
 
-        self.screen.insertEntity(self.player, True)
-        self.screen.insertEntity(self.tree)
+        self.screen.insert_entity(self.player, True)
+        self.screen.insert_entity(self.tree)
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
@@ -39,6 +41,7 @@ class Game:
         })
 
         tokens = list(pygments.lex(str(self.screen.render()), lexer=self.lexer))
+
         self.game_field = Frame(
             body=Window(FormattedTextControl(
                 text=PygmentsTokens(tokens)
@@ -85,9 +88,9 @@ class Game:
 
         # Movement
         @kb.add("left")
-        def go_left(event: KeyPressEvent) -> None:
-            self.player.move('left', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player, True)
+        def go_left() -> None:
+            self.player.move('left', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))
@@ -98,9 +101,9 @@ class Game:
                 ))
 
         @kb.add("right")
-        def go_right(event: KeyPressEvent) -> None:
-            self.player.move('right', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player, True)
+        def go_right() -> None:
+            self.player.move('right', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))
@@ -111,9 +114,9 @@ class Game:
                 ))
 
         @kb.add("up")
-        def go_up(event: KeyPressEvent) -> None:
-            self.player.move('up', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player, True)
+        def go_up() -> None:
+            self.player.move('up', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))
@@ -124,12 +127,12 @@ class Game:
                 ))
 
         @kb.add("down")
-        def go_down(event: KeyPressEvent) -> None:
-            self.player.move('down', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player, True)
+        def go_down() -> None:
+            self.player.move('down', self.screen.get_current_screen())
+            self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
-            tokens = list(pygments.lex(new_text, lexer=self.lexer))
+            tokens: List[Any] = list(pygments.lex(new_text, lexer=self.lexer))
 
             self.game_field.body = Window(
                 FormattedTextControl(
@@ -138,7 +141,7 @@ class Game:
 
         # Display the next Message
         @kb.add("n")
-        def next_message(event: KeyPressEvent) -> None:
+        def next_message() -> None:
             self.current_message = (self.current_message + 1) % 4
             self.message_box.body = Window(
                 FormattedTextControl(self.messages[self.current_message]),

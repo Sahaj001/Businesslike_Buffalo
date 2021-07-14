@@ -6,7 +6,14 @@ import numpy as np
 import entities
 
 
-def parse_array(array: np.ndarray, desired_change_dict: dict):
+def parse_array(array: np.ndarray, desired_change_dict: dict) -> np.ndarray:
+    """Replaces elements of the array passed in with a desired value.
+
+    :param array: The array you want to change.
+    :param desired_change_dict: Key of this dict will be the element you want to replace and
+     Value will be value which you want it to replace with.
+    :return: Returns the parsed array.
+    """
     new_arr = array
     for array_row in enumerate(array):
         for array_row_elem in enumerate(array_row[1]):
@@ -35,6 +42,8 @@ class Grid:
         self.height = height - 1
         self.initialize_grid()
         self.grid_bin = np.zeros((height, width))
+        self.null_grid = np.full((height, width), " ")
+        self.grid = self.null_grid
         self.grid_entities = []
 
     def __repr__(self) -> str:
@@ -48,7 +57,7 @@ class Grid:
 
     def initialize_grid(self) -> None:
         """Initializes the grid to be an array of space characters."""
-        grid = np.full((self.height + 1, self.width + 1), " ")
+        grid = self.null_grid
         self.grid = grid
         return
 
