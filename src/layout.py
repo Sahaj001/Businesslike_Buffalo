@@ -25,10 +25,10 @@ class Game:
         self.player = Person(84, 20, 5, unique_name="Bob")
         self.bar = Bar(50, 3, 5, unique_name="bar1")
         self.fountian = Fountain(30, 5, 5, unique_name="fountain1")
-        self.screen.insert_entity(self.player, True)
         self.screen.insert_entity(self.tree)
         self.screen.insert_entity(self.bar)
         self.screen.insert_entity(self.fountian)
+        self.screen.insert_entity(self.player, True)
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
