@@ -60,6 +60,15 @@ class Entity:
         return self.rendered_table
 
 
+class Wall(Entity):
+    """A derived Entity class creating a wall object."""
+
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
+        """Creates a tree based on the tree ascii file in the ascii folder."""
+        ascii_file = "wall.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+
+
 class Tree(Entity):
     """A derived Entity class creating a tree object."""
 
@@ -85,3 +94,4 @@ class Fountain(Entity):
         """Creates a fountain based on the fountain ascii file in the ascii folder."""
         ascii_file = "fountain.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+

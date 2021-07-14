@@ -10,13 +10,14 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Frame
 
-from entities import Tree, Bar, Fountain
+from entities import Bar, Fountain, Tree
 from person import Person
 from screen import Screen
 
 
 class Game:
     """Specifies the main layout of the game i.e. the play area and the rest of the UI"""
+
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
@@ -92,7 +93,7 @@ class Game:
 
         # Movement
         @kb.add("left")
-        def go_left(event : KeyPressEvent) -> None:
+        def go_left(event: KeyPressEvent) -> None:
             self.player.move('left', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -105,7 +106,7 @@ class Game:
                 ))
 
         @kb.add("right")
-        def go_right(event : KeyPressEvent) -> None:
+        def go_right(event: KeyPressEvent) -> None:
             self.player.move('right', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -118,7 +119,7 @@ class Game:
                 ))
 
         @kb.add("up")
-        def go_up(event : KeyPressEvent) -> None:
+        def go_up(event: KeyPressEvent) -> None:
             self.player.move('up', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -131,7 +132,7 @@ class Game:
                 ))
 
         @kb.add("down")
-        def go_down(event : KeyPressEvent) -> None:
+        def go_down(event: KeyPressEvent) -> None:
             self.player.move('down', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -145,7 +146,7 @@ class Game:
 
         # Display the next Message
         @kb.add("n")
-        def next_message(event : KeyPressEvent) -> None:
+        def next_message(event: KeyPressEvent) -> None:
             self.current_message = (self.current_message + 1) % 4
             self.message_box.body = Window(
                 FormattedTextControl(self.messages[self.current_message]),
