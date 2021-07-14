@@ -39,7 +39,6 @@ class Game:
         })
 
         tokens = list(pygments.lex(str(self.screen.render()), lexer=self.lexer))
-
         self.game_field = Frame(
             body=Window(FormattedTextControl(
                 text=PygmentsTokens(tokens)
@@ -68,6 +67,7 @@ class Game:
             mouse_support=True,
             full_screen=True,
             style=self.style,
+            refresh_interval=0.5,
         )
 
     def get_key_bindings(self) -> KeyBindings:

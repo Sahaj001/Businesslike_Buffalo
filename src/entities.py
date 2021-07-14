@@ -86,6 +86,7 @@ class Fountain(Entity):
         ascii_file = "fountain.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
+
 if __name__ == "__main__":
     items = [Tree(1, 2, 1, "tree1"), Bar(1, 2, 3, "bar1"), Fountain(1, 2, "fountain1")]
     for item in items:
