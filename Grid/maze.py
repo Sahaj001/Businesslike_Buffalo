@@ -14,9 +14,16 @@ class Maze:
         self.width: int = width
         self.num_keys: int = num_keys
         self.scale = scale
+        self.true_width: int = self.width*(1+self.scale*2)+1
+        self.true_height: int = self.height*(1+self.scale)+1
         self.cells = []
         self.create_maze()
         self.make_lines()
+        spawn_and_keys = self.spawn_and_key()
+        self.spawn_pos = spawn_and_keys[0]
+        self.key_pos = spawn_and_keys[1]
+        
+        
 
     # Create and display the maze, creates the cells attribute
     def create_maze(self) -> None:
@@ -52,11 +59,13 @@ class Maze:
         # Start the exploration on a random position on the empty grid
         explore(randrange(w), randrange(h))
         # Make the ascii form of the maze and store it in self.cells
+        def split(word):
+            return [char for char in word]
         for (a, b) in zip(wall, cells):
-            self.cells.append(a)
+            self.cells.append(split(''.join(a)))
             for n in range(self.scale):
                 if len(b) != 0:
-                    self.cells.append(b)
+                    self.cells.append(split(''.join(b)))
             print(''.join(a + (['\n'] + b)*self.scale))
 
     # Make the sequence of line objects to represent the maze, creates rows attribute
@@ -90,16 +99,16 @@ class Maze:
         array_1 = np.array(array_).flatten()
         # Return a 2D array representation of the maze made out of 1s and 0s and make the numpy matrix representation of the maze
         try:
-            new_array_ = np.reshape(array_1, ((self.height*(1+self.scale))+1, (self.width*(1+self.scale*2))+1))
+            new_array_ = np.reshape(array_1, (self.true_height, self.true_width))
             self.rows = new_array_
             return new_array_ 
         except ValueError:
-            new_array_ = np.reshape(array_1, ((self.height*(1+self.scale))+1, (self.width*(1+self.scale*2))+1))
+            new_array_ = np.reshape(array_1, (self.true_height, self.true_width))
             self.rows = new_array_
             return new_array_ 
         
     # Initialize locations for the player's spawn point and the objective
-    def spawn_and_key(self) -> None:
+    def spawn_and_key(self) -> tuple:
         # Get the cells(ascii) and rows(num) of the maze
         wid: int = self.width*(self.scale*2)
         hei: int = self.height*(self.scale)
@@ -126,26 +135,36 @@ class Maze:
                 if self.rows[y_pos][pos] == 0:
                     pos_found = True
             return pos
+        key_positions = []
         # Make tuples representing the positions of the spawn and key in the maze
         spawn_pos = (y_pos_spawn, find_pos(hor_range, y_pos_spawn))
         # Represent the spawn point with a 3 in the numpy array and a * in the ascii
         self.rows[spawn_pos[0]][spawn_pos[1]] = 2
         # Place the keys in their respective places
+        def split(word):
+            return [char for char in word]
+        empty_keys = []
         for key in y_pos_keys:
             key_pos = (key, find_pos(hor_range, key))
+            # Add the positions to the list of key_positions to be returned by the method
+            key_positions.append(key_pos)
             self.rows[key_pos[0]][key_pos[1]] = 3
+            # Replace the row of cells where the key object is with the edited one with the keys
             key_cells = list(''.join(cells[key]))  
             key_cells[key_pos[1]] = 'K'
             key_cells = ''.join(key_cells)
-            key_cells = [key_cells[i:i+(self.scale*2)] for i in range(0, len(key_cells), (self.scale*2))]
+            #key_cells = [key_cells[i:i+(self.scale*2)] for i in range(0, len(key_cells), (self.scale*2))]
+            key_cells = split(key_cells)
             self.cells[key] = key_cells
         # Represent the key and spawn points on the cells attribute
         spawn_cells = list(''.join(cells[y_pos_spawn]))
         spawn_cells[spawn_pos[1]] = '@'
         # Update the row and cells in the maze
         spawn_cells = ''.join(spawn_cells)
-        spawn_cells = [spawn_cells[i:i+(self.scale*2)] for i in range(0, len(spawn_cells), (self.scale*2))]
+        #spawn_cells = [spawn_cells[i:i+(self.scale*2)] for i in range(0, len(spawn_cells), (self.scale*2))]
+        spawn_cells = split(spawn_cells)
         self.cells[y_pos_spawn] = spawn_cells
+        return (spawn_pos, key_positions)
         
     # Display the maze
     def display(self) -> None:
@@ -155,3 +174,7 @@ class Maze:
             new_row = ''.join(row)
             empty.append(new_row)
         print('\n'.join(empty))
+
+if __name__ == "__main__":
+    maze = Maze(10,5,7,3)
+    print(maze.cells)
