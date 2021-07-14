@@ -2,7 +2,6 @@ from pygments.lexer import RegexLexer
 from pygments.token import Token
 
 __all__ = ["CustomLexer"]
-temp = "║╣╠╔ ═ ╗"
 
 
 class CustomLexer(RegexLexer):
