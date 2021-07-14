@@ -105,7 +105,7 @@ class Grid:
         elif direction == "right":
             user_point = self.grid[
                 entity.y:entity.y + entity.height,
-                entity.x + entity.width:entity.x + 2,
+                entity.x + entity.width:entity.x + entity.width + 1,
             ]
         elif direction == "up":
             user_point = self.grid[
@@ -114,7 +114,7 @@ class Grid:
         else:
             # also could be written as elif direction == "down".
             user_point = self.grid[
-                entity.y + entity.height:entity.y + 2,
+                entity.y + entity.height:entity.y + entity.height + 1,
                 entity.x:entity.x + entity.width,
             ]
 
