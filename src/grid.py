@@ -112,17 +112,15 @@ class Grid:
         :return: A boolean object.
         """
         if direction == "left":
-            user_point = self.grid_bin[
-                         entity.y:entity.y + entity.height, entity.x - 1:entity.x
-                         ]
+            user_point = self.grid_bin[entity.y:entity.y + entity.height, entity.x - 1:entity.x]
+
         elif direction == "right":
             user_point = self.grid_bin[entity.y:entity.y + entity.height,
                                        entity.x + entity.width:entity.x + entity.width + 1]
 
         elif direction == "up":
-            user_point = self.grid_bin[
-                         entity.y - 1:entity.y, entity.x:entity.x + entity.width
-                         ]
+            user_point = self.grid_bin[entity.y - 1:entity.y, entity.x:entity.x + entity.width]
+
         else:
             # also could be written as elif direction == "down".
             user_point = self.grid_bin[entity.y + entity.height:entity.y + entity.height + 1,
@@ -140,7 +138,6 @@ class Grid:
         :type entity: Object, imported from entities.py
         :param ignore_presence: Doesn't changes the binary matrix if it is False.
         """
-
         self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
         if not ignore_presence:
             self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = \

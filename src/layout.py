@@ -1,9 +1,6 @@
 # from numpy import unicode_
-from typing import List, Any
-
 import pygments
 import pygments.lexers
-from pygments.token import Token
 from prompt_toolkit.application import Application
 from prompt_toolkit.formatted_text import PygmentsTokens
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
@@ -132,7 +129,7 @@ class Game:
             self.screen.update_entity(self.player, True)
 
             new_text = self.screen.render()
-            tokens: List[Any] = list(pygments.lex(new_text, lexer=self.lexer))
+            tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
             self.game_field.body = Window(
                 FormattedTextControl(

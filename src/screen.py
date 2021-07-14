@@ -1,8 +1,5 @@
-import time
-
-from entities import Entity, Tree
+from entities import Entity
 from grid import Grid
-from person import Person
 
 
 class Screen:
