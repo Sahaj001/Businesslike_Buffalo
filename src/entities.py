@@ -94,4 +94,3 @@ class Fountain(Entity):
         """Creates a fountain based on the fountain ascii file in the ascii folder."""
         ascii_file = "fountain.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
-
