@@ -1,8 +1,6 @@
 from pygments.lexer import RegexLexer
 from pygments.token import Token
 
-__all__ = ["CustomLexer"]
-
 
 class CustomLexer(RegexLexer):
     """Highlighter for our entities."""
