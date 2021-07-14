@@ -1,6 +1,7 @@
 # from numpy import unicode_
 import pygments
 import pygments.lexers
+from pygments.token import Token
 from prompt_toolkit.application import Application
 from prompt_toolkit.formatted_text import PygmentsTokens
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
@@ -10,6 +11,7 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Frame
 
+from entities import Tree
 from person import Person
 from screen import Screen
 
@@ -20,18 +22,20 @@ class Game:
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
+        self.tree = Tree(20, 20, 5, unique_name="Tree1")
         self.player = Person(84, 20, 5, unique_name="Bob")
 
-        self.screen.insertEntity(self.player)
-
+        self.screen.insertEntity(self.player, True)
+        self.screen.insertEntity(self.tree)
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
 
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
         self.style = Style.from_dict({
-            "pygments.name.tag": "#0000ff",
-            "pygments.name.builtin": "bg:#00aaaa",
+            "pygments.player": "#0000ff",
+            "pygments.leaves": "#00cd00",
+            "pygments.trunk": "#964B00",
         })
 
         tokens = list(pygments.lex(str(self.screen.render()), lexer=self.lexer))
@@ -83,7 +87,7 @@ class Game:
         @kb.add("left")
         def go_left(event: KeyPressEvent) -> None:
             self.player.move('left', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.screen.updateEntity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))
@@ -96,7 +100,7 @@ class Game:
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
             self.player.move('right', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.screen.updateEntity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))
@@ -109,7 +113,7 @@ class Game:
         @kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
             self.player.move('up', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.screen.updateEntity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))
@@ -122,7 +126,7 @@ class Game:
         @kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
             self.player.move('down', self.screen.getCurrentScreen())
-            self.screen.updateEntity(self.player)
+            self.screen.updateEntity(self.player, True)
 
             new_text = self.screen.render()
             tokens = list(pygments.lex(new_text, lexer=self.lexer))

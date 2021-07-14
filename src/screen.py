@@ -1,6 +1,6 @@
 import time
 
-from entities import Entity
+from entities import Entity, Tree
 from grid import Grid
 from person import Person
 
@@ -72,38 +72,39 @@ class Screen:
         for screen_y in range(0, self.BOX_PADDING_Y-1):
             self.screens[9].insert(self.BOX_PADDING_X-1, screen_y, ["│"])
 
-    def insertEntity(self, entity: Entity) -> None:
+    def insertEntity(self, entity: Entity, ignore_presence: bool = False) -> None:
         """Inserts a object of entity class to its specified point in the current screen.
 
-        :param person: Object, imported from entities.py
+        :param ignore_presence: Doesn't changes the binary matrix if it is False.
+        :type entity: Object, imported from entities.py
         """
-        self.screens[self.current_screen].add_entity(entity)
+        self.screens[self.current_screen].add_entity(entity, ignore_presence)
 
-    def updateEntity(self, entity: Entity) -> None:
+    def updateEntity(self, entity: Entity, ignore_presence: bool = False) -> None:
         """Updates an entity object's position
 
-        :param person: Object, imported from entity.py
+        :type entity: Object, imported from entities.py
         :return:
         """
         if entity.x >= self.GRID_WIDTH:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen += 1
-            self.screens[self.current_screen].add_entity(entity)
+            self.screens[self.current_screen].add_entity(entity, ignore_presence)
             entity.setCoords(0, entity.y)
         elif entity.x < 0:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen -= 1
-            self.screens[self.current_screen].add_entity(entity)
+            self.screens[self.current_screen].add_entity(entity, ignore_presence)
             entity.setCoords(self.GRID_WIDTH-1, entity.y)
         if entity.y < 0:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen -= 3
-            self.screens[self.current_screen].add_entity(entity)
+            self.screens[self.current_screen].add_entity(entity, ignore_presence)
             entity.setCoords(entity.x, self.GRID_HEIGHT-2)
         if entity.y >= self.GRID_HEIGHT-1:
             self.screens[self.current_screen].remove_entity(entity.unique_name)
             self.current_screen += 3
-            self.screens[self.current_screen].add_entity(entity)
+            self.screens[self.current_screen].add_entity(entity, ignore_presence)
             entity.setCoords(entity.x, 0)
 
     def getCurrentScreen(self) -> Grid:
@@ -126,7 +127,9 @@ class Screen:
 if __name__ == '__main__':
     screen = Screen(88, 24)
     p = Person(80, 5, 1, "Bob")
+    tree = Tree(20, 20, 1)
     screen.insertEntity(p)
+    screen.insertEntity(tree)
     for i in range(25):
         p.move('right', screen.getCurrentScreen())
         screen.updateEntity(p)
