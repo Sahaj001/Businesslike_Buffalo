@@ -29,6 +29,11 @@ class Game:
         self.screen.insert_entity(self.bar)
         self.screen.insert_entity(self.fountian)
         self.screen.insert_entity(self.player, True)
+
+        self.maze_trigger_coords = (54, 10)  # (x, y) of the bar door
+        self.hangman_trigger_coords = (0, 0)  # (x, y) of a tree
+        self.puzzle_trigger_coords = (0, 0)  # (x, y) of the fountain
+
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
@@ -143,6 +148,30 @@ class Game:
                 FormattedTextControl(
                     text=PygmentsTokens(tokens)
                 ))
+
+        # Action Key
+        @kb.add("x")
+        def action(event: KeyPressEvent) -> None:
+            if (self.player.x, self.player.y) == self.maze_trigger_coords:
+                self.message_box.body = Window(
+                    FormattedTextControl("Start the maze"),
+                    align=WindowAlign.CENTER
+                )
+            elif (self.player.x, self.player.y) == self.hangman_trigger_coords:
+                self.message_box.body = Window(
+                    FormattedTextControl("Start the hangman game"),
+                    align=WindowAlign.CENTER
+                )
+            elif (self.player.x, self.player.y) == self.puzzle_trigger_coords:
+                self.message_box.body = Window(
+                    FormattedTextControl("Start the puzzles game"),
+                    align=WindowAlign.CENTER
+                )
+            else:
+                self.message_box.body = Window(
+                    FormattedTextControl("There is nothing to do"),
+                    align=WindowAlign.CENTER
+                )
 
         # Display the next Message
         @kb.add("n")
