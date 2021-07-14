@@ -42,8 +42,6 @@ class Grid:
         self.height = height - 1
         self.initialize_grid()
         self.grid_bin = np.zeros((height, width))
-        self.null_grid = np.full((height, width), " ")
-        self.grid = self.null_grid
         self.grid_entities = []
 
     def __repr__(self) -> str:
@@ -57,7 +55,7 @@ class Grid:
 
     def initialize_grid(self) -> None:
         """Initializes the grid to be an array of space characters."""
-        grid = self.null_grid
+        grid = np.full((self.height+1, self.width+1), " ")
         self.grid = grid
         return
 

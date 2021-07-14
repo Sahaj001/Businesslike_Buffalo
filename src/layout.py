@@ -10,7 +10,7 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Frame
 
-from entities import Tree
+from entities import Tree, Bar, Fountain
 from person import Person
 from screen import Screen
 
@@ -24,10 +24,10 @@ class Game:
         self.player = Person(84, 20, 5, unique_name="Bob")
         self.bar = Bar(50, 3, 5, unique_name="bar1")
         self.fountian = Fountain(30, 5, 5, unique_name="fountain1")
-        self.screen.insertEntity(self.player, True)
-        self.screen.insertEntity(self.tree)
-        self.screen.insertEntity(self.bar)
-        self.screen.insertEntity(self.fountian)
+        self.screen.insert_entity(self.player, True)
+        self.screen.insert_entity(self.tree)
+        self.screen.insert_entity(self.bar)
+        self.screen.insert_entity(self.fountian)
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
         self.current_message = 0
@@ -92,7 +92,7 @@ class Game:
 
         # Movement
         @kb.add("left")
-        def go_left() -> None:
+        def go_left(event : KeyPressEvent) -> None:
             self.player.move('left', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -105,7 +105,7 @@ class Game:
                 ))
 
         @kb.add("right")
-        def go_right() -> None:
+        def go_right(event : KeyPressEvent) -> None:
             self.player.move('right', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -118,7 +118,7 @@ class Game:
                 ))
 
         @kb.add("up")
-        def go_up() -> None:
+        def go_up(event : KeyPressEvent) -> None:
             self.player.move('up', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -131,7 +131,7 @@ class Game:
                 ))
 
         @kb.add("down")
-        def go_down() -> None:
+        def go_down(event : KeyPressEvent) -> None:
             self.player.move('down', self.screen.get_current_screen())
             self.screen.update_entity(self.player, True)
 
@@ -145,7 +145,7 @@ class Game:
 
         # Display the next Message
         @kb.add("n")
-        def next_message() -> None:
+        def next_message(event : KeyPressEvent) -> None:
             self.current_message = (self.current_message + 1) % 4
             self.message_box.body = Window(
                 FormattedTextControl(self.messages[self.current_message]),
