@@ -42,6 +42,15 @@ class Entity:
         # Storing the rendered table
         self.rendered_table = np.array([list(line) for line in ascii_lst])
 
+    def setCoords(self, x: int, y: int) -> None:
+        """Set the player coordinates
+
+        :param x: X coordintate to set
+        :param y: Y coordintate to set
+        """
+        self.x = x
+        self.y = y
+
     def __repr__(self):
         mutated_table = np.c_[self.rendered_table, np.full((self.height, 1), "\n")]
         return "".join(mutated_table.ravel().tolist())
