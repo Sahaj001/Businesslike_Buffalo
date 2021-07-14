@@ -48,7 +48,7 @@ class Grid:
         mutated_grid = np.c_[self.grid, np.full((self.height + 1, 1), "\n")]
         return "".join(mutated_grid.ravel())
 
-    def add_entity(self, entity: entities.Entity, presence: bool) -> None:
+    def add_entity(self, entity: entities.Entity, presence: bool = False) -> None:
         """Adds a specified entity to the grid."""
         self.grid_entities.append((entity, presence))
         return
@@ -113,8 +113,8 @@ class Grid:
             user_point = self.grid_bin[entity.y:entity.y + entity.height, entity.x - 1:entity.x]
 
         elif direction == "right":
-            user_point = self.grid[entity.y:entity.y + entity.height,
-                                   entity.x + entity.width:entity.x + entity.width + 1]
+            user_point = self.grid_bin[entity.y:entity.y + entity.height,
+                                       entity.x + entity.width:entity.x + entity.width + 1]
         elif direction == "up":
             user_point = self.grid_bin[entity.y - 1:entity.y, entity.x:entity.x + entity.width]
 
