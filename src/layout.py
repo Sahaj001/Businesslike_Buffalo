@@ -4,7 +4,9 @@ import pygments.lexers
 from prompt_toolkit.application import Application
 from prompt_toolkit.formatted_text import PygmentsTokens
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
-from prompt_toolkit.layout.containers import HSplit, Window, WindowAlign
+from prompt_toolkit.layout.containers import (
+    Float, FloatContainer, HSplit, Window, WindowAlign
+)
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
@@ -74,8 +76,19 @@ class Game:
             ]
         )
 
+        self.body = FloatContainer(
+            content=self.container,
+            floats=[
+                #  Float(
+                #      Frame(
+                #          Window(FormattedTextControl("Text"), width=88, height=24),
+                #      )
+                #  )
+            ]
+        )
+
         self.application = Application(
-            layout=Layout(self.container),
+            layout=Layout(self.body),
             key_bindings=self.get_key_bindings(),
             mouse_support=True,
             full_screen=True,
@@ -153,6 +166,13 @@ class Game:
         @kb.add("x")
         def action(event: KeyPressEvent) -> None:
             if (self.player.x, self.player.y) == self.maze_trigger_coords:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl("Render the maze here"), width=88, height=24),
+                        )
+                    )
+                ]
                 self.message_box.body = Window(
                     FormattedTextControl("Start the maze"),
                     align=WindowAlign.CENTER
@@ -172,6 +192,11 @@ class Game:
                     FormattedTextControl("There is nothing to do"),
                     align=WindowAlign.CENTER
                 )
+
+        # Quit mini-game
+        @kb.add("q")
+        def quit_minigame(event: KeyPressEvent) -> None:
+            self.body.floats = []
 
         # Display the next Message
         @kb.add("n")
