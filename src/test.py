@@ -9,7 +9,7 @@ from prompt_toolkit.styles import Style
 import grid
 import person
 
-lexer = pygments.lexers.load_lexer_from_file("regex.py", lexername="CustomLexer")
+lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
 
 if __name__ == "__main__":
     p = person.Person(5, 5, 1)
