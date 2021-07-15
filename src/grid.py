@@ -8,11 +8,13 @@ import entities
 
 class Grid:
     """Used to create grid in which objects can be rendered.
+
     If you ever see the word point in this file it means the cartesian point i.e (x,y).
     """
 
     def __init__(self, width: int = 80, height: int = 24):
         """Initializes the arguments.
+
         :param width: The width of the grid
         :param height: The height of the grid
         """
@@ -51,6 +53,7 @@ class Grid:
 
     def render_screen(self) -> str:
         """Renders all entities in self.grid_entities into the grid.
+
         It renders those of lower y value before those of greater y value.
         """
         sorted_entities = sorted(self.grid_entities, key=lambda entity_: entity_[0].x)
@@ -69,6 +72,7 @@ class Grid:
             object_width: int = 1,
     ) -> None:
         """Inserts a object to the specified point.
+
         :param pos_x: The x axis point of the grid where object is to be rendered.
         :param pos_y: The y axis point of the grid where object is to be rendered.
         :param object_to_be_rendered: The object you want to render.
@@ -80,6 +84,7 @@ class Grid:
 
     def check(self, entity: entities.Entity, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
+
         :type entity: object, imported from entities.py
         :param direction : The direction in which you want to check
         :return: A boolean object.
@@ -106,6 +111,7 @@ class Grid:
 
     def insert_entity(self, entity: entities.Entity, ignore_presence: bool = False) -> None:
         """Inserts a object of entity class to its specified point.
+
         :type entity: Object, imported from entities.py
         :param ignore_presence: Doesn't changes the binary matrix if it is False.
         """
