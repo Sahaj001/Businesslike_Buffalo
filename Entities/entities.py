@@ -71,12 +71,12 @@ class Fountain(Entity):
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
 
 
-class WhichHut(Entity):
+class WitchHut(Entity):
     """A derived Entity class creating a which hut object."""
 
     def __init__(self, x: int, y: int, which_screen: int) -> None:
         """Creates a which hut based on the which hut ascii file in the ascii folder."""
-        ascii_file = "which_hut.txt"
+        ascii_file = "witch_hut.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
 
 
