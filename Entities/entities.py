@@ -71,6 +71,24 @@ class Fountain(Entity):
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
 
 
+class WhichHut(Entity):
+    """A derived Entity class creating a which hut object."""
+
+    def __init__(self, x: int, y: int, which_screen: int) -> None:
+        """Creates a which hut based on the which hut ascii file in the ascii folder."""
+        ascii_file = "which_hut.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
+class House(Entity):
+    """A derived Entity class creating a house object."""
+
+    def __init__(self, x: int, y: int, which_screen: int) -> None:
+        """Creates a house based on the house ascii file in the ascii folder."""
+        ascii_file = "house.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
 if __name__ == "__main__":
     items = [Tree(1, 2, 1), Bar(1, 2, 3), Fountain(1, 2, 3)]
     for item in items:
