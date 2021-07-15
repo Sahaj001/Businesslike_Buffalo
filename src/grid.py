@@ -6,26 +6,6 @@ import numpy as np
 import entities
 
 
-def parse_array(array: np.ndarray, desired_change_dict: dict) -> np.ndarray:
-    """Replaces elements of the array passed in with a desired value.
-
-    :param array: The array you want to change.
-    :param desired_change_dict: Key of this dict will be the element you want to replace and
-     Value will be value which you want it to replace with.
-    :return: Returns the parsed array.
-    """
-    new_arr = array
-    for array_row in enumerate(array):
-        for array_row_elem in enumerate(array_row[1]):
-            try:
-                desired_change_dict[array_row_elem[1]]
-            except KeyError:
-                pass
-            else:
-                new_arr[array_row[0], array_row_elem[0]] = desired_change_dict[array_row_elem[1]]
-    return new_arr
-
-
 class Grid:
     """Used to create grid in which objects can be rendered.
 
@@ -135,8 +115,10 @@ class Grid:
         :type entity: Object, imported from entities.py
         :param ignore_presence: Doesn't changes the binary matrix if it is False.
         """
-        self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
+        ascii_render = entity.render()
+        self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = ascii_render
+
         if not ignore_presence:
-            self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = \
-                parse_array(self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] == " ",
-                            {True: 0, False: 1})
+            # Checks where the non-whitespace characters are, and creates an array of 1s in their locations
+            boolean_array = (ascii_render != " ").astype(int)
+            self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = boolean_array
