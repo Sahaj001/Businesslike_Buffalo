@@ -92,6 +92,7 @@ class Game:
             event.app.exit()
 
         # Movement
+        @kb.add("a")
         @kb.add("left")
         def go_left(event: KeyPressEvent) -> None:
             self.player.move('left', self.screen.get_current_screen())
@@ -105,6 +106,7 @@ class Game:
                     text=PygmentsTokens(tokens)
                 ))
 
+        @kb.add("d")
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
             self.player.move('right', self.screen.get_current_screen())
@@ -118,6 +120,7 @@ class Game:
                     text=PygmentsTokens(tokens)
                 ))
 
+        @kb.add("w")
         @kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
             self.player.move('up', self.screen.get_current_screen())
@@ -131,6 +134,7 @@ class Game:
                     text=PygmentsTokens(tokens)
                 ))
 
+        @kb.add("s")
         @kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
             self.player.move('down', self.screen.get_current_screen())
