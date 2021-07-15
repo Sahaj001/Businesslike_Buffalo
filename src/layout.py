@@ -38,12 +38,12 @@ class Game:
         self.hangman_trigger_coords = (0, 0)  # (x, y) of a tree
         self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
 
-        self.game_progression = 0
-        self.active_quest = -1
-        self.puzzle_progression = 0
-        self.completed_quests = 0
+        self.game_progression = 0  # The overall game progression (used for narrator messages)
+        self.active_quest = -1  # Is a quest currently active, if yes -> (1=Puzzle, 2=Maze)
+        self.puzzle_progression = 0  # The Progression within the puzzle quest (Used for dialogue tracking)
+        self.completed_quests = 0  # The total number of quests completed
 
-        # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
+        # TODO: Complete the messages
         self.messages = ["Welcome Test0 you have been abducted to be tested in our facility. \nYou may think what "
                          "is this surrounding, well you are basically in a box of imagination, the more you explore "
                          "the more deeper it gets.\nComplete my deeds and you shall be free.\nFor a hint, go look for"
@@ -234,10 +234,11 @@ class Game:
                     align=WindowAlign.CENTER
                 )
 
+        # Keys for in-quest control (Similar for all 'j', 'k', and 'l' keybindings)
         @kb.add("j")
         def quest_option_1(event: KeyPressEvent) -> None:
-            if self.active_quest == 1:
-                if self.puzzle_progression == 0:
+            if self.active_quest == 1:  # If puzzle quest is active
+                if self.puzzle_progression == 0:  # First question
                     text = self.puzzle_messages[0] + \
                         "\n\n" + self.puzzle_messages[1] + \
                         "\n\n" + self.puzzle_messages[6]
@@ -248,7 +249,7 @@ class Game:
                             )
                         )
                     ]
-                else:
+                else:  # Second question
                     text = self.puzzle_messages[0] + \
                         "\n\n" + self.puzzle_messages[3] + \
                         "\n\n" + self.puzzle_messages[5] + \
@@ -261,7 +262,7 @@ class Game:
                         )
                     ]
                     self.puzzle_progression = 0
-            elif self.active_quest == -1:
+            elif self.active_quest == -1:  # The answer to the narrator's question after completion of the puzzle quest
                 self.game_progression += 1
                 self.message_box.body = Window(
                     FormattedTextControl(self.messages[self.game_progression]),
@@ -295,7 +296,7 @@ class Game:
                     ]
                     self.puzzle_progression = 0
                     self.completed_quests += 1
-            elif self.active_quest == -1:
+            elif self.active_quest == -1:  # The answer to the narrator's question after completion of the puzzle quest
                 self.game_progression += 2
                 self.message_box.body = Window(
                     FormattedTextControl(self.messages[self.game_progression]),
@@ -345,6 +346,8 @@ class Game:
                 )
             ]
             self.puzzle_progression = 0
+
+            # To be fixed, the condition should be true only just after the completion of the puzzle quest
             if self.completed_quests == 1:
                 self.game_progression += 1
                 self.message_box.body = Window(
