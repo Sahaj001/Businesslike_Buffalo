@@ -17,6 +17,7 @@ from person import Person
 from screen import Screen
 
 
+# noinspection PyTypeChecker
 class Game:
     """Specifies the main layout of the game i.e. the play area and the rest of the UI"""
 
@@ -34,10 +35,37 @@ class Game:
 
         self.maze_trigger_coords = (54, 10)  # (x, y) of the bar door
         self.hangman_trigger_coords = (0, 0)  # (x, y) of a tree
+
         self.puzzle_trigger_coords = (0, 0)  # (x, y) of the fountain
 
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
+
+        self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
+
+        self.game_progression = 0  # The overall game progression (used for narrator messages)
+        self.active_quest = -1  # Is a quest currently active, if yes -> (1=Puzzle, 2=Maze)
+        self.puzzle_progression = 0  # The Progression within the puzzle quest (Used for dialogue tracking)
+        self.completed_quests = 0  # The total number of quests completed
+
+        # TODO: Complete the messages
+        self.messages = ["Welcome Test0 you have been abducted to be tested in our facility. \nYou may think what "
+                         "is this surrounding, well you are basically in a box of imagination, the more you explore "
+                         "the more deeper it gets.\nComplete my deeds and you shall be free.\nFor a hint, go look for"
+                         " a witch, she has a potion that i looovee to drink, but be aware she doesn't like stangers.",
+                         "Look who's back, you sure didn’t fail me, now go ahead and take a sip of the potion\n(J) "
+                         "Drink Potion\n(K) Refuse", "Good. I like the obedient Subjects", "Wrong choice!\nGame Over"]
+        self.puzzle_messages = ["Witch: Oh my who are you, do not come near me or I will curse you.\n(J) run back, "
+                                "(K) ask the potion, (L) charge her", "Narrator: You Coward!", "The witch curses "
+                                "you and kicks you out!",
+                                "Witch: Oh you must be sent by ‘them’ well to get this potion you need to solve "
+                                "\nthis riddle for me.\nThere is a circular platform with a large rod having its "
+                                "length same as the\nradius of the platform, with its one kept at the center.\nIt "
+                                "moves 90 degree in z axis and burst in thin strips equally and lands at the\nedge "
+                                "of the circle. Which shape does it form?\n\n(J) Sphere, (K) Hemisphere, (L) Cone",
+                                "There you go my boy here is the potion.", "Wrong answer my boy!",
+                                "Press Q to go back"]
+
         self.current_message = 0
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
         self.style = Style.from_dict({

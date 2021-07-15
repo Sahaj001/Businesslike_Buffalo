@@ -13,7 +13,7 @@ class Entity:
     """
 
     def __init__(
-        self, ascii_file: str, x: int, y: int, which_screen: int, unique_name: str
+            self, ascii_file: str, x: int, y: int, which_screen: int, unique_name: str
     ) -> None:
         """Initializes Entity object based on ASCII stored in file.
 
@@ -77,22 +77,23 @@ class Tree(Entity):
         ascii_file = "tree.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
+
 class WitchHut(Entity):
     """A derived Entity class creating a which hut object."""
 
-    def __init__(self, x: int, y: int, which_screen: int) -> None:
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates a which hut based on the which hut ascii file in the ascii folder."""
         ascii_file = "witch_hut.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
 class House(Entity):
     """A derived Entity class creating a house object."""
 
-    def __init__(self, x: int, y: int, which_screen: int) -> None:
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates a house based on the house ascii file in the ascii folder."""
         ascii_file = "house.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
 class Bar(Entity):
