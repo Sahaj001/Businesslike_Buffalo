@@ -38,8 +38,28 @@ class Game:
         self.hangman_trigger_coords = (0, 0)  # (x, y) of a tree
         self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
 
+        self.game_progression = 0
+        self.active_quest = -1
+        self.puzzle_progression = 0
+        self.completed_quests = 0
+
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
-        self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
+        self.messages = ["Welcome Test0 you have been abducted to be tested in our facility. \nYou may think what "
+                         "is this surrounding, well you are basically in a box of imagination, the more you explore "
+                         "the more deeper it gets.\nComplete my deeds and you shall be free.\nFor a hint, go look for"
+                         " a witch, she has a potion that i looovee to drink, but be aware she doesn't like stangers.",
+                         "Look who's back, you sure didn’t fail me, now go ahead and take a sip of the potion\n(J) "
+                         "Drink Potion\n(K) Refuse", "Good. I like Obendient Subjects", "Wrong choice!\nGame Over"]
+        self.puzzle_messages = ["Witch: Oh my who are you, do not come near me or I will curse you.\n(J) run back, "
+                                "(K) ask the potion, (L) charge her", "Narrator: You Coward!", "The witch curses "
+                                "you and kicks you out!",
+                                "Witch: Oh you must be sent by ‘them’ well to get this potion you need to solve "
+                                "\nthis riddle for me.\nThere is a circular platform with a large rod having its "
+                                "length same as the\nradius of the platform, with its one kept at the center.\nIt "
+                                "moves 90 degree in z axis and burst in thin strips equally and lands at the\nedge "
+                                "of the circle. Which shape does it form?\n\n(J) Sphere, (K) Hemisphere, (L) Cone",
+                                "There you go my boy here is the potion.", "Wrong answer my boy!",
+                                "Press Q to go back"]
         self.current_message = 0
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
         self.style = Style.from_dict({
@@ -117,63 +137,68 @@ class Game:
         @kb.add("a")
         @kb.add("left")
         def go_left(event: KeyPressEvent) -> None:
-            self.player.move('left', self.screen.get_current_screen())
-            self.screen.update_entity(self.player, True)
+            if self.active_quest == -1:
+                self.player.move('left', self.screen.get_current_screen())
+                self.screen.update_entity(self.player, True)
 
-            new_text = self.screen.render()
-            tokens = list(pygments.lex(new_text, lexer=self.lexer))
+                new_text = self.screen.render()
+                tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.body = Window(
-                FormattedTextControl(
-                    text=PygmentsTokens(tokens)
-                ))
+                self.game_field.body = Window(
+                    FormattedTextControl(
+                        text=PygmentsTokens(tokens)
+                    ))
 
         @kb.add("d")
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
-            self.player.move('right', self.screen.get_current_screen())
-            self.screen.update_entity(self.player, True)
+            if self.active_quest == -1:
+                self.player.move('right', self.screen.get_current_screen())
+                self.screen.update_entity(self.player, True)
 
-            new_text = self.screen.render()
-            tokens = list(pygments.lex(new_text, lexer=self.lexer))
+                new_text = self.screen.render()
+                tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.body = Window(
-                FormattedTextControl(
-                    text=PygmentsTokens(tokens)
-                ))
+                self.game_field.body = Window(
+                    FormattedTextControl(
+                        text=PygmentsTokens(tokens)
+                    ))
 
         @kb.add("w")
         @kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
-            self.player.move('up', self.screen.get_current_screen())
-            self.screen.update_entity(self.player, True)
+            if self.active_quest == -1:
+                self.player.move('up', self.screen.get_current_screen())
+                self.screen.update_entity(self.player, True)
 
-            new_text = self.screen.render()
-            tokens = list(pygments.lex(new_text, lexer=self.lexer))
+                new_text = self.screen.render()
+                tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.body = Window(
-                FormattedTextControl(
-                    text=PygmentsTokens(tokens)
-                ))
+                self.game_field.body = Window(
+                    FormattedTextControl(
+                        text=PygmentsTokens(tokens)
+                    ))
 
         @kb.add("s")
         @kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
-            self.player.move('down', self.screen.get_current_screen())
-            self.screen.update_entity(self.player, True)
+            if self.active_quest == -1:
+                self.player.move('down', self.screen.get_current_screen())
+                self.screen.update_entity(self.player, True)
 
-            new_text = self.screen.render()
-            tokens = list(pygments.lex(new_text, lexer=self.lexer))
+                new_text = self.screen.render()
+                tokens = list(pygments.lex(new_text, lexer=self.lexer))
 
-            self.game_field.body = Window(
-                FormattedTextControl(
-                    text=PygmentsTokens(tokens)
-                ))
+                self.game_field.body = Window(
+                    FormattedTextControl(
+                        text=PygmentsTokens(tokens)
+                    ))
 
         # Action Key
         @kb.add("x")
         def action(event: KeyPressEvent) -> None:
             if (self.player.x, self.player.y) == self.maze_trigger_coords:
+                self.active_quest = 2
                 self.body.floats.append(
                     Float(
                         Frame(
@@ -191,13 +216,14 @@ class Game:
                     align=WindowAlign.CENTER
                 )
             elif (self.player.x, self.player.y) == self.puzzle_trigger_coords:
-                self.body.floats.append(
+                self.active_quest = 1
+                self.body.floats = [
                     Float(
                         Frame(
-                            Window(FormattedTextControl("Play the puzzle"), width=88, height=24),
+                            Window(FormattedTextControl(self.puzzle_messages[0]), width=88, height=24),
                         )
                     )
-                )
+                ]
                 self.message_box.body = Window(
                     FormattedTextControl("Start the puzzles game"),
                     align=WindowAlign.CENTER
@@ -208,27 +234,132 @@ class Game:
                     align=WindowAlign.CENTER
                 )
 
+        @kb.add("j")
+        def quest_option_1(event: KeyPressEvent) -> None:
+            if self.active_quest == 1:
+                if self.puzzle_progression == 0:
+                    text = self.puzzle_messages[0] + \
+                        "\n\n" + self.puzzle_messages[1] + \
+                        "\n\n" + self.puzzle_messages[6]
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(text), width=88, height=24),
+                            )
+                        )
+                    ]
+                else:
+                    text = self.puzzle_messages[0] + \
+                        "\n\n" + self.puzzle_messages[3] + \
+                        "\n\n" + self.puzzle_messages[5] + \
+                        "\n\n" + self.puzzle_messages[6]
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(text), width=88, height=24),
+                            )
+                        )
+                    ]
+                    self.puzzle_progression = 0
+            elif self.active_quest == -1:
+                self.game_progression += 1
+                self.message_box.body = Window(
+                    FormattedTextControl(self.messages[self.game_progression]),
+                    align=WindowAlign.CENTER
+                )
+
+        @kb.add("k")
+        def quest_option_2(event: KeyPressEvent) -> None:
+            if self.active_quest == 1:
+                if self.puzzle_progression == 0:
+                    text = self.puzzle_messages[0] + "\n\n" + self.puzzle_messages[3]
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(text), width=88, height=24),
+                            )
+                        )
+                    ]
+                    self.puzzle_progression = 1
+                else:
+                    text = self.puzzle_messages[0] + \
+                        "\n\n" + self.puzzle_messages[3] + \
+                        "\n\n" + self.puzzle_messages[4] + \
+                        "\n\n" + self.puzzle_messages[6]
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(text), width=88, height=24),
+                            )
+                        )
+                    ]
+                    self.puzzle_progression = 0
+                    self.completed_quests += 1
+            elif self.active_quest == -1:
+                self.game_progression += 2
+                self.message_box.body = Window(
+                    FormattedTextControl(self.messages[self.game_progression]),
+                    align=WindowAlign.CENTER
+                )
+
+        @kb.add("l")
+        def quest_option_3(event: KeyPressEvent) -> None:
+            if self.active_quest == 1:
+                if self.puzzle_progression == 0:
+                    text = self.puzzle_messages[0] + \
+                        "\n\n" + self.puzzle_messages[2] + \
+                        "\n\n" + self.puzzle_messages[6]
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(text), width=88, height=24),
+                            )
+                        )
+                    ]
+                else:
+                    text = self.puzzle_messages[0] + \
+                        "\n\n" + self.puzzle_messages[3] + \
+                        "\n\n" + self.puzzle_messages[5] + \
+                        "\n\n" + self.puzzle_messages[6]
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(text), width=88, height=24),
+                            )
+                        )
+                    ]
+                    self.puzzle_progression = 0
+
         # Quit mini-game
         @kb.add("q")
         def quit_minigame(event: KeyPressEvent) -> None:
+            self.active_quest = -1
             self.body.floats = [
                 Float(
                     Frame(
-                        Window(FormattedTextControl("Quests completed: 0/3"), width=22, height=1),
+                        Window(FormattedTextControl("Quests completed: {}/3".format(self.completed_quests)),
+                               width=22, height=1),
                     ),
                     right=5,
                     top=2,
                 )
             ]
+            self.puzzle_progression = 0
+            if self.completed_quests == 1:
+                self.game_progression += 1
+                self.message_box.body = Window(
+                    FormattedTextControl(self.messages[self.game_progression]),
+                    align=WindowAlign.CENTER
+                )
 
         # Display the next Message
         @kb.add("n")
         def next_message(event: KeyPressEvent) -> None:
-            self.current_message = (self.current_message + 1) % 4
-            self.message_box.body = Window(
-                FormattedTextControl(self.messages[self.current_message]),
-                align=WindowAlign.CENTER
-            )
+            if self.game_progression == 0:
+                self.message_box.body = Window(
+                    FormattedTextControl("Go find the witch hut"),
+                    align=WindowAlign.CENTER
+                )
 
         return kb
 
