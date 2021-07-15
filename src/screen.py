@@ -8,7 +8,7 @@ class Screen:
     def __init__(self, width: int, height: int):
         self.GRID_WIDTH = width
         self.GRID_HEIGHT = height
-        self.BOX_PADDING_X = 24
+        self.BOX_PADDING_X = 70
         self.BOX_PADDING_Y = 12
         self.screens = {i: Grid(self.GRID_WIDTH, self.GRID_HEIGHT) for i in range(1, 10)}
         self.current_screen = 5
@@ -92,13 +92,13 @@ class Screen:
             self.screens[9].add_entity(Wall(self.BOX_PADDING_X-1, screen_y, 9, "wall"+str(wall_count)))
             wall_count += 1
 
-    def insert_entity(self, entity: Entity, ignore_presence: bool = False) -> None:
+    def insert_entity(self, entity: Entity, ignore_presence: bool = False, screen: int = 5) -> None:
         """Inserts a object of entity class to its specified point in the current screen.
 
         :param ignore_presence: Doesn't changes the binary matrix if it is False.
         :type entity: Object, imported from entities.py
         """
-        self.screens[self.current_screen].add_entity(entity, ignore_presence)
+        self.screens[screen].add_entity(entity, ignore_presence)
 
     def update_entity(self, entity: Entity, ignore_presence: bool = False) -> None:
         """Updates an entity object's position

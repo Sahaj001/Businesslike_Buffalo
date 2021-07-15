@@ -12,7 +12,7 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Frame
 
-from entities import Bar, Fountain, Tree
+from entities import Bar, Fountain, Tree, WitchHut
 from person import Person
 from screen import Screen
 
@@ -27,14 +27,16 @@ class Game:
         self.player = Person(84, 20, 5, unique_name="Bob")
         self.bar = Bar(50, 3, 5, unique_name="bar1")
         self.fountian = Fountain(30, 5, 5, unique_name="fountain1")
+        self.witch_hut = WitchHut(60, 10, 4, "witch_hut1")
         self.screen.insert_entity(self.tree)
         self.screen.insert_entity(self.bar)
         self.screen.insert_entity(self.fountian)
+        self.screen.insert_entity(self.witch_hut, screen=4)
         self.screen.insert_entity(self.player, True)
 
         self.maze_trigger_coords = (54, 10)  # (x, y) of the bar door
         self.hangman_trigger_coords = (0, 0)  # (x, y) of a tree
-        self.puzzle_trigger_coords = (0, 0)  # (x, y) of the fountain
+        self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
 
         # NOTE: Temporary and will be removed later to allow for fuller narrator implementation.
         self.messages = ["Message 1", "Message 2", "Message 3", "Message 4"]
@@ -189,13 +191,20 @@ class Game:
                     align=WindowAlign.CENTER
                 )
             elif (self.player.x, self.player.y) == self.puzzle_trigger_coords:
+                self.body.floats.append(
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl("Play the puzzle"), width=88, height=24),
+                        )
+                    )
+                )
                 self.message_box.body = Window(
                     FormattedTextControl("Start the puzzles game"),
                     align=WindowAlign.CENTER
                 )
             else:
                 self.message_box.body = Window(
-                    FormattedTextControl("There is nothing to do"),
+                    FormattedTextControl(str(self.player.x) + " " + str(self.player.y)),
                     align=WindowAlign.CENTER
                 )
 
