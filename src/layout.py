@@ -23,7 +23,7 @@ class Game:
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
-        self.tree = Tree(10, 20, 5, unique_name="Tree1")
+        self.tree = Tree(10, 4, 5, unique_name="Tree1")
         self.player = Person(84, 20, 5, unique_name="Bob")
         self.bar = Bar(50, 3, 5, unique_name="bar1")
         self.fountian = Fountain(30, 5, 5, unique_name="fountain1")
