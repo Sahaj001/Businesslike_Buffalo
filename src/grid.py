@@ -6,35 +6,13 @@ import numpy as np
 import entities
 
 
-def parse_array(array: np.ndarray, desired_change_dict: dict) -> np.ndarray:
-    """Replaces elements of the array passed in with a desired value.
-
-    :param array: The array you want to change.
-    :param desired_change_dict: Key of this dict will be the element you want to replace and
-     Value will be value which you want it to replace with.
-    :return: Returns the parsed array.
-    """
-    new_arr = array
-    for array_row in enumerate(array):
-        for array_row_elem in enumerate(array_row[1]):
-            try:
-                desired_change_dict[array_row_elem[1]]
-            except KeyError:
-                pass
-            else:
-                new_arr[array_row[0], array_row_elem[0]] = desired_change_dict[array_row_elem[1]]
-    return new_arr
-
-
 class Grid:
     """Used to create grid in which objects can be rendered.
-
     If you ever see the word point in this file it means the cartesian point i.e (x,y).
     """
 
     def __init__(self, width: int = 80, height: int = 24):
         """Initializes the arguments.
-
         :param width: The width of the grid
         :param height: The height of the grid
         """
@@ -73,7 +51,6 @@ class Grid:
 
     def render_screen(self) -> str:
         """Renders all entities in self.grid_entities into the grid.
-
         It renders those of lower y value before those of greater y value.
         """
         sorted_entities = sorted(self.grid_entities, key=lambda entity_: entity_[0].x)
@@ -92,7 +69,6 @@ class Grid:
             object_width: int = 1,
     ) -> None:
         """Inserts a object to the specified point.
-
         :param pos_x: The x axis point of the grid where object is to be rendered.
         :param pos_y: The y axis point of the grid where object is to be rendered.
         :param object_to_be_rendered: The object you want to render.
@@ -104,7 +80,6 @@ class Grid:
 
     def check(self, entity: entities.Entity, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
-
         :type entity: object, imported from entities.py
         :param direction : The direction in which you want to check
         :return: A boolean object.
@@ -131,12 +106,13 @@ class Grid:
 
     def insert_entity(self, entity: entities.Entity, ignore_presence: bool = False) -> None:
         """Inserts a object of entity class to its specified point.
-
         :type entity: Object, imported from entities.py
         :param ignore_presence: Doesn't changes the binary matrix if it is False.
         """
-        self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = entity.render()
+        ascii_render = entity.render()
+        self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = ascii_render
+
         if not ignore_presence:
-            self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = \
-                parse_array(self.grid[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] == " ",
-                            {True: 0, False: 1})
+            # Checks where the non-whitespace characters are, and creates an array of 1s in their locations
+            boolean_array = (ascii_render != " ").astype(int)
+            self.grid_bin[entity.y: entity.y + entity.height, entity.x: entity.x + entity.width] = boolean_array

@@ -44,10 +44,10 @@ class Game:
             "pygments.player": "#0000ff",
             "pygments.leaves": "#00cd00",
             "pygments.trunk": "#964B00",
-            "pygments.bar": "#db9146",
+            "pygments.bar": "bg:#A55D47 #000000",
             "pygments.fountainbase": "#ff7a7a",
-            "pygments.water": "#0025d2",
-            "pygments.wall": "#ff7a7a",
+            "pygments.water": "#00bafd",
+            "pygments.wall.inescapable": "bg:#ed0000"
         })
 
         tokens = list(pygments.lex(str(self.screen.render()), lexer=self.lexer))
@@ -56,7 +56,7 @@ class Game:
             body=Window(FormattedTextControl(
                 text=PygmentsTokens(tokens)
             )),
-            style="bg:#7cc5d9"
+            style="bg:#000000"
         )
 
         self.message_box = Frame(
