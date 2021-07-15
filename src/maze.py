@@ -1,13 +1,14 @@
-from random import shuffle, randrange, randint
+from random import randint, randrange, shuffle
 
 import numpy as np
+
 
 class Maze:
     '''
     A class that randomly generates a maze with a set width and height.
     It can be represented in text(cells) and numpy array form(rows)
     '''
-    
+
     # Initialize values of the maze object
     def __init__(self, width:int, height:int, num_keys:int, scale: int=1) -> None:
         self.height: int = height
@@ -23,8 +24,8 @@ class Maze:
         self.spawn_pos = spawn_and_keys[0]
         self.key_pos = spawn_and_keys[1]
         self.rows = self.make_lines()
-        
-        
+
+
 
     # Create and display the maze, creates the cells attribute
     def create_maze(self) -> None:
@@ -40,14 +41,14 @@ class Maze:
         # Go around the empty grid to make paths and walls for the maze
         def explore(x:int, y:int) -> None:
             seen[y][x] = 1
-            
+
             # Go over the neighboring cells in the maze and shuffle them
             neighbor = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
             shuffle(neighbor)
-           
+
             for (x1, y1) in neighbor:
                 # If the selected cell has been explored, ignore it
-                if seen[y1][x1]: 
+                if seen[y1][x1]:
                     continue
                 # Place a wall on the randomly selected side when moving horizontally
                 if x1 == x:
@@ -80,7 +81,7 @@ class Maze:
                 else:
                     copy_cells[ind1][ind2] = 0
         return copy_cells
-        
+
     # Initialize locations for the player's spawn point and the objective
     def spawn_and_key(self) -> tuple:
         # Get the cells(ascii) and rows(num) of the maze
@@ -88,7 +89,7 @@ class Maze:
         hei: int = self.height*(self.scale)
         cells = self.cells
         rows = self.rows
-        # Get the horizontal and vertical range of spaces in the maze 
+        # Get the horizontal and vertical range of spaces in the maze
         hor_range = range(1,wid-2)
         ver_range = range(1,hei-2)
         # Select a random row along the y axis for spawn and key
@@ -124,7 +125,7 @@ class Maze:
             key_positions.append(key_pos)
             self.rows[key_pos[0]][key_pos[1]] = 1
             # Replace the row of cells where the key object is with the edited one with the keys
-            key_cells = list(''.join(cells[key]))  
+            key_cells = list(''.join(cells[key]))
             key_cells[key_pos[1]] = 'K'
             key_cells = ''.join(key_cells)
             #key_cells = [key_cells[i:i+(self.scale*2)] for i in range(0, len(key_cells), (self.scale*2))]
@@ -139,11 +140,11 @@ class Maze:
         spawn_cells = split(spawn_cells)
         self.cells[y_pos_spawn] = spawn_cells
         return (spawn_pos, key_positions)
-        
+
     # Returns the cells of the maze in np form
     def get_cells(self) -> np.ndarray:
         return np.array([np.array(i) for i in self.cells], dtype = object)
-        
+
     # Display the maze
     def display(self) -> None:
         empty = []
@@ -152,4 +153,3 @@ class Maze:
             new_row = ''.join(row)
             empty.append(new_row)
         print('\n'.join(empty))
-        

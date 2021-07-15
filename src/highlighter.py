@@ -9,11 +9,11 @@ class CustomLexer(RegexLexer):
     tokens = {
         'root': [
             (r"[@NИ]", Token.Player),
-            (r"(888)|(88&O8)|(8&O&&O8)", Token.Leaves),
-            (r"(\)\s\()", Token.Trunk),
-            (r"[║╣╠╔ ═ ╗]", Token.Bar),
+            (r"8*(&|0|8)", Token.Leaves),
+            (r"(\).*?\()", Token.Trunk),
+            (r"(║.*?║)|([╠═╔══╗═╣])", Token.Bar),
             (r"[░]", Token.Water),
             (r"[v/-_|\\]", Token.Fountainbase),
-            (r"[~]", Token.Wall),
+            (r"\%*\%", Token.Wall.Inescapable),
         ]
     }
