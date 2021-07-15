@@ -6,7 +6,9 @@ from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.layout import HSplit, Layout, VSplit
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
-from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
+from prompt_toolkit.key_binding.bindings.focus import (
+    focus_next, focus_previous
+)
 
 sys.path.append("/Users/sahajsingh/Downloads/Businesslike_Buffalo-main/")
 
