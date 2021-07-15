@@ -3,7 +3,7 @@ This is a bot class which moves around the grid
 """
 import numpy as np
 
-path = "/Users/sahajsingh/Downloads/Businesslike_Buffalo-layout-with-rendering/assets/ascii/text/"
+path = "../assets/ascii/text/"
 
 
 class Bot:
