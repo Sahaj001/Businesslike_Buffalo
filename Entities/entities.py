@@ -13,7 +13,7 @@ class Entity:
     """
 
     def __init__(self, ascii_file: str, x: int, y: int, which_screen: int) -> None:
-        """Initialises Entity object based on ASCII stored in file.
+        """Initializes Entity object based on ASCII stored in file.
 
         :param ascii_file: The filename containing the ascii art in the ascii folder.
         :param x: The x position of the entity.
@@ -86,6 +86,42 @@ class House(Entity):
     def __init__(self, x: int, y: int, which_screen: int) -> None:
         """Creates a house based on the house ascii file in the ascii folder."""
         ascii_file = "house.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
+class Grass(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "grass.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
+class Lake(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "lake.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
+class CampFire(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "lake.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
+
+
+class Tent(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "tent.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen)
 
 
