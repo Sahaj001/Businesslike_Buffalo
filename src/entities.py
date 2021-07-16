@@ -112,8 +112,6 @@ class Fountain(Entity):
         """Creates a fountain based on the fountain ascii file in the ascii folder."""
         ascii_file = "fountain.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
-<<<<<<< Updated upstream
-=======
 
 
 class Lake(Entity):
@@ -130,7 +128,8 @@ class CampFire(Entity):
 
     def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates an entity based on the ascii file in the ascii folder."""
-        ascii_file = "lake.txt"
+
+        ascii_file = "campfire.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
@@ -143,17 +142,17 @@ class Tent(Entity):
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
-class Grass(Entity):
+class Grass:
     """Define grass."""
 
-    def __init__(self, x: int, y: int, which_screen: int, unique_name: str, ascii_file: str) -> None:
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Initialize Grass object based on internal probability.
 
         :param x: The x position of the entity.
         :param y: The y position of the entity.
         :param which_screen: An integer noting which screen the entity is on.
         """
-        super().__init__(ascii_file, x, y, which_screen, unique_name)
+
         self.x = x
         self.y = y
         self.which_screen = which_screen
@@ -169,4 +168,15 @@ class Grass(Entity):
 
         # Storing the rendered table
         self.rendered_table = table
->>>>>>> Stashed changes
+
+    def set_coordinates(self, x: int, y: int) -> None:
+        """Set the player coordinates
+
+        :param x: X coordinates to set
+        :param y: Y coordinates to set
+        """
+        self.x = x
+        self.y = y
+
+    def render(self) -> np.ndarray:
+        return self.rendered_table
