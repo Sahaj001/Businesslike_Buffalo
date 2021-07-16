@@ -24,7 +24,7 @@ class GameScreen:
         Initialize the class with attributes like bot and screen
         """
         # game 1
-        self.path = "/assets/ascii/text/"
+        self.path = "../assets/ascii/text/"
         self.launch = True
         self.bot_player = bot.Bot(10, 3)
         self.top_screen = bot.GameScreen(20, 60, [])
@@ -248,7 +248,7 @@ class GameScreen:
         Calls the run function from Application to lauch the window
         """
 
-        with open("bot2.txt", 'r') as file:
+        with open(f"{self.path}bot2.txt", 'r') as file:
             bt2 = file.read()
         body = Window(
             FormattedTextControl(bt2),
