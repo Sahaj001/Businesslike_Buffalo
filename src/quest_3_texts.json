@@ -1,17 +1,15 @@
 {
 	"system": [
 		"You see a letter and open it.\n",
-		"The first letter of the word which rhymes with brother and is related to it.\n",
-		"(J)S (K)C (L)M\n",
-		"The first letter of the name of the snake that is bigger than python and doesn\u2019t have venom\n",
-		"(J)C (K)M (L)A\n",
-		"The first letter of the name of the python discord admin, whose pfp is an animal\n",
-		"(J)K (K)S (L)Z\n",
-		"The first letter of the function in python which, when for-looped will give the output like this (0, elem) (1, elem) (2, elem)\n",
-		"(J)R (K)E (L)C\n",
-		"Combine the answers of the riddles and then meet a guy at the bar.\n"
+		"The first letter of the word which rhymes with brother and is related to it.\n(J)S (K)C (L)M\n",
+		"The first letter of the name of the snake that is bigger than python and doesn\u2019t have venom\n(J)C (K)M (L)A\n",
+		"The first letter of the name of the python discord admin, whose pfp is an animal\n(J)K (K)S (L)Z\n",
+		"The first letter of the function in python which, when for-looped will give the output like this (0, elem) (1, elem) (2, elem)\n(J)R (K)E (L)C\n",
+		"Combine the answers of the riddles and then meet a guy at the bar.\n",
+		"Wrong answer! Try again"
 	],
 	"witch": [
-		"Oh boy, thanks for saving my life you might want to go and meet a guy at the bar and tell him the word maze."
+		"Oh boy, thanks for saving my life you might want to go and meet a guy at the bar and tell him the word \"maze\"\n\nPress 'q' to exit.",
+		"Go and meet a guy at the bar and tell him the word \"maze\""
 	]
 }

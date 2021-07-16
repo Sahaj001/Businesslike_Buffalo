@@ -33,11 +33,11 @@ class Game:
         self.screen.insert_entity(self.player, True)
 
         self.maze_trigger_coords = (54, 10)  # (x, y) of the bar door
-        self.hangman_trigger_coords = (0, 0)  # (x, y) of a tree
+        self.hangman_trigger_coords = (59, 17)  # (x, y) of a tree
         self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
 
         self.can_walk = True
-        self.current_quest = 1
+        self.current_quest = 2
         self.quests_generator = Quest()
 
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
@@ -69,7 +69,7 @@ class Game:
 
         self.message_box = Frame(
             body=Window(
-                FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
+                FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),
                 align=WindowAlign.CENTER
             ),
             title="Narrator (Press 'n' for next Message)",
@@ -196,10 +196,15 @@ class Game:
                     align=WindowAlign.CENTER
                 )
             elif (self.player.x, self.player.y) == self.hangman_trigger_coords:
-                self.message_box.body = Window(
-                    FormattedTextControl("Start the hangman game"),
-                    align=WindowAlign.CENTER
-                )
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
+                                   width=88, height=24),
+                        )
+                    )
+                ]
+                self.can_walk = False
             elif (self.player.x, self.player.y) == self.puzzle_trigger_coords:
                 self.body.floats = [
                     Float(
@@ -212,7 +217,7 @@ class Game:
                 self.can_walk = False
             else:
                 self.message_box.body = Window(
-                    FormattedTextControl("There is nothing to do"),
+                    FormattedTextControl(str(self.player.x) + str(self.player.y)),
                     align=WindowAlign.CENTER
                 )
 
@@ -262,9 +267,32 @@ class Game:
                     )
                 ]
 
+        @kb.add("<any>")
+        def alphabets(event: KeyPressEvent) -> None:
+            if event.key_sequence[0].key.isalpha():
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     event.key_sequence[0].key)
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+
         # Quit mini-game
         @kb.add("q")
         def quit_minigame(event: KeyPressEvent) -> None:
+            self.message_box.body = Window(
+                FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
+                align=WindowAlign.CENTER
+            )
+            if self.quests_generator.is_complete(self.current_quest):
+                self.current_quest += 1
             self.body.floats = [
                 Float(
                     Frame(
@@ -275,10 +303,6 @@ class Game:
                     top=2,
                 )
             ]
-            self.message_box.body = Window(
-                FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
-                align=WindowAlign.CENTER
-            )
             self.can_walk = True
 
         # Display the next Message
