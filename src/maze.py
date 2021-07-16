@@ -1,4 +1,10 @@
+import typing
+from random import randint, randrange, shuffle
+from typing import Literal
+
+import numpy as np
 from prompt_toolkit.application import Application
+from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
 from prompt_toolkit.layout.containers import (
     Float, FloatContainer, HSplit, Window, WindowAlign
@@ -6,11 +12,6 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
-from prompt_toolkit.document import Document
-from random import shuffle, randrange, randint
-import typing
-from typing import Literal
-import numpy as np
 
 
 class Maze:
