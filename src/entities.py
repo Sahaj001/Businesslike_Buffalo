@@ -114,15 +114,6 @@ class Fountain(Entity):
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
 
-class Grass(Entity):
-    """A derived Entity class."""
-
-    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
-        """Creates an entity based on the ascii file in the ascii folder."""
-        ascii_file = "grass.txt"
-        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
-
-
 class Lake(Entity):
     """A derived Entity class."""
 
@@ -148,3 +139,32 @@ class Tent(Entity):
         """Creates an entity based on the ascii file in the ascii folder."""
         ascii_file = "tent.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+
+
+class Grass(Entity):
+    """Define grass."""
+
+    def __init__(
+        self, x: int, y: int, which_screen: int, unique_name: str
+    ) -> None:
+        """Initialize Grass object based on internal probability.
+
+        :param x: The x position of the entity.
+        :param y: The y position of the entity.
+        :param which_screen: An integer noting which screen the entity is on.
+        """
+        self.x = x
+        self.y = y
+        self.which_screen = which_screen
+        self.unique_name = unique_name
+
+        self.height = 4
+        self.width = 10
+        threshold = 0.6  # Probability of a comma (grass character)
+
+        table = np.full((self.height, self.width), " ")
+        grass_bool_mask = (np.random.rand(*table.shape) <= threshold)
+        table[grass_bool_mask] = ","
+
+        # Storing the rendered table
+        self.rendered_table = table
