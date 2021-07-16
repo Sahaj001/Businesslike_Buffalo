@@ -1,15 +1,16 @@
-from entities import (
-    Bar, CampFire, Fountain, Grass, House, Lake, Tent, Tree, WitchHut, Bar
-)
+from entities import Bar, CampFire, Grass, Lake, Tent, Tree, WitchHut
 
 
 class Map:
+    """Class responsible for rendering the map"""
+
     def __init__(self):
         self.map_1 = []
         self.map_2 = []
         self.map_3 = []
 
-    def map_initialise(self):
+    def map_initialise(self) -> None:
+        """Initialize the all the Entity Objects"""
         for grass_col in range(2):
             for grass_row in range(6):
                 self.map_1.append((Grass(68+(10*grass_col), grass_row*4, 5, f"Grass{grass_row}{grass_col}"), True, 5))
@@ -25,7 +26,11 @@ class Map:
         self.map_1.append((Lake(0, 0, 5, "Top Left Lake"), True, 5))
         for tree_col in range(3):
             for tree_row in range(8):
-                self.map_1.append((Tree(1 + tree_row * 5, 6 + (4 * tree_col), 5, f"Tree{tree_row}{tree_col}"), False, 5))
+                self.map_1.append((Tree(1 + tree_row * 5, 6 + (4 * tree_col),
+                                   5,
+                                   f"Tree{tree_row}{tree_col}"),
+                                   False,
+                                   5))
         self.map_1.append((Lake(0, 18, 5, "Bottom Left lake"), True, 5))
 
         self.map_2.append((WitchHut(60, 10, 4, "Witch Hut"), False, 4))

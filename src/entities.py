@@ -128,7 +128,6 @@ class CampFire(Entity):
 
     def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
         """Creates an entity based on the ascii file in the ascii folder."""
-
         ascii_file = "campfire.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
 
@@ -152,7 +151,6 @@ class Grass:
         :param y: The y position of the entity.
         :param which_screen: An integer noting which screen the entity is on.
         """
-
         self.x = x
         self.y = y
         self.which_screen = which_screen
@@ -179,4 +177,5 @@ class Grass:
         self.y = y
 
     def render(self) -> np.ndarray:
+        """Render the Grass"""
         return self.rendered_table

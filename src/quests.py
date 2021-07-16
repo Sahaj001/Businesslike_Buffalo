@@ -114,7 +114,8 @@ class Quest:
                 elif self.progression[1] == 0:
                     self.progression[1] = 1
                     self.progression[3] = 0
-                    return self.dialogues[quest]["Test1"][self.progression[1]] + self.dialogues[quest]["System"][self.progression[3]]
+                    return self.dialogues[quest]["Test1"][self.progression[1]] + \
+                        self.dialogues[quest]["System"][self.progression[3]]
                 elif self.progression[3] == 0:
                     self.progression[3] = 1
                     return self.dialogues[quest]["System"][self.progression[3]]

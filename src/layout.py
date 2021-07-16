@@ -145,7 +145,6 @@ class Game:
                     )
                 ]
 
-
         @kb.add("d")
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
