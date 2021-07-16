@@ -1,5 +1,5 @@
 import bot
-import play_sound
+# import play_sound
 import playsound
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
@@ -40,7 +40,7 @@ class GameScreen:
         self.top_text = self.to_str()
         self.xb = 1
         self.yb = 1
-        self.audio = play_sound.PlayAudio('intro_music.wav')
+        # self.audio = play_sound.PlayAudio('intro_music.wav')
         # Styling.
         self.style = Style(
             [
