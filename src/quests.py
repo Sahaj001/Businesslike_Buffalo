@@ -35,10 +35,14 @@ class Quest:
             if self.progression[3] == 3:
                 self.reset()
                 return True
+            else:
+                return True
         if quest == 3:
             if self.progression[1] == 1:
                 self.reset()
                 return True
+        if quest == 4:
+            return True
         return False
 
     def get_message(self, quest: int, option: int = -1, alphabet: chr = '*') -> str:
@@ -121,6 +125,7 @@ class Quest:
                     return self.dialogues[quest]["System"][self.progression[3]]
                 elif self.progression[3] == 1:
                     self.progression[3] = 2
+                    self.witch = False
                     return self.dialogues[quest]["System"][self.progression[3]]
                 elif self.progression[3] == 4:
                     self.progression[3] = 5
@@ -138,6 +143,44 @@ class Quest:
                 elif self.witch and self.progression[1] == 0:
                     self.progression[1] = 1
                     return self.dialogues[quest]["witch"][self.progression[1]]
+                elif self.progression[0] == -1:
+                    self.progression[0] = 0
+                    return self.dialogues[quest]["system"][self.progression[0]]
+                elif self.progression[0] == 4:
+                    return self.dialogues[quest]["system"][self.progression[0]]
+            elif option == 1:
+                if self.progression[0] == 0:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 1:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 2:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 3:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+            elif option == 2:
+                if self.progression[0] == 0:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 1:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 2:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 3:
+                    self.progression[0] = 4
+                    return self.dialogues[quest]["system"][self.progression[0]]
+            elif option == 3:
+                if self.progression[0] == 0:
+                    self.progression[0] = 1
+                    return self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 1:
+                    self.progression[0] = 2
+                    return self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 2:
+                    self.progression[0] = 3
+                    return self.dialogues[quest]["system"][self.progression[0]]
+                if self.progression[0] == 3:
+                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+
+        # The different scenarios for Quest 3
         elif quest == 4:
             if option == 0:
                 if self.progression[0] == -1:

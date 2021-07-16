@@ -38,7 +38,7 @@ class Game:
         self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
 
         self.can_walk = True
-        self.current_quest = 2
+        self.current_quest = 1
         self.quests_generator = Quest()
 
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
@@ -70,7 +70,7 @@ class Game:
 
         self.message_box = Frame(
             body=Window(
-                FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),
+                FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
                 align=WindowAlign.CENTER
             ),
             title="Narrator (Press 'n' for next Message)",
@@ -306,19 +306,32 @@ class Game:
         @kb.add("<any>")
         def alphabets(event: KeyPressEvent) -> None:
             if event.key_sequence[0].key.isalpha():
-                self.body.floats = [
-                    Float(
-                        Frame(
-                            Window(FormattedTextControl(
-                                   self.quests_generator.get_message(self.current_quest,
-                                                                     0,
-                                                                     event.key_sequence[0].key)
-                                   ),
-                                   width=88,
-                                   height=24),
+                if not self.quests_generator.is_complete(self.current_quest):
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl(
+                                       self.quests_generator.get_message(self.current_quest,
+                                                                         0,
+                                                                         event.key_sequence[0].key)
+                                       ),
+                                       width=88,
+                                       height=24),
+                            )
                         )
-                    )
-                ]
+                    ]
+                else:
+                    print('yya')
+                    self.body.floats = [
+                        Float(
+                            Frame(
+                                Window(FormattedTextControl("Press 'q'"),
+                                       width=88,
+                                       height=24),
+                            )
+                        )
+                    ]
+                    self.current_quest += 1
 
         # Quit mini-game
         @kb.add("q")
@@ -346,6 +359,16 @@ class Game:
         def next_message(event: KeyPressEvent) -> None:
             if self.quests_generator.is_complete(self.current_quest):
                 self.current_quest += 1
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl("Quests completed: {}/3".format(self.current_quest - 1)),
+                                   width=22, height=1),
+                        ),
+                        right=5,
+                        top=2,
+                    )
+                ]
             else:
                 self.message_box.body = Window(
                     FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),
