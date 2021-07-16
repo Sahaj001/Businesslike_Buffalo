@@ -22,7 +22,7 @@ class Hangman:
         for i in self.word:
             self.letter_set.add(i)
 
-    def letter_guessed(self, letter: chr) -> bool:
+    def letter_guessed(self, letter) -> bool:
         self.chance = self.chance - 1
         for i in self.letter_set:
             if i == letter:
@@ -36,15 +36,14 @@ if __name__ == "__main__":
     game = Hangman("helloWorld",5)
     game.make_set()
     
-    print(chr("a"))
-    # while game.chance > 0:
-    #     print(game.chance)
-    #     val = input("Guess the char: ")
-    #     if isinstance(val, chr) == False:
-    #         print_formatted_text("please enter letter")
+    while game.chance > 0:
+        print(game.chance)
+        val = input("Guess the char: ")
+        if isinstance(val, np.char) == False:
+            print_formatted_text("please enter letter")
 
-    #     elif game.letter_guessed(val) == True:
-    #         print_formatted_text("lucky, you guessed correctly !!")
+        elif game.letter_guessed(val) == True:
+            print_formatted_text("lucky, you guessed correctly !!")
 
-    #     else:
-    #         print_formatted_text("opps, there's no letter ", val," in the word")
+        else:
+            print_formatted_text("opps, there's no letter ", val," in the word")
