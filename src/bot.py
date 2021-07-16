@@ -3,7 +3,7 @@ This is a bot class which moves around the grid
 """
 import numpy as np
 
-path = "../assets/ascii/text/"
+path = "assets/ascii/text"
 
 
 class Bot:
@@ -19,10 +19,11 @@ class Bot:
         self.x = x
         self.y = y
         self.facing = facing
+        self.path = "/assets/ascii/text/"
         self.ascii_bot, self.height, self.width = self.read_text(botfile)
 
     def read_text(self, filename: str):
-        with open(path+filename, 'r') as file:
+        with open(self.path+filename, 'r') as file:
             data = file.readlines()
         width = max([len(line) for line in data])
         height = len(data)
@@ -30,14 +31,14 @@ class Bot:
         data = np.array([list(line) for line in data])
         return data, height, width
 
-    def new_pos(self, x: int, y: int):
+    def new_pos(self, new_x: int, new_y: int):
         """
         Insert new position of the bot
         :param x: new x position
         :param y: new y position
         """
-        self.x = x
-        self.y = y
+        self.x = new_x
+        self.y = new_y
 
 
 class GameScreen:
@@ -59,19 +60,32 @@ class GameScreen:
         render the table screen for bot
         :param bot : Bot class
         """
+        self.delete_bot(bot)
         self.table[bot.x:bot.x+bot.height, bot.y:bot.y+bot.width-1] = bot.ascii_bot
+        return self.print_st(self.table)
 
+    def delete_bot(self, bot: Bot):
+        """
+        deleting the previous position of the bot
+        """
+        self.table[bot.x-1:bot.x+bot.height+1, bot.y-1:bot.y+bot.width+1] = " "
 
-if __name__ == "__main__":
-    bot1 = Bot(1, 2)
+    def print_st(self, table):
+        st = ""
+        for i in table:
+            for j in i:
+                st += j
+            st += '\n'
+        return st
 
-    screen1 = GameScreen(10, 40, [])
-    screen1.render_table(bot1)
+# if __name__ == "__main__":
+    # bot1 = Bot(1, 2)
 
-    st = ""
-    for i in screen1.table:
-        for j in i:
-            st += j
-        st += '\n'
+    # screen1 = GameScreen(10, 40, [])
+    # screen1.render_table(bot1)
+    # print_st(screen1.table)
 
-    print(st)
+    # bot1.new_pos(bot1.x+4, bot1.y+4)
+    # screen1.render_table(bot1)
+
+    # print_st(screen1.table)
