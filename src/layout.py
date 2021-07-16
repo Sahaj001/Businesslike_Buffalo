@@ -12,7 +12,7 @@ from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Frame
 
-from entities import Bar, Fountain, Tree
+from map import Map
 from person import Person
 from screen import Screen
 
@@ -23,13 +23,10 @@ class Game:
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
-        self.tree = Tree(10, 4, 5, unique_name="Tree1")
-        self.player = Person(84, 20, 5, unique_name="Bob")
-        self.bar = Bar(50, 3, 5, unique_name="bar1")
-        self.fountian = Fountain(30, 5, 5, unique_name="fountain1")
-        self.screen.insert_entity(self.tree)
-        self.screen.insert_entity(self.bar)
-        self.screen.insert_entity(self.fountian)
+        self.player = Person(88, 20, 5, "Bob")
+        screen_5 = Map()
+        screen_5.map_initialise()
+        [self.screen.insert_entity(entity, presence) for entity, presence in screen_5.map_1]
         self.screen.insert_entity(self.player, True)
 
         self.maze_trigger_coords = (54, 10)  # (x, y) of the bar door
@@ -45,9 +42,16 @@ class Game:
             "pygments.leaves": "#00cd00",
             "pygments.trunk": "#964B00",
             "pygments.bar": "bg:#A55D47 #000000",
-            "pygments.fountainbase": "#ff7a7a",
+            "pygments.fountain": "#ff7a7a",
             "pygments.water": "#00bafd",
-            "pygments.wall.inescapable": "bg:#ed0000"
+            "pygments.wall.inescapable": "bg:#ed0000",
+            "pygments.grass": "#9ae500",
+            "pygments.campfire": "#964b00",
+            "pygments.fire": "#ffe100",
+            "pygments.lake": "#00d8ff",
+            "pygments.tent": "#FFA200",
+            "pygments.house.wall": "#AA3800",
+            "pygments.house.roof": "#AAABAA"
         })
 
         tokens = list(pygments.lex(str(self.screen.render()), lexer=self.lexer))
