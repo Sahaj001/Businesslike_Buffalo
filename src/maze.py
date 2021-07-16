@@ -1,32 +1,26 @@
-import pygments
-import pygments.lexers
 from prompt_toolkit.application import Application
-from prompt_toolkit.formatted_text import PygmentsTokens
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
 from prompt_toolkit.layout.containers import (
     Float, FloatContainer, HSplit, Window, WindowAlign
 )
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
-from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Frame, TextArea
 from prompt_toolkit.document import Document
-from prompt_toolkit.buffer import Buffer
 from random import shuffle, randrange, randint
 import typing
 from typing import Literal
-import entities
 import numpy as np
-from person import Person
+
 
 class Maze:
     '''
     A class that randomly generates a maze with a set width and height.
     It can be represented in text(cells) and numpy array form(rows)
     '''
-    
+
     # Initialize values of the maze object
-    def __init__(self, width:int, height:int, num_keys:int, scale: int=1) -> None:
+    def __init__(self, width: int, height: int, num_keys: int, scale: int = 1) -> None:
         self.height: int = height
         self.width: int = width
         self.num_keys: int = num_keys
@@ -42,20 +36,17 @@ class Maze:
         self.key_pos = spawn_and_keys[1]
         self.rows = self.make_lines()
         self.keys_collected = 0
-        self.text_area = TextArea
-        self.game_field = Frame(
-            body=Window(FormattedTextControl(
-                text=self.display(self.cells)
-            )),
-            style="bg:#000000"
-        )
+        self.game_field = TextArea(text=self.display(self.cells))
 
         self.message_box = Frame(
             body=Window(
-                FormattedTextControl("You have collected " + str(self.keys_collected) + "/" + str(self.num_keys) + " keys"),
+                FormattedTextControl
+                (
+                    "You have collected " + str(self.keys_collected)+"/" + str(self.num_keys) + " keys"
+                ),
                 align=WindowAlign.CENTER
             ),
-            title= "Keys Collected:",
+            title="Keys Collected:",
             height=8
         )
 
@@ -83,6 +74,7 @@ class Maze:
         self.kb = KeyBindings()
 
         # Exit
+        @self.kb.add("q")
         @self.kb.add("c-c")
         def _(event: KeyPressEvent) -> None:
             event.app.exit()
@@ -92,7 +84,7 @@ class Maze:
         def go_left(event: KeyPressEvent) -> None:
             self.move('left')
             new_text = self.display(self.cells)
-            self.game_field.buffer.document = Document(text=new_text)
+            self.game_field.buffer.document = Document(text=new_text, cursor_position=len(new_text))
 
         @self.kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
@@ -119,7 +111,7 @@ class Maze:
             full_screen=True,
             refresh_interval=0.5
         )
-        
+
     def check(self, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
         :type entity: object, imported from entities.py
@@ -129,20 +121,19 @@ class Maze:
         player_pos = self.player_pos
         if direction == "left":
             user_point = self.rows[
-                         player_pos[0]:player_pos[0] + 1, player_pos[1] - 1:player_pos[1]
-                         ]
+                player_pos[0]:player_pos[0] + 1, player_pos[1] - 1:player_pos[1]]
+
         elif direction == "right":
             user_point = self.rows[player_pos[0]:player_pos[0] + 1,
-                                       player_pos[1] + 1:player_pos[1] + 1 + 1]
+                                   player_pos[1] + 1:player_pos[1] + 1 + 1]
 
         elif direction == "up":
             user_point = self.rows[
-                         player_pos[0] - 1:player_pos[0], player_pos[1] :player_pos[1] + 1
-                         ]
+                player_pos[0] - 1:player_pos[0], player_pos[1]:player_pos[1] + 1]
         else:
             # also could be written as elif direction == "down".
-            user_point = self.rows[player_pos[0]+ 1:player_pos[0] + 1 + 1,
-                                       player_pos[1]:player_pos[1] + 1]
+            user_point = self.rows[player_pos[0]+1:player_pos[0] + 1 + 1,
+                                   player_pos[1]:player_pos[1] + 1]
 
         if np.all(user_point == 0):
             # Checks if the point is empty, if yes it returns True if no then it returns False.
@@ -162,16 +153,16 @@ class Maze:
         wall = [["╬"+("══"*self.scale)] * w + ['╬'] for _ in range(h + 1)]
 
         # Go around the empty grid to make paths and walls for the maze
-        def explore(x:int, y:int) -> None:
+        def explore(x: int, y: int) -> None:
             seen[y][x] = 1
-            
+
             # Go over the neighboring cells in the maze and shuffle them
             neighbor = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
             shuffle(neighbor)
-           
+
             for (x1, y1) in neighbor:
                 # If the selected cell has been explored, ignore it
-                if seen[y1][x1]: 
+                if seen[y1][x1]:
                     continue
                 # Place a wall on the randomly selected side when moving horizontally
                 if x1 == x:
@@ -184,8 +175,10 @@ class Maze:
         # Start the exploration on a random position on the empty grid
         explore(randrange(w), randrange(h))
         # Make the ascii form of the maze and store it in self.cells
+
         def split(word):
             return [char for char in word]
+
         for (a, b) in zip(wall, cells):
             self.cells.append(split(''.join(a)))
             self.bare.append(split(''.join(a)))
@@ -206,17 +199,17 @@ class Maze:
                 else:
                     copy_cells[ind1][ind2] = 1
         return copy_cells
-        
+
     # Initialize locations for the player's spawn point and the objective
     def spawn_and_key(self) -> tuple:
         # Get the cells(ascii) and rows(num) of the maze
         wid: int = self.width*(self.scale*2)
         hei: int = self.height*(self.scale)
         cells = self.cells
-        rows = self.rows
-        # Get the horizontal and vertical range of spaces in the maze 
-        hor_range = range(1,wid-2)
-        ver_range = range(1,hei-2)
+        # rows = self.rows
+        # Get the horizontal and vertical range of spaces in the maze
+        hor_range = range(1, wid-2)
+        ver_range = range(1, hei-2)
         # Select a random row along the y axis for spawn and key
         y_pos_spawn = randint(1, ver_range[-1])
         # Randomly generate 3 key positions
@@ -226,10 +219,11 @@ class Maze:
         # Keep track of whether valid spawn or key positions have been found or not
         key_pos = False
         # Make function that finds a valid position
+
         def find_pos(a_range: range, y_pos: int):
             # Go over all the cells in the row to find a vacant position
             pos_found = False
-            while pos_found == False:
+            while pos_found is False:
                 pos = randint(1, a_range[-1])
                 # Exit the while loop if a valid position is found
                 if self.cells[y_pos][pos] == ' ':
@@ -241,19 +235,20 @@ class Maze:
         # Represent the spawn point with a 3 in the numpy array and a * in the ascii
         self.rows[spawn_pos[0]][spawn_pos[1]] = 2
         # Place the keys in their respective places
+
         def split(word):
             return [char for char in word]
-        empty_keys = []
+
         for key in y_pos_keys:
             key_pos = (key, find_pos(hor_range, key))
             # Add the positions to the list of key_positions to be returned by the method
             key_positions.append(key_pos)
             self.rows[key_pos[0]][key_pos[1]] = 1
             # Replace the row of cells where the key object is with the edited one with the keys
-            key_cells = list(''.join(cells[key]))  
+            key_cells = list(''.join(cells[key]))
             key_cells[key_pos[1]] = 'K'
             key_cells = ''.join(key_cells)
-            #key_cells = [key_cells[i:i+(self.scale*2)] for i in range(0, len(key_cells), (self.scale*2))]
+            # key_cells = [key_cells[i:i+(self.scale*2)] for i in range(0, len(key_cells), (self.scale*2))]
             key_cells = split(key_cells)
             self.cells[key] = key_cells
         # Represent the key and spawn points on the cells attribute
@@ -261,15 +256,15 @@ class Maze:
         spawn_cells[spawn_pos[1]] = '@'
         # Update the row and cells in the maze
         spawn_cells = ''.join(spawn_cells)
-        #spawn_cells = [spawn_cells[i:i+(self.scale*2)] for i in range(0, len(spawn_cells), (self.scale*2))]
+        # spawn_cells = [spawn_cells[i:i+(self.scale*2)] for i in range(0, len(spawn_cells), (self.scale*2))]
         spawn_cells = split(spawn_cells)
         self.cells[y_pos_spawn] = spawn_cells
         return (spawn_pos, key_positions)
-        
+
     # Returns the cells of the maze in np form
     def get_cells(self) -> np.ndarray:
-        return np.array([np.array(i) for i in self.cells], dtype = object)
-        
+        return np.array([np.array(i) for i in self.cells], dtype=object)
+
     # Display the maze
     def display(self, array: np.ndarray) -> str:
         empty = []
@@ -290,7 +285,7 @@ class Maze:
             self.cells[old_pos[0]][old_pos[1]] = ' '
             self.keys_collected += 1
         '''
-        Updates the position of the player on screen 
+        Updates the position of the player on screen
         and checks whether keys have been collected or not
         bare_copy = self.bare
         # Look for the player's position in the maze
@@ -336,9 +331,7 @@ class Maze:
             self.player_pos = player_pos
             self.update(old_pos, player_pos)
 
-        
 
 if __name__ == "__main__":
-    maze = Maze(10,7,5,2)
+    maze = Maze(10, 7, 5, scale=5)
     maze.application.run()
-    
