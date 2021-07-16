@@ -29,10 +29,11 @@ class Game:
         mp = Map()
         mp.map_initialise()
         [self.screen.insert_entity(entity, presence, screen) for entity, presence, screen in mp.map_1]
-        [self.screen.insert_entity(entity, presence, screen) for entity, presence, screen in mp.map_4]
+        [self.screen.insert_entity(entity, presence, screen) for entity, presence, screen in mp.map_2]
+        [self.screen.insert_entity(entity, presence, screen) for entity, presence, screen in mp.map_3]
         self.screen.insert_entity(self.player, True)
 
-        self.maze_trigger_coords = (54, 10)  # (x, y) of the bar door
+        self.maze_trigger_coords = (24, 17)  # (x, y) of the bar door
         self.hangman_trigger_coords = (59, 17)  # (x, y) of a tree
         self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
 
@@ -134,6 +135,16 @@ class Game:
                     FormattedTextControl(
                         text=PygmentsTokens(tokens)
                     ))
+            elif self.current_quest == 4:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(self.quests_generator.get_message(
+                                self.current_quest, -1, "a")), width=88, height=24),
+                        )
+                    )
+                ]
+
 
         @kb.add("d")
         @kb.add("right")
@@ -149,6 +160,15 @@ class Game:
                     FormattedTextControl(
                         text=PygmentsTokens(tokens)
                     ))
+            elif self.current_quest == 4:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(self.quests_generator.get_message(
+                                self.current_quest, -1, "d")), width=88, height=24),
+                        )
+                    )
+                ]
 
         @kb.add("w")
         @kb.add("up")
@@ -164,6 +184,15 @@ class Game:
                     FormattedTextControl(
                         text=PygmentsTokens(tokens)
                     ))
+            elif self.current_quest == 4:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(self.quests_generator.get_message(
+                                self.current_quest, -1, "w")), width=88, height=24),
+                        )
+                    )
+                ]
 
         @kb.add("s")
         @kb.add("down")
@@ -179,22 +208,30 @@ class Game:
                     FormattedTextControl(
                         text=PygmentsTokens(tokens)
                     ))
+            elif self.current_quest == 4:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(self.quests_generator.get_message(
+                                self.current_quest, -1, "s")), width=88, height=24),
+                        )
+                    )
+                ]
 
         # Action Key
         @kb.add("x")
         def action(event: KeyPressEvent) -> None:
             if (self.player.x, self.player.y) == self.maze_trigger_coords:
+
                 self.body.floats = [
                     Float(
                         Frame(
-                            Window(FormattedTextControl("Render the maze here"), width=88, height=24),
+                            Window(FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
+                                   width=88, height=24),
                         )
                     )
                 ]
-                self.message_box.body = Window(
-                    FormattedTextControl("Start the maze"),
-                    align=WindowAlign.CENTER
-                )
+                self.can_walk = False
             elif (self.player.x, self.player.y) == self.hangman_trigger_coords:
                 self.body.floats = [
                     Float(

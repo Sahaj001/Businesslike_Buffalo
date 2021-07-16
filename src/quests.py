@@ -1,5 +1,7 @@
 import json
 
+from maze import Maze
+
 
 class Quest:
     """Class to manage all the quests"""
@@ -9,6 +11,8 @@ class Quest:
         self.witch = True
         self.mcq = False
         self.progression = [-1, -1, -1, -1]
+
+        self.maze = Maze(13, 5, 5, scale=3)
 
         self.dialogues = {1: {}, 2: {},
                           3: {}, 4: {}}
@@ -29,6 +33,10 @@ class Quest:
                 return True
         if quest == 2:
             if self.progression[3] == 3:
+                self.reset()
+                return True
+        if quest == 3:
+            if self.progression[1] == 1:
                 self.reset()
                 return True
         return False
@@ -129,5 +137,30 @@ class Quest:
                 elif self.witch and self.progression[1] == 0:
                     self.progression[1] = 1
                     return self.dialogues[quest]["witch"][self.progression[1]]
-
+        elif quest == 4:
+            if option == 0:
+                if self.progression[0] == -1:
+                    self.progression[0] = 0
+                    return self.dialogues[quest]["guy"][self.progression[0]]
+                elif self.progression[0] == 0:
+                    return self.dialogues[quest]["guy"][self.progression[0]]
+            elif option in (2, 3):
+                if self.progression[0] in (0, 1):
+                    self.progression[0] = 1
+                    return self.dialogues[quest]["guy"][self.progression[0]]
+            elif option == 1:
+                self.progression[0] = 2
+                return self.dialogues[quest]["guy"][self.progression[0]]
+            elif alphabet == "w":
+                self.maze.move("up")
+                return self.maze.display(self.maze.cells)
+            elif alphabet == "a":
+                self.maze.move("left")
+                return self.maze.display(self.maze.cells)
+            elif alphabet == "s":
+                self.maze.move("down")
+                return self.maze.display(self.maze.cells)
+            elif alphabet == "d":
+                self.maze.move("right")
+                return self.maze.display(self.maze.cells)
         return ""
