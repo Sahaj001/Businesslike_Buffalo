@@ -112,3 +112,39 @@ class Fountain(Entity):
         """Creates a fountain based on the fountain ascii file in the ascii folder."""
         ascii_file = "fountain.txt"
         super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+
+
+class Grass(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "grass.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+
+
+class Lake(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "lake.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+
+
+class CampFire(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "lake.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
+
+
+class Tent(Entity):
+    """A derived Entity class."""
+
+    def __init__(self, x: int, y: int, which_screen: int, unique_name: str) -> None:
+        """Creates an entity based on the ascii file in the ascii folder."""
+        ascii_file = "tent.txt"
+        super().__init__(ascii_file=ascii_file, x=x, y=y, which_screen=which_screen, unique_name=unique_name)
