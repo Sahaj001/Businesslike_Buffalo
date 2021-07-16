@@ -9,8 +9,9 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
-from prompt_toolkit.widgets import Frame
-
+from prompt_toolkit.widgets import Frame, TextArea
+from prompt_toolkit.document import Document
+from prompt_toolkit.buffer import Buffer
 from random import shuffle, randrange, randint
 import typing
 from typing import Literal
@@ -41,6 +42,83 @@ class Maze:
         self.key_pos = spawn_and_keys[1]
         self.rows = self.make_lines()
         self.keys_collected = 0
+        self.text_area = TextArea
+        self.game_field = Frame(
+            body=Window(FormattedTextControl(
+                text=self.display(self.cells)
+            )),
+            style="bg:#000000"
+        )
+
+        self.message_box = Frame(
+            body=Window(
+                FormattedTextControl("You have collected " + str(self.keys_collected) + "/" + str(self.num_keys) + " keys"),
+                align=WindowAlign.CENTER
+            ),
+            title= "Keys Collected:",
+            height=8
+        )
+
+        self.container = HSplit(
+            [
+                self.game_field,
+                Window(height=1, char="-", style="class:line"),
+                self.message_box
+            ]
+        )
+
+        self.body = FloatContainer(
+            content=self.container,
+            floats=[
+                Float(
+                    Frame(
+                        Window(FormattedTextControl("Maze"), width=22, height=1),
+                    ),
+                    right=5,
+                    top=2,
+                )
+            ]
+        )
+
+        self.kb = KeyBindings()
+
+        # Exit
+        @self.kb.add("c-c")
+        def _(event: KeyPressEvent) -> None:
+            event.app.exit()
+
+        # Movement
+        @self.kb.add("left")
+        def go_left(event: KeyPressEvent) -> None:
+            self.move('left')
+            new_text = self.display(self.cells)
+            self.game_field.buffer.document = Document(text=new_text)
+
+        @self.kb.add("right")
+        def go_right(event: KeyPressEvent) -> None:
+            self.move('right')
+            new_text = self.display(self.cells)
+            self.game_field.buffer.document = Document(text=new_text)
+
+        @self.kb.add("up")
+        def go_up(event: KeyPressEvent) -> None:
+            self.move('up')
+            new_text = self.display(self.cells)
+            self.game_field.buffer.document = Document(text=new_text)
+
+        @self.kb.add("down")
+        def go_down(event: KeyPressEvent) -> None:
+            self.move('down')
+            new_text = self.display(self.cells)
+            self.game_field.buffer.document = Document(text=new_text)
+
+        self.application = Application(
+            layout=Layout(self.body),
+            key_bindings=self.kb,
+            mouse_support=True,
+            full_screen=True,
+            refresh_interval=0.5
+        )
         
     def check(self, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
@@ -193,21 +271,28 @@ class Maze:
         return np.array([np.array(i) for i in self.cells], dtype = object)
         
     # Display the maze
-    def display(self, array: np.ndarray) -> None:
+    def display(self, array: np.ndarray) -> str:
         empty = []
         # Join the sequence of characters into one list
         for row in array:
             new_row = ''.join(row)
             empty.append(new_row)
-        print('\n'.join(empty))
+        return str('\n'.join(empty))
 
-    def update(self) -> None:
+    def update(self, old_pos, player_pos) -> None:
+        cells = self.cells
+        new_pos = cells[player_pos[0]][player_pos[1]]
+        if new_pos == ' ':
+            self.cells[player_pos[0]][player_pos[1]] = '@'
+            self.cells[old_pos[0]][old_pos[1]] = ' '
+        elif new_pos == 'K':
+            self.cells[player_pos[0]][player_pos[1]] = '@'
+            self.cells[old_pos[0]][old_pos[1]] = ' '
+            self.keys_collected += 1
         '''
         Updates the position of the player on screen 
         and checks whether keys have been collected or not
-        '''
         bare_copy = self.bare
-        player_pos = list(self.player_pos)
         # Look for the player's position in the maze
         for ind1, row in enumerate(self.bare):
             for ind2, cell in enumerate(row):
@@ -218,12 +303,13 @@ class Maze:
                         if list(key) == player_pos:
                             self.keys_collected += 1
                             self.key_pos.remove(key)
-                            bare_copy[ind1,ind2] = '@'
+                            bare_copy[ind1][ind2] = '@'
                         else:
-                            bare_copy[ind1,ind2] = 'K'
+                            bare_copy[ind1][ind2] = 'K'
                     else:
-                        bare_copy[ind1,ind2] = '@'
+                        bare_copy[ind1][ind2] = '@'
         self.display(bare_copy)
+        '''
 
     def move(self, key: Literal["left", "right", "up", "down"]) -> None:
         """A function which toggles player movement.
@@ -232,58 +318,27 @@ class Maze:
         :return: Nothing.
         """
         player_pos = list(self.player_pos)
+        old_pos = list(self.player_pos)
         if key == 'left' and self.check('left'):
-            self.update()
-            self.player_pos[1] -= 1
+            player_pos[1] -= 1
+            self.player_pos = player_pos
+            self.update(old_pos, player_pos)
         elif key == 'right' and self.check('right'):
-            self.update()
-            self.player_pos[1] += 1
+            player_pos[1] += 1
+            self.player_pos = player_pos
+            self.update(old_pos, player_pos)
         elif key == 'up' and self.check('up'):
-            self.update()
-            self.player_pos[0] -= 1
+            player_pos[0] -= 1
+            self.player_pos = player_pos
+            self.update(old_pos, player_pos)
         elif key == 'down' and self.check('down'):
-            self.update()
-            self.player_pos[0] += 1
+            player_pos[0] += 1
+            self.player_pos = player_pos
+            self.update(old_pos, player_pos)
 
-    def get_key_bindings(self) -> KeyBindings:
-        """Add different key bindings to control the player/UI
-        :return: KeyBindings Object
-        """
-        kb = KeyBindings()
-
-        # Exit
-        @kb.add("c-c")
-        @kb.add("c-q")
-        def _(event: KeyPressEvent) -> None:
-            event.app.exit()
-
-        # Movement
-        @kb.add("a")
-        @kb.add("left")
-        def go_left(event: KeyPressEvent) -> None:
-            self.move('left')
-            self.update()
-
-        @kb.add("d")
-        @kb.add("right")
-        def go_right(event: KeyPressEvent) -> None:
-            self.move('right')
-            self.update()
-
-        @kb.add("w")
-        @kb.add("up")
-        def go_up(event: KeyPressEvent) -> None:
-            self.move('up')
-            self.update()
-
-        @kb.add("s")
-        @kb.add("down")
-        def go_down(event: KeyPressEvent) -> None:
-            self.move('down')
-            self.update()
+        
 
 if __name__ == "__main__":
     maze = Maze(10,7,5,2)
+    maze.application.run()
     
-    
-        
