@@ -15,7 +15,7 @@ from prompt_toolkit.widgets import Frame
 from map import Map
 from person import Person
 from screen import Screen
-
+from quests import Quest
 
 # noinspection PyTypeChecker
 class Game:
@@ -243,6 +243,10 @@ class Game:
                     top=2,
                 )
             ]
+
+        # @kb.add("j")
+        # def check_mcq_op1(event: KeyPressEvent) -> None:
+
 
         # Display the next Message
         @kb.add("n")

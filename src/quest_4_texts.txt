@@ -1,0 +1,1 @@
+{"guy": ["Welcome, may I ask who are you.\n", "So the witch has sent you? You want to escape this box, I will send you to a maze and you need to collect the keys in the maze and then after collecting them you just need to press \u2018x\u2019 to escape this box.\n"], "system": ["(J)Maze (K)Hemisphere (L)Cookies\n"]}

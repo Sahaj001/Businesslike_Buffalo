@@ -4,6 +4,7 @@ from entities import Bar, CampFire, Fountain, Grass, House, Lake, Tent, Tree, Wi
 class Map:
     def __init__(self):
         self.map_1 = []
+        self.map_2 = []
 
     def map_initialise(self):
         for grass_col in range(2):
@@ -24,3 +25,4 @@ class Map:
                 self.map_1.append((Tree(1 + tree_row * 5, 6 + (4 * tree_col), 5, f"Tree{tree_row}{tree_col}"), False))
         self.map_1.append((Lake(0, 18, 5, "Bottom Left lake"), True))
 
+        self.map_2.append((WitchHut(60, 10, 4, "Witch Hut"), False))
