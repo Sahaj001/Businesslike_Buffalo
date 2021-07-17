@@ -1,10 +1,10 @@
-from ctypes import alignment
 import re
 import time
-from prompt_toolkit import styles
+from ctypes import alignment
 
 # import play_sound
 import simpleaudio as sa
+from prompt_toolkit import styles
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.document import Document
@@ -15,11 +15,13 @@ from prompt_toolkit.key_binding.bindings.focus import (
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout import HSplit, Layout, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
+from prompt_toolkit.shortcuts import yes_no_dialog
 from prompt_toolkit.styles import Style, style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
-from prompt_toolkit.shortcuts import yes_no_dialog
+
 import bot
 import layout
+
 
 class GameScreen:
 
@@ -40,7 +42,7 @@ class GameScreen:
 
         self.button1 = Button(text= " Play ", width=10 ,
                               right_symbol= " ", left_symbol= " ", handler=self.do_exit)
-        self.button2 = Button(text=" Exit ", width=30 , 
+        self.button2 = Button(text=" Exit ", width=30 ,
                               right_symbol= " ", left_symbol= " ", handler=self.do_exit2)
         self.exit_button = Button("Exit", handler=self.do_exit)
         self.width = 35
@@ -62,7 +64,7 @@ class GameScreen:
         )
         self.true_exit = False
         self.container1 = TextArea(text=self.top_text, height=18, style="#ff0000 bg:#f0f0f0 bold")
-        
+
         # Key bindings
         self.kb = KeyBindings()
 
@@ -257,7 +259,7 @@ class GameScreen:
                            full_screen=True, key_bindings=self.kb, refresh_interval=1,
                            on_invalidate=self.on_invalidate)
 
-        audio_file_intro = sa.WaveObject.from_wave_file('../intro_music.wav')
+        audio_file_intro = sa.WaveObject.from_wave_file('../assets/audio/intro_music.wav')
         audio_file_intro.play()
         app1.run()
         self.launch = False
@@ -266,7 +268,7 @@ class GameScreen:
                           mouse_support=True, refresh_interval=0.2, on_invalidate=self.on_invalidate)
 
         app.run()
-        
+
         if self.true_exit == True:
             result = yes_no_dialog(
                 title='Exit the game',
@@ -276,10 +278,10 @@ class GameScreen:
                 return
             else:
                 app.run()
-        
+
         layoutScreen = layout.Game()
         layoutScreen.run()
-        
+
 
 
 if __name__ == "__main__":
