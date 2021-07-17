@@ -1,5 +1,8 @@
 import time
 
+from prompt_toolkit import styles
+from prompt_toolkit.shortcuts.dialogs import message_dialog
+from prompt_toolkit.formatted_text import HTML
 # import play_sound
 import simpleaudio as sa
 from prompt_toolkit.application import Application
@@ -34,8 +37,10 @@ class GameScreen:
         self.top_screen.render_table(self.bot_player)
 
         self.button1 = Button(text=" Play ", width=10,
-                              right_symbol=" ", left_symbol=" ", handler=self.do_exit)
-        self.button2 = Button(text=" Exit ", width=30,
+                              right_symbol=" ", left_symbol=" ", handler=self.do_exit1)
+        self.button2 = Button(text=" Help ", width=30,
+                              right_symbol=" ", left_symbol=" ", handler=self.do_exit3)
+        self.button3 = Button(text=" Exit ", width=30,
                               right_symbol=" ", left_symbol=" ", handler=self.do_exit2)
         self.exit_button = Button("Exit", handler=self.do_exit)
         self.width = 35
@@ -55,6 +60,8 @@ class GameScreen:
                 ("text-area focused", "bg:#ff0000"),
             ]
         )
+        self.gameplay = False
+        self.help = False
         self.true_exit = False
         self.container1 = TextArea(text=self.top_text, height=18, style="#ff0000 bg:#f0f0f0 bold")
 
@@ -145,27 +152,39 @@ class GameScreen:
 
         return mat
 
-    def do_exit2(self):
+    def do_exit1(self) -> None:
+        """Exits the app."""
+        self.gameplay = True
+        get_app().exit()
+
+    def do_exit2(self) -> None:
+        """Exits the app."""
         self.true_exit = True
         get_app().exit()
 
-    def do_exit(self):
+    def do_exit(self) -> None:
+        """Exits the app."""
         get_app().exit()
 
-    def read_text(self, filename: str):
-        """ reading the text file """
+    def do_exit3(self) -> None:
+        """Exits the app."""
+        self.help = True
+        get_app().exit()
+
+    def read_text(self, filename: str) -> str:
+        """Reading the text file."""
         with open(self.path + filename, 'r', encoding="utf-8") as file:
             data = file.read()
         return data
 
-    def top(self):
+    def top(self) -> Frame:
         """Top frame of the game screen"""
         return Frame(
             self.container1,
             height=20,
         )
 
-    def middle(self):
+    def middle(self) -> Frame:
         height = self.height
         return Frame(
             Box(
@@ -194,18 +213,18 @@ class GameScreen:
             )
         )
 
-    def bottom(self):
+    def bottom(self) -> Frame:
         return Frame(
             Box(
                 HSplit(
                     [
                         Label(text="Press `Tab` to move the focus."),
                         Box(
-                            body=HSplit([self.button1, self.button2],
+                            body=HSplit([self.button1, self.button2, self.button3],
                                         padding=1, padding_char='-'),
                             style="bg:#0f0947 #f03934",
                             width=35,
-                            height=5,
+                            height=7,
                         ),
                     ]
                 ),
@@ -213,7 +232,7 @@ class GameScreen:
             ),
         )
 
-    def start_screen(self):
+    def start_screen(self) -> Frame:
 
         return Frame(
             Box(
@@ -229,12 +248,12 @@ class GameScreen:
             ),
         )
 
-    def layout(self):
+    def layout(self) -> Layout:
         """The layout function calls the container object."""
         return Layout(self.start_screen(), focused_element=self.container1)
 
-    def run(self):
-        """Calls the run function from Application to lauch the window."""
+    def run(self) -> None:
+        """Calls the run function from Application to launch the window."""
         with open(f"{self.path}bot2.txt", 'r', encoding="utf-8") as file:
             bt2 = file.read()
         body = Window(
@@ -259,19 +278,36 @@ class GameScreen:
                           mouse_support=True, refresh_interval=0.2, on_invalidate=self.on_invalidate)
 
         app.run()
+        while True:
+            if self.true_exit:
+                result = yes_no_dialog(
+                    title='Exit the game',
+                    text='Do you want to confirm ?'
+                ).run()
+                if result:
+                    return
+                else:
+                    self.true_exit = False
+                    app.run()
 
-        if self.true_exit:
-            result = yes_no_dialog(
-                title='Exit the game',
-                text='Do you want to confirm ?'
-            ).run()
-            if result:
-                return
-            else:
+            elif self.help:
+                message_dialog(
+                    title='Help',
+                    text=HTML(
+                        '<style fg="ansired">Press - X interact with objects\nArrow keys or WASD to move the '
+                        'player\nAnd remember, don\'t you dare think outside the box (if you wanna live that '
+                        'is).\nJust politely follow the instructions, and you just might escape!</style>')
+                ).run()
+                self.help = False
                 app.run()
 
-        layoutscreen = layout.Game()
-        layoutscreen.run()
+            self.true_exit = False
+            self.help = False
+
+            if self.gameplay:
+                layout_screen = layout.Game()
+                layout_screen.run()
+                return
 
 
 if __name__ == "__main__":

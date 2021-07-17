@@ -300,7 +300,7 @@ class Game:
                 ]
                 return
 
-            if (self.player.x, self.player.y) in self.maze_trigger_coords:
+            if self.current_quest == 4 and (self.player.x, self.player.y) in self.maze_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
@@ -310,7 +310,7 @@ class Game:
                     )
                 ]
                 self.can_walk = False
-            elif (self.player.x, self.player.y) in self.hangman_trigger_coords:
+            elif self.current_quest == 2 and (self.player.x, self.player.y) in self.hangman_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
@@ -320,7 +320,7 @@ class Game:
                     )
                 ]
                 self.can_walk = False
-            elif (self.player.x, self.player.y) in self.puzzle_trigger_coords:
+            elif self.current_quest in (1, 2, 3) and (self.player.x, self.player.y) in self.puzzle_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
