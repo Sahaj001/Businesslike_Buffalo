@@ -2,7 +2,8 @@ from ctypes import alignment
 import re
 import time
 from prompt_toolkit import styles
-
+from prompt_toolkit.shortcuts.dialogs import message_dialog
+from prompt_toolkit.formatted_text import HTML
 # import play_sound
 import simpleaudio as sa
 from prompt_toolkit.application import Application
@@ -39,8 +40,10 @@ class GameScreen:
         self.top_screen.render_table(self.bot_player)
 
         self.button1 = Button(text= " Play ", width=10 ,
-                              right_symbol= " ", left_symbol= " ", handler=self.do_exit)
-        self.button2 = Button(text=" Exit ", width=30 , 
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit1)
+        self.button2 = Button(text=" Help ", width=30 , 
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit3)
+        self.button3 = Button(text=" Exit ", width=30 , 
                               right_symbol= " ", left_symbol= " ", handler=self.do_exit2)
         self.exit_button = Button("Exit", handler=self.do_exit)
         self.width = 35
@@ -60,6 +63,8 @@ class GameScreen:
                 ("text-area focused", "bg:#ff0000"),
             ]
         )
+        self.gameplay = False
+        self.help = False
         self.true_exit = False
         self.container1 = TextArea(text=self.top_text, height=18, style="#ff0000 bg:#f0f0f0 bold")
         
@@ -146,11 +151,19 @@ class GameScreen:
 
         return mat
 
+    def do_exit1(self):
+        self.gameplay = True
+        get_app().exit()
+   
     def do_exit2(self):
         self.true_exit = True
         get_app().exit()
 
     def do_exit(self):
+        get_app().exit()
+        
+    def do_exit3(self):
+        self.help = True
         get_app().exit()
 
     def read_text(self, filename: str):
@@ -203,11 +216,11 @@ class GameScreen:
                     [
                         Label(text="Press `Tab` to move the focus."),
                         Box(
-                            body=HSplit([self.button1, self.button2],
+                            body=HSplit([self.button1, self.button2, self.button3],
                                         padding=1, padding_char='-'),
                             style="bg:#0f0947 #f03934",
                             width=35,
-                            height=5,
+                            height=7,
                         ),
                     ]
                 ),
@@ -264,21 +277,35 @@ class GameScreen:
 
         app = Application(layout=self.layout(), full_screen=True, key_bindings=self.kb,
                           mouse_support=True, refresh_interval=0.2, on_invalidate=self.on_invalidate)
-
+        
         app.run()
-        
-        if self.true_exit == True:
-            result = yes_no_dialog(
-                title='Exit the game',
-                text = 'Do you want to confirm ?'
-            ).run()
-            if result == True:
-                return
-            else:
+        while(True):
+            if self.true_exit == True:
+                result = yes_no_dialog(
+                    title='Exit the game',
+                    text = 'Do you want to confirm ?'
+                ).run()
+                if result == True:
+                    return
+                else:
+                    self.true_exit == False
+                    app.run()
+                    
+            elif self.help == True:
+                message_dialog(
+                    title='Help',
+                    text=HTML('<style fg="ansired">Press - X interact with objects\nArrow keys or WASD to move the player\nAnd remember, don\'t you dare think outside the box (if you wanna live that is).\nJust politely follow the instructions, and you just might escape!</style>')
+                ).run()
+                self.help == False
                 app.run()
-        
-        layoutScreen = layout.Game()
-        layoutScreen.run()
+            
+            self.true_exit == False
+            self.help == False
+            
+            if self.gameplay == True:
+                layoutScreen = layout.Game()
+                layoutScreen.run()
+                return
         
 
 
