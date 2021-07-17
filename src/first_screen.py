@@ -27,7 +27,7 @@ class GameScreen:
         self.path = "../assets/ascii/text/"
         self.launch = True
         self.bot_player = bot.Bot(10, 3)
-        self.top_screen = bot.GameScreen(20, 50, [])
+        self.top_screen = bot.GameScreen(20, 56, [])
 
         self.top_screen.render_table(self.bot_player)
 
@@ -122,7 +122,7 @@ class GameScreen:
         new_text = self.top_screen.render_table(self.bot_player)
 
         self.container1.buffer.document = Document(
-            text=new_text, cursor_position=len(new_text)
+            text=new_text
         )
 
     def to_str(self):
