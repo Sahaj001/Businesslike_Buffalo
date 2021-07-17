@@ -1,4 +1,14 @@
+certifi==2021.5.30
+charset-normalizer==2.0.3
+click==8.0.1
+gTTS==2.2.3
+idna==3.2
 numpy==1.21.0
+playsound==1.2.2
 prompt-toolkit==3.0.19
 Pygments==2.9.0
+requests==2.26.0
+simpleaudio==1.0.4
+six==1.16.0
+urllib3==1.26.6
 wcwidth==0.2.5
