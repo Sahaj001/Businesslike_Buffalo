@@ -8,7 +8,7 @@
 		"Wrong answer! Try again\n"
 	],
 	"witch": [
-		"Oh boy, thanks for saving my life you might want to go and meet a guy at the bar and tell him the word \"maze\"\n\nPress 'q' to exit.",
+		"Oh boy, thanks for saving my life.\nYou might want to go and meet a guy at the bar and tell him the word \"maze\"\n\nPress 'q' to exit.",
 		"Go and meet a guy at the bar and tell him the word \"maze\""
 	]
 }

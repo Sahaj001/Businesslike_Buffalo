@@ -336,7 +336,7 @@ class Game:
         @kb.add("q")
         def quit_minigame(event: KeyPressEvent) -> None:
             self.message_box.body = Window(
-                FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
+                FormattedTextControl(self.quests_generator.get_message(self.current_quest, -2)),
                 align=WindowAlign.CENTER
             )
             if self.quests_generator.is_complete(self.current_quest):
