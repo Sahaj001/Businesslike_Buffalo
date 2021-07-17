@@ -1,10 +1,11 @@
+import re
 import time
-
-from prompt_toolkit.styles import Style
+from prompt_toolkit import styles
 from prompt_toolkit.shortcuts.dialogs import message_dialog
 from prompt_toolkit.formatted_text import HTML
 # import play_sound
 import simpleaudio as sa
+from prompt_toolkit import styles
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.document import Document
@@ -16,6 +17,7 @@ from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout import HSplit, Layout, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.shortcuts import yes_no_dialog
+from prompt_toolkit.styles import Style, style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
 
 import bot
@@ -28,6 +30,7 @@ class GameScreen:
 
     def __init__(self) -> None:
         """Initialize the class with attributes like bot and screen."""
+
         # game 1
         self.path = "../assets/ascii/text/"
         self.launch = True
@@ -36,12 +39,12 @@ class GameScreen:
 
         self.top_screen.render_table(self.bot_player)
 
-        self.button1 = Button(text=" Play ", width=10,
-                              right_symbol=" ", left_symbol=" ", handler=self.do_exit1)
-        self.button2 = Button(text=" Help ", width=30,
-                              right_symbol=" ", left_symbol=" ", handler=self.do_exit3)
-        self.button3 = Button(text=" Exit ", width=30,
-                              right_symbol=" ", left_symbol=" ", handler=self.do_exit2)
+        self.button1 = Button(text= " Play ", width=10 ,
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit1)
+        self.button2 = Button(text=" Help ", width=30 , 
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit3)
+        self.button3 = Button(text=" Exit ", width=30 , 
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit2)
         self.exit_button = Button("Exit", handler=self.do_exit)
         self.width = 35
         self.height = 10
@@ -77,8 +80,7 @@ class GameScreen:
         self.kb.add("s-tab")(focus_previous)
 
         @self.kb.add("left")
-        def _(event: KeyPressEvent) -> None:
-            """Moves the bot left."""
+        def _(event: KeyPressEvent):
             self.bot_player.new_pos(self.bot_player.x, self.bot_player.y - 1)
             new_text = self.top_screen.render_table(self.bot_player)
             self.container1.buffer.document = Document(
@@ -86,8 +88,7 @@ class GameScreen:
             )
 
         @self.kb.add("right")
-        def _(event: KeyPressEvent) -> None:
-            """Moves the bot right."""
+        def _(event: KeyPressEvent):
             self.bot_player.new_pos(self.bot_player.x, self.bot_player.y + 1)
             new_text = self.top_screen.render_table(self.bot_player)
 
@@ -96,8 +97,7 @@ class GameScreen:
             )
 
         @self.kb.add("up")
-        def _(event: KeyPressEvent) -> None:
-            """Moves the bot up."""
+        def _(event: KeyPressEvent):
             self.bot_player.new_pos(self.bot_player.x - 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
@@ -106,8 +106,7 @@ class GameScreen:
             )
 
         @self.kb.add("down")
-        def _(event: KeyPressEvent) -> None:
-            """Moves the bot down."""
+        def _(event: KeyPressEvent):
             self.bot_player.new_pos(self.bot_player.x + 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
@@ -115,8 +114,8 @@ class GameScreen:
                 text=new_text, cursor_position=len(new_text)
             )
 
-    def on_invalidate(self, event) -> None:
-        """Using Invalidate to run the animation."""
+    def on_invalidate(self, event):
+        """ using Invalidate to run the animatation """
         if self.launch is True:
             time.sleep(4)
             self.do_exit()
@@ -140,7 +139,7 @@ class GameScreen:
             text=new_text
         )
 
-    def to_str(self) -> str:
+    def to_str(self):
         """ Function to return the table object as string"""
 
         mat = ""
@@ -152,39 +151,35 @@ class GameScreen:
 
         return mat
 
-    def do_exit1(self) -> None:
-        """Exits the app."""
+    def do_exit1(self):
         self.gameplay = True
         get_app().exit()
-
-    def do_exit2(self) -> None:
-        """Exits the app."""
+   
+    def do_exit2(self):
         self.true_exit = True
         get_app().exit()
 
-    def do_exit(self) -> None:
-        """Exits the app."""
+    def do_exit(self):
         get_app().exit()
-
-    def do_exit3(self) -> None:
-        """Exits the app."""
+        
+    def do_exit3(self):
         self.help = True
         get_app().exit()
 
-    def read_text(self, filename: str) -> str:
-        """Reading the text file."""
+    def read_text(self, filename: str):
+        """ reading the text file """
         with open(self.path + filename, 'r', encoding="utf-8") as file:
             data = file.read()
         return data
 
-    def top(self) -> Frame:
+    def top(self):
         """Top frame of the game screen"""
         return Frame(
             self.container1,
             height=20,
         )
 
-    def middle(self) -> Frame:
+    def middle(self):
         height = self.height
         return Frame(
             Box(
@@ -213,7 +208,7 @@ class GameScreen:
             )
         )
 
-    def bottom(self) -> Frame:
+    def bottom(self):
         return Frame(
             Box(
                 HSplit(
@@ -232,7 +227,7 @@ class GameScreen:
             ),
         )
 
-    def start_screen(self) -> Frame:
+    def start_screen(self):
 
         return Frame(
             Box(
@@ -248,12 +243,17 @@ class GameScreen:
             ),
         )
 
-    def layout(self) -> Layout:
-        """The layout function calls the container object."""
+    def layout(self):
+        """
+        The layout function calls the container object
+        """
         return Layout(self.start_screen(), focused_element=self.container1)
 
-    def run(self) -> None:
-        """Calls the run function from Application to launch the window."""
+    def run(self):
+        """
+        Calls the run function from Application to lauch the window
+        """
+
         with open(f"{self.path}bot2.txt", 'r', encoding="utf-8") as file:
             bt2 = file.read()
         body = Window(
@@ -276,38 +276,36 @@ class GameScreen:
 
         app = Application(layout=self.layout(), full_screen=True, key_bindings=self.kb,
                           mouse_support=True, refresh_interval=0.2, on_invalidate=self.on_invalidate)
-
+        
         app.run()
-        while True:
-            if self.true_exit:
+        while(True):
+            if self.true_exit == True:
                 result = yes_no_dialog(
                     title='Exit the game',
-                    text='Do you want to confirm ?'
+                    text = 'Do you want to confirm ?'
                 ).run()
-                if result:
+                if result == True:
                     return
                 else:
-                    self.true_exit = False
+                    self.true_exit == False
                     app.run()
-
-            elif self.help:
+                    
+            elif self.help == True:
                 message_dialog(
                     title='Help',
-                    text=HTML(
-                        '<style fg="ansired">Press - X interact with objects\nArrow keys or WASD to move the '
-                        'player\nAnd remember, don\'t you dare think outside the box (if you wanna live that '
-                        'is).\nJust politely follow the instructions, and you just might escape!</style>')
+                    text=HTML('<style fg="ansired">Press - X interact with objects\nArrow keys or WASD to move the player\nAnd remember, don\'t you dare think outside the box (if you wanna live that is).\nJust politely follow the instructions, and you just might escape!</style>')
                 ).run()
-                self.help = False
+                self.help == False
                 app.run()
-
-            self.true_exit = False
-            self.help = False
-
-            if self.gameplay:
-                layout_screen = layout.Game()
-                layout_screen.run()
+            
+            self.true_exit == False
+            self.help == False
+            
+            if self.gameplay == True:
+                layoutScreen = layout.Game()
+                layoutScreen.run()
                 return
+        
 
 
 if __name__ == "__main__":
