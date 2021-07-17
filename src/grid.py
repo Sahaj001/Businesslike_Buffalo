@@ -25,7 +25,10 @@ class Grid:
         self.grid_entities = []
 
     def __repr__(self) -> str:
-        mutated_grid = np.c_[self.grid, np.full((self.height + 1, 1), "\n")]
+        # Replacing null bytes with whitespace
+        grid = self.grid
+        grid[grid == "\u2800"] = " "
+        mutated_grid = np.c_[grid, np.full((self.height + 1, 1), "\n")]
         return "".join(mutated_grid.ravel())
 
     def add_entity(self, entity: entities.Entity, presence: bool = False) -> None:
