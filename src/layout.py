@@ -25,7 +25,8 @@ class Game:
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
-        self.player = Person(88, 20, 5, "Bob")
+        self.player = Person(88, 20, 5, "Bob")  
+
         mp = Map()
         mp.map_initialise()
         [self.screen.insert_entity(entity, presence, screen) for entity, presence, screen in mp.map_1]
@@ -44,17 +45,17 @@ class Game:
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
         self.style = Style.from_dict({
             "pygments.player": "#0000ff",
-            "pygments.leaves": "#1FB28D",
-            "pygments.trunk": "#5F2311",
+            "pygments.leaves": "#00832b",
+            "pygments.trunk": "#702806",
             "pygments.bar": "bg:#A55D47 #000000",
             "pygments.fountain": "#ff7a7a",
             "pygments.water": "#57CDFF",
             "pygments.wall.inescapable": "bg:#ed0000",
-            "pygments.grass": "#53D578",
-            "pygments.campfire": "#964b00",
-            "pygments.fire": "#FE7B46",
+            "pygments.grass": "#00fd51",
+            "pygments.campfire": "#702806",
+            "pygments.fire": "#ff9157",
             "pygments.lake": "#00d8ff",
-            "pygments.tent": "#FFE9C2",
+            "pygments.tent": "#ffba36",
             "pygments.house.wall": "#AA3800",
             "pygments.house.roof": "#AAABAA"
         })
