@@ -1,3 +1,4 @@
+from ctypes import sizeof
 import numpy as np
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts.utils import print_formatted_text
@@ -14,12 +15,17 @@ class Hangman:
         :param chance: the number of chances left for the player to play the game
         """
         self.draw = 1
-        self.word = word
-        self.size = len(word)
-        self.chance = chance
-        self.letter_set = set()
-        self.path = '/Users/sahajsingh/Desktop/python_code_jam/Businesslike_Buffalo/assets/ascii/'
-        
+        self.word = word        # the original word
+        self.size = len(word)   # length of the original word
+        self.chance = chance    # number of chances for the player
+        self.letter_set = self.word # set of the letters in the orignal word
+        self.gussed_letter_set = ""  # set of already gussed letters
+        self.print_word = "" # word with letter encoded
+        for i in self.word:
+            self.print_word += '*'
+        self.path = '../assets/ascii/' 
+        self.words = ""     # narrator's word
+
         with open(self.path+ "hangman.txt", "r", encoding="utf8") as file:
             ascii_lst = file.read().rstrip().splitlines()
 
@@ -37,7 +43,7 @@ class Hangman:
         ascii_man = [line for line in ascii_man]
         self.man = np.array([list(line) for line in ascii_man])
         
-    def to_str(self):
+    def hangman_str(self):
         """ Function to return the table object as string"""
         mat = ""
         for i in self.rendered_table:
@@ -51,43 +57,56 @@ class Hangman:
         with open(filename, 'r') as file:
             data = file.read()
         return data
-
-    def make_set(self)->set():
-        for i in self.word:
-            self.letter_set.add(i)
-
-    def letter_guessed(self, letter) -> bool:
-        self.chance = self.chance - 1
-        for i in self.letter_set:
-            if i == letter:
-                self.letter_set.remove(letter)
-                return True
-        return False
     
-    def draw_hangman(self):
+    def extend_hangman(self):
+        """
+        Extend the hangman drawing when the player gusses a wrong letter
+        """
         x = int(self.draw/3)%3
         y = int(self.draw%3)
         self.draw += 1
+        self.chance -= 1
         print(x, " ", y)
         self.rendered_table[3+x, 13+y] = self.man[x, y]
-        print(self.to_str())
 
-            
+    def input_letter(self, val):
+        if val in self.gussed_letter_set:
+            self.words = "Letter", val, " already guessed, try a different one"
+        
+        elif val in self.letter_set:
+            self.gussed_letter_set += val
+            codeword = ""
+            for i in self.word:
+                if i in self.gussed_letter_set:
+                    codeword += i
+                else:
+                    codeword += '*'
+            self.print_word = codeword
+            self.words = "lucky, you guessed correctly !!"
+
+        else:
+            self.extend_hangman()
+            self.words = "opps, there's no letter ", val ," in the word"
+
+    def game_result(self):
+        print(len(self.letter_set))
+        if game.chance <= 0 and len(self.letter_set) > 0:
+            return "You Lost the Game, Better Luck Next time gussinng."
+        else:
+            return "Hurray You won the game"
+
 if __name__ == "__main__":
     
     game = Hangman("helloWorld",9)
-    game.make_set()
-    print(game.man)
+    
     while game.chance > 0:
-        print(game.chance)
+        print("\n\n\t\t ######### Number of chances left : ", game.chance)
         val = input("Guess the char: ")
-        if game.letter_guessed(val) == True:
-            print(game.to_str())
-            print_formatted_text("lucky, you guessed correctly !!")
+        game.input_letter(val)
+        print(game.hangman_str())
+        print("the decoded letters are: ", game.print_word)
+        print(game.words)
 
-        else:
-            game.draw_hangman()
-            print_formatted_text("opps, there's no letter ", val," in the word")
+    print(game.game_result())
             
-    if game.chance == 0:
-        print("You Lost the Game, Better Luck Next time gussinng.")
+    
