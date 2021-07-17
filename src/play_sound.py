@@ -12,7 +12,7 @@ class PlayAudio:
 
         self.wave_obj = sa.WaveObject.from_wave_file(self.path)
 
-    def play(self):
+    def play(self) -> None:
         """A function used to shorten the original function."""
         play_obj = self.wave_obj.play()
         play_obj.wait_done()

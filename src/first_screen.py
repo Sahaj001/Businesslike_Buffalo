@@ -1,10 +1,7 @@
-import re
 import time
-from ctypes import alignment
 
 # import play_sound
 import simpleaudio as sa
-from prompt_toolkit import styles
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.document import Document
@@ -16,7 +13,6 @@ from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout import HSplit, Layout, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.shortcuts import yes_no_dialog
-from prompt_toolkit.styles import Style, style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
 
 import bot
@@ -29,7 +25,6 @@ class GameScreen:
 
     def __init__(self) -> None:
         """Initialize the class with attributes like bot and screen."""
-
         # game 1
         self.path = "../assets/ascii/text/"
         self.launch = True
@@ -75,7 +70,8 @@ class GameScreen:
         self.kb.add("s-tab")(focus_previous)
 
         @self.kb.add("left")
-        def _(event: KeyPressEvent):
+        def _(event: KeyPressEvent) -> None:
+            """Moves the bot left."""
             self.bot_player.new_pos(self.bot_player.x, self.bot_player.y - 1)
             new_text = self.top_screen.render_table(self.bot_player)
             self.container1.buffer.document = Document(
@@ -83,7 +79,8 @@ class GameScreen:
             )
 
         @self.kb.add("right")
-        def _(event: KeyPressEvent):
+        def _(event: KeyPressEvent) -> None:
+            """Moves the bot right."""
             self.bot_player.new_pos(self.bot_player.x, self.bot_player.y + 1)
             new_text = self.top_screen.render_table(self.bot_player)
 
@@ -92,7 +89,8 @@ class GameScreen:
             )
 
         @self.kb.add("up")
-        def _(event: KeyPressEvent):
+        def _(event: KeyPressEvent) -> None:
+            """Moves the bot up."""
             self.bot_player.new_pos(self.bot_player.x - 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
@@ -101,7 +99,8 @@ class GameScreen:
             )
 
         @self.kb.add("down")
-        def _(event: KeyPressEvent):
+        def _(event: KeyPressEvent) -> None:
+            """Moves the bot down."""
             self.bot_player.new_pos(self.bot_player.x + 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
@@ -109,8 +108,8 @@ class GameScreen:
                 text=new_text, cursor_position=len(new_text)
             )
 
-    def on_invalidate(self, event):
-        """ using Invalidate to run the animatation """
+    def on_invalidate(self, event) -> None:
+        """Using Invalidate to run the animation."""
         if self.launch is True:
             time.sleep(4)
             self.do_exit()
@@ -134,7 +133,7 @@ class GameScreen:
             text=new_text
         )
 
-    def to_str(self):
+    def to_str(self) -> str:
         """ Function to return the table object as string"""
 
         mat = ""
@@ -231,16 +230,11 @@ class GameScreen:
         )
 
     def layout(self):
-        """
-        The layout function calls the container object
-        """
+        """The layout function calls the container object."""
         return Layout(self.start_screen(), focused_element=self.container1)
 
     def run(self):
-        """
-        Calls the run function from Application to lauch the window
-        """
-
+        """Calls the run function from Application to lauch the window."""
         with open(f"{self.path}bot2.txt", 'r', encoding="utf-8") as file:
             bt2 = file.read()
         body = Window(

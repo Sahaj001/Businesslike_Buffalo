@@ -40,8 +40,8 @@ class Hangman:
         ascii_man = [line for line in ascii_man]
         self.man = np.array([list(line) for line in ascii_man])
 
-    def hangman_str(self):
-        """Function to return the table object as string."""
+    def hangman_str(self) -> str:
+        """Function to return the table object as string. bot.py->print_st same docs apply here."""
         mat = ""
         for i in self.rendered_table:
             for j in i:
@@ -63,7 +63,8 @@ class Hangman:
         self.chance -= 1
         self.rendered_table[3 + x, 13 + y] = self.man[x, y]
 
-    def input_letter(self, val):
+    def input_letter(self, val: str) -> None:
+        """The character that user input-ed."""
         if val in self.gussed_letter_set:
             self.words = "Letter", val, " already guessed, try a different one"
 
