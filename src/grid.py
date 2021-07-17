@@ -27,7 +27,7 @@ class Grid:
     def __repr__(self) -> str:
         # Replacing null bytes with whitespace
         grid = self.grid
-        grid[grid == "\x32"] = " "
+        grid[grid == "\u2800"] = " "
         mutated_grid = np.c_[grid, np.full((self.height + 1, 1), "\n")]
         return "".join(mutated_grid.ravel())
 
