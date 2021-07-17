@@ -1,4 +1,7 @@
+from ctypes import alignment
+import re
 import time
+from prompt_toolkit import styles
 
 # import play_sound
 import simpleaudio as sa
@@ -12,11 +15,11 @@ from prompt_toolkit.key_binding.bindings.focus import (
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout import HSplit, Layout, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
-from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import Style, style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
-
+from prompt_toolkit.shortcuts import yes_no_dialog
 import bot
-
+import layout
 
 class GameScreen:
 
@@ -35,9 +38,10 @@ class GameScreen:
 
         self.top_screen.render_table(self.bot_player)
 
-        self.button1 = Button(text="1. Play Maze   : ", width=30)
-        self.button2 = Button(text="2. Play Riddle : ", width=30)
-        self.button3 = Button(text="3. Play Puzzle : ", width=30)
+        self.button1 = Button(text= " Play ", width=10 ,
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit)
+        self.button2 = Button(text=" Exit ", width=30 , 
+                              right_symbol= " ", left_symbol= " ", handler=self.do_exit2)
         self.exit_button = Button("Exit", handler=self.do_exit)
         self.width = 35
         self.height = 10
@@ -56,15 +60,16 @@ class GameScreen:
                 ("text-area focused", "bg:#ff0000"),
             ]
         )
+        self.true_exit = False
         self.container1 = TextArea(text=self.top_text, height=18, style="#ff0000 bg:#f0f0f0 bold")
-
+        
         # Key bindings
         self.kb = KeyBindings()
 
         @self.kb.add("q")
         def _exit(event):
             "Exit the window."
-            self.do_exit()
+            get_app().exit()
 
         self.kb.add("tab")(focus_next)
         self.kb.add("s-tab")(focus_previous)
@@ -141,6 +146,10 @@ class GameScreen:
 
         return mat
 
+    def do_exit2(self):
+        self.true_exit = True
+        get_app().exit()
+
     def do_exit(self):
         get_app().exit()
 
@@ -169,28 +178,9 @@ class GameScreen:
                                 Box(
                                     Frame(
                                         TextArea(
-                                            text=self.read_text('maze.txt'),
-                                            width=width,
-                                            height=height,
-                                        )
-                                    ),
-                                    style="bg:#00729c",
-                                ),
-                                Box(
-                                    Frame(
-                                        TextArea(
-                                            text=self.read_text('riddle.txt'),
-                                            width=width,
-                                            height=height,
-                                        )
-                                    ),
-                                    style="bg:#00729c",
-                                ),
-                                Box(
-                                    Frame(
-                                        TextArea(
-                                            text=self.read_text('puzzle.txt'),
-                                            width=width,
+                                            text=self.read_text('boxedIn.txt'),
+                                            style="#f03934 bg:#320420",
+                                            width=88,
                                             height=height,
                                         )
                                     ),
@@ -213,10 +203,11 @@ class GameScreen:
                     [
                         Label(text="Press `Tab` to move the focus."),
                         Box(
-                            body=HSplit([self.button1, self.button2, self.button3, self.exit_button],
-                                        padding=1, padding_char='.'),
-                            style="bg:#0f0947",
+                            body=HSplit([self.button1, self.button2],
+                                        padding=1, padding_char='-'),
+                            style="bg:#0f0947 #f03934",
                             width=35,
+                            height=5,
                         ),
                     ]
                 ),
@@ -229,13 +220,12 @@ class GameScreen:
         return Frame(
             Box(
                 HSplit([
-                    Label(text="Select the game to play : ", style="#b30295"),
                     self.top(),
                     self.middle(),
                     self.bottom()
                 ],
-                    padding_char='~',
-                    padding=1
+                    padding=1,
+                    align=WindowAlign.CENTER
                 ),
                 style="bg:#00bbff"
             ),
@@ -276,6 +266,20 @@ class GameScreen:
                           mouse_support=True, refresh_interval=0.2, on_invalidate=self.on_invalidate)
 
         app.run()
+        
+        if self.true_exit == True:
+            result = yes_no_dialog(
+                title='Exit the game',
+                text = 'Do you want to confirm ?'
+            ).run()
+            if result == True:
+                return
+            else:
+                app.run()
+        
+        layoutScreen = layout.Game()
+        layoutScreen.run()
+        
 
 
 if __name__ == "__main__":
