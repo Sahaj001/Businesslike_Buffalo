@@ -25,7 +25,7 @@ class Game:
     def __init__(self):
         """Initializes the Layout"""
         self.screen = Screen(88, 24)
-        self.player = Person(88, 20, 5, "Bob")  
+        self.player = Person(48, 10, 5, "Bob")
 
         mp = Map()
         mp.map_initialise()
