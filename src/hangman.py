@@ -82,6 +82,7 @@ if __name__ == "__main__":
         print(game.chance)
         val = input("Guess the char: ")
         if game.letter_guessed(val) == True:
+            print(game.to_str())
             print_formatted_text("lucky, you guessed correctly !!")
 
         else:
