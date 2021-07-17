@@ -14,6 +14,8 @@ from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
 import play_sound
+import time
+import playsound
 
 class Maze:
     '''
@@ -69,6 +71,7 @@ class Maze:
         @self.kb.add("q")
         @self.kb.add("c-c")
         def _(event: KeyPressEvent) -> None:
+            time.sleep(1)
             event.app.exit()
 
         # Movement
@@ -132,20 +135,20 @@ class Maze:
 
         if object == " ":
             # play walk.mp3
-            audio = play_sound.PlayAudio(path='../boxedin_walk.wav')
+            playsound.playsound('../boxedin_walk.mp3', False)
             # audio.play()
         elif object == "K":
             # play key.mp3
-            audio = play_sound.PlayAudio(path='../boxedin_collect.wav')
-            audio.play()
+            playsound.playsound('../boxedin_collect.mp3', False)
+            # audio.play()
         elif object == "O":
             # play game_over.mp3
-            audio = play_sound.PlayAudio(path='../boxedin_levelcomplete.wav')
-            audio.play()
-        else:
+            playsound.playsound('../boxedin_levelcomplete.mp3', False)
+            # audio.play()
+        elif object == "W":
             # play wall.mp3
-            audio = play_sound.PlayAudio(path='../boxedin_wall.wav')
-            audio.play()
+            playsound.playsound('../boxedin_wall.mp3', False)
+            # audio.play()
 
     def check(self, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
@@ -313,14 +316,21 @@ class Maze:
     def update(self, old_pos, player_pos) -> None:
         cells = self.cells
         new_pos = cells[player_pos[0]][player_pos[1]]
-        self.sfx(object=new_pos)
         if new_pos == ' ':
+            self.sfx(object=new_pos)
             self.cells[player_pos[0]][player_pos[1]] = '@'
             self.cells[old_pos[0]][old_pos[1]] = ' '
         elif new_pos == 'K':
+            self.sfx(object="K")
             self.cells[player_pos[0]][player_pos[1]] = '@'
             self.cells[old_pos[0]][old_pos[1]] = ' '
             self.keys_collected += 1
+        else:
+            self.sfx(object="W")
+
+        if self.keys_collected == self.num_keys:
+            self.sfx(object="O")
+
         '''
         Updates the position of the player on screen
         and checks whether keys have been collected or not
