@@ -20,7 +20,7 @@ class Bot:
         self.path = "../assets/ascii/text/"
         self.ascii_bot, self.height, self.width = self.read_text(botfile)
 
-    def read_text(self, filename: str) -> (np.ndarray, int, int):
+    def read_text(self, filename: str):
         """Reads bot.txt.
 
         :param filename: The filename it needs to read.
