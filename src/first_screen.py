@@ -34,7 +34,7 @@ class GameScreen:
         self.path = "../assets/ascii/text/"
         self.launch = True
         self.bot_player = bot.Bot(10, 3)
-        self.top_screen = bot.GameScreen(20, 56, [])
+        self.top_screen = bot.StartScreen(20, 56)
 
         self.top_screen.render_table(self.bot_player)
 

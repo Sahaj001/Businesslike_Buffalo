@@ -14,7 +14,6 @@ class Bot:
         :param y : y position of bot in Grid
         :facing : the direction in which bot is facing [left, right]
         """
-
         self.x = x
         self.y = y
         self.facing = facing
@@ -35,7 +34,7 @@ class Bot:
         data = np.array([list(line) for line in data])
         return data, height, width
 
-    def new_pos(self, new_x: int, new_y: int):
+    def new_pos(self, new_x: int, new_y: int) -> None:
         """Insert new position of the bot.
 
         :param new_x: new x position
@@ -44,18 +43,20 @@ class Bot:
         self.x = new_x
         self.y = new_y
 
-    def print_st(self, table):
+    def print_st(self):
+        """Returns the character matrix of the bot."""
+        # it is equivalent to doing np.c_(self.table, "\n").ravel().tolist()
         st = ""
-        for i in table:
+        for i in self.table:
             for j in i:
                 st += j
             st += '\n'
         return st
 
 
-class GameScreen:
+class StartScreen:
 
-    def __init__(self, height: int, width: int, table) -> None:
+    def __init__(self, height: int, width: int) -> None:
         """Screen at the start of the game.
 
         :param height : height of the Screen
@@ -67,8 +68,8 @@ class GameScreen:
         self.width = width
         self.table = np.full((self.height, self.width), " ")
 
-    def render_table(self, bot: Bot):
-        """"Render the table screen for bot.
+    def render_table(self, bot: Bot) -> None:
+        """Render the table screen for bot.
 
         :param bot : Bot class
         """
@@ -76,7 +77,7 @@ class GameScreen:
         self.table[bot.x:bot.x + bot.height, bot.y:bot.y + bot.width - 1] = bot.ascii_bot
         return self.print_st(self.table)
 
-    def delete_bot(self, bot: Bot):
+    def delete_bot(self, bot: Bot) -> None:
         """Deleting the previous position of the bot.
 
         :param bot: Bot class
