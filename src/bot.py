@@ -45,7 +45,7 @@ class Bot:
 
 
 class StartScreen:
-        """The start screen which displays the bot."""
+    """The start screen which displays the bot."""
 
     def __init__(self, height: int, width: int) -> None:
         """Screen at the start of the game.

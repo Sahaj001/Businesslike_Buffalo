@@ -1,21 +1,14 @@
-"""
-This is class for playing diff. sounds in our game
-"""
+"""This is class for playing diff. sounds in our game."""
 import simpleaudio as sa
 from gtts import gTTS
 
-# import playsound
-# import time
-path = "../assets/audio/intro_music.wav"
-
 
 class PlayAudio:
-    """
-    This class play audio using the path
-    """
-    def __init__(self, path: str) -> None:
+    """This class play audio using the path."""
 
-        self.path = path
+    def __init__(self, path_: str) -> None:
+
+        self.path = path_
 
         self.wave_obj = sa.WaveObject.from_wave_file(self.path)
 
@@ -33,22 +26,3 @@ class TTAudio:
         self.language = 'en'
         self.myobj = gTTS(text=self.text, lang=self.language, slow=False)
         self.myobj.save('assets/audio/text_audio.mp3')
-
-    def play(self):
-        self.audio = sa.WaveObject.from_wave_file('../assets/audio/intro_music.wav')
-        self.audio.play()
-
-
-if __name__ == "__main__":
-
-    # fc.LeftRightCheck.run()
-    # playsound.playsound('../intro_music.mp3',False)
-    # print("hello")
-    # time.sleep(4)
-    # text = "hello welcome to boxed in"
-    # text_audio = TTAudio(text)
-    # text_audio.play()
-    # audio1 = PlayAudio(path)
-    # audio1.play()
-
-    print('hello')
