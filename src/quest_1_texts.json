@@ -12,6 +12,7 @@
 		"The witch curses you and kicks you out!\n\nPress Q to go back",
 		"Witch: Oh you must be sent by \u2018them\u2019 well to get this potion you need to solve \nthis riddle for me.\nThere is a circular platform with a large rod having its length same as the\nradius of the platform, with its one kept at the center.\nIt moves 90 degree in z axis and burst in thin strips equally and lands at the\nedge of the circle. Which shape does it form?\n\n(J) Sphere, (K) Hemisphere, (L) Cone",
 		"There you go my boy here is the potion.\n\nPress Q to go back",
-		"Wrong answer my boy!\n\nPress Q to go back"
+		"Wrong answer my boy!\n\nPress Q to go back",
+		"Press Q to go back"
 	]
 }

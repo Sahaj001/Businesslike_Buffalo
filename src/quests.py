@@ -63,16 +63,18 @@ class Quest:
                     return self.dialogues[quest]["witch"][self.progression[1]]
                 else:
                     return self.dialogues[quest]["narrator"][self.progression[0]]
-            elif self.progression[1] == 4:
-                self.progression[0] = 2
-                self.progression[1] = 7
-                return self.dialogues[quest]["narrator"][self.progression[0]]
             elif option == 0:
-                if self.progression[0] == 2:
+                if self.progression[1] == 4:
+                    self.progression[0] = 2
+                    self.progression[1] = 7
+                    return self.dialogues[quest]["narrator"][self.progression[0]]
+                elif self.progression[0] == 2:
                     return self.dialogues[quest]["narrator"][self.progression[0]]
                 else:
                     return self.dialogues[quest]["witch"][self.progression[1]]
             elif option == 1:
+                if self.progression[1] in (1, 2, 4, 5):
+                    return self.dialogues[quest]["witch"][6]
                 if self.progression[1] == 0:
                     self.reset()
                     return self.dialogues[quest]["witch"][1]
@@ -85,6 +87,8 @@ class Quest:
                 else:
                     return self.dialogues[quest]["narrator"][self.progression[0]]
             elif option == 2:
+                if self.progression[1] in (1, 2, 4, 5):
+                    return self.dialogues[quest]["witch"][self.progression[1]]
                 if self.progression[1] == 0:
                     self.progression[1] = 3
                     return self.dialogues[quest]["witch"][self.progression[1]]
@@ -95,6 +99,8 @@ class Quest:
                     self.progression[0] = 4
                     return self.dialogues[quest]["narrator"][self.progression[0]]
             elif option == 3:
+                if self.progression[1] in (1, 2, 4, 5):
+                    return self.dialogues[quest]["witch"][self.progression[1]]
                 if self.progression[1] == 0:
                     self.reset()
                     return self.dialogues[quest]["witch"][2]
@@ -110,7 +116,6 @@ class Quest:
                 if self.progression[0] == -1:
                     return self.dialogues[quest]["narrator"][self.progression[0] + 1]
             elif option == 0:
-                print(self.progression)
                 if not alphabet == '*':
                     if self.hangman.chance > 0:
                         if self.hangman.letter_guessed(alphabet) is True:
