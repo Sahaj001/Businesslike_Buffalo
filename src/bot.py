@@ -23,7 +23,7 @@ class Bot:
         self.ascii_bot, self.height, self.width = self.read_text(botfile)
 
     def read_text(self, filename: str):
-        with open(self.path+filename, 'r') as file:
+        with open(self.path+filename, 'r', encoding="utf-8") as file:
             data = file.readlines()
         width = max([len(line) for line in data])
         height = len(data)

@@ -99,7 +99,6 @@ class Hangman:
 if __name__ == "__main__":
 
     game = Hangman("helloWorld",9)
-
     while game.chance > 0:
         print("\n\n\t\t ######### Number of chances left : ", game.chance)
         val = input("Guess the char: ")
@@ -107,6 +106,4 @@ if __name__ == "__main__":
         print(game.hangman_str())
         print("the decoded letters are: ", game.print_word)
         print(game.words)
-
     print(game.game_result())
-
