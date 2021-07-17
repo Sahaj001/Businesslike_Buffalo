@@ -135,7 +135,7 @@ class Maze:
 
         if object == " ":
             # play walk.mp3
-            playsound.playsound('../boxedin_walk.mp3', False)
+            playsound.playsound('../boxedin_walksofter.mp3', False)
             # audio.play()
         elif object == "K":
             # play key.mp3
