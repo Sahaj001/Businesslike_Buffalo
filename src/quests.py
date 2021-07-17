@@ -1,7 +1,7 @@
 import json
 
-from maze import Maze
 from hangman import Hangman
+from maze import Maze
 
 
 class Quest:
@@ -21,7 +21,7 @@ class Quest:
                           3: {}, 4: {}}
 
         for script_value in range(1, 5):
-            with open(f"./quest_{script_value}_texts.json") as f:
+            with open(f"../assets/quests/quest_{script_value}_texts.json") as f:
                 self.dialogues[script_value] = json.load(f)
 
     def reset(self) -> None:
