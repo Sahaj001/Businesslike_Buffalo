@@ -321,7 +321,6 @@ class Game:
                         )
                     ]
                 else:
-                    print('yya')
                     self.body.floats = [
                         Float(
                             Frame(
@@ -369,6 +368,10 @@ class Game:
                         top=2,
                     )
                 ]
+                self.message_box.body = Window(
+                    FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),
+                    align=WindowAlign.CENTER
+                )
             else:
                 self.message_box.body = Window(
                     FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),

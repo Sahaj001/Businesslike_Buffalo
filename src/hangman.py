@@ -18,8 +18,8 @@ class Hangman:
         self.size = len(word)
         self.chance = chance
         self.letter_set = set()
-        self.path = '/Users/sahajsingh/Desktop/python_code_jam/Businesslike_Buffalo/assets/ascii/'
-        
+        self.path = '../assets/ascii/'
+
         with open(self.path+ "hangman.txt", "r", encoding="utf8") as file:
             ascii_lst = file.read().rstrip().splitlines()
 
@@ -30,13 +30,13 @@ class Hangman:
         ascii_lst = [line + (self.width - len(line)) * " " for line in ascii_lst]
 
         self.rendered_table = np.array([list(line) for line in ascii_lst])
-        
+
         with open(self.path + "hangman_body.txt", "r", encoding="utf8") as file:
             ascii_man = file.read().rstrip().splitlines()
 
         ascii_man = [line for line in ascii_man]
         self.man = np.array([list(line) for line in ascii_man])
-        
+
     def to_str(self):
         """ Function to return the table object as string"""
         mat = ""
@@ -63,19 +63,19 @@ class Hangman:
                 self.letter_set.remove(letter)
                 return True
         return False
-    
+
     def draw_hangman(self):
         x = int(self.draw/3)%3
         y = int(self.draw%3)
         self.draw += 1
-        print(x, " ", y)
+        #  s = str(x) + " " + str(y)
         self.rendered_table[3+x, 13+y] = self.man[x, y]
-        print(self.to_str())
+        return (self.to_str())
 
-            
+
 if __name__ == "__main__":
-    
-    game = Hangman("helloWorld",9)
+
+    game = Hangman("hello", 9)
     game.make_set()
     print(game.man)
     while game.chance > 0:
@@ -88,6 +88,6 @@ if __name__ == "__main__":
         else:
             game.draw_hangman()
             print_formatted_text("opps, there's no letter ", val," in the word")
-            
+
     if game.chance == 0:
         print("You Lost the Game, Better Luck Next time gussinng.")

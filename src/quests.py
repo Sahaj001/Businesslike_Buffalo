@@ -1,6 +1,7 @@
 import json
 
 from maze import Maze
+from hangman import Hangman
 
 
 class Quest:
@@ -13,6 +14,8 @@ class Quest:
         self.progression = [-1, -1, -1, -1]
 
         self.maze = Maze(13, 5, 5, scale=3)
+        self.hangman = Hangman("helloWorld", 9)
+        self.hangman.make_set()
 
         self.dialogues = {1: {}, 2: {},
                           3: {}, 4: {}}
@@ -34,8 +37,6 @@ class Quest:
         if quest == 2:
             if self.progression[3] == 3:
                 self.reset()
-                return True
-            else:
                 return True
         if quest == 3:
             if self.progression[1] == 1:
@@ -92,6 +93,7 @@ class Quest:
                     return self.dialogues[quest]["witch"][5]
                 elif self.progression[0] == 2:
                     return self.dialogues[quest]["narrator"][self.progression[0]]
+
         # The different scenarios for Quest 2
         elif quest == 2:
             if option == -1:
@@ -100,6 +102,13 @@ class Quest:
                     return self.dialogues[quest]["narrator"][self.progression[0]]
             elif option == 0:
                 if not alphabet == '*':
+                    if self.hangman.chance > 0:
+                        if self.hangman.letter_guessed(alphabet) is True:
+                            return self.hangman.to_str() + "\nlucky, you guessed correctly !!"
+                        else:
+                            return self.hangman.draw_hangman() + "\nOops, there's no letter " + alphabet + " in the word"
+                    else:
+                        return "You failed Test1\nPress 'J'"
                     return str(alphabet)
                 elif self.progression[1] == -1:
                     self.progression[1] = 0
@@ -130,12 +139,16 @@ class Quest:
                 elif self.progression[3] == 4:
                     self.progression[3] = 5
                     return self.dialogues[quest]["System"][self.progression[3]]
+                elif self.progression[3] == 5:
+                    return self.hangman.draw_hangman() + "\nGuess a character: "
             elif option == 2:
                 if self.progression[3] == 1:
                     self.progression[3] = 3
                     return self.dialogues[quest]["System"][self.progression[3]]
+
         # The different scenarios for Quest 3
         elif quest == 3:
+            print(self.witch)
             if option == 0:
                 if self.witch and self.progression[1] == -1:
                     self.progression[1] = 0
