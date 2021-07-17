@@ -44,17 +44,17 @@ class Game:
         self.lexer = pygments.lexers.load_lexer_from_file("highlighter.py", lexername="CustomLexer")
         self.style = Style.from_dict({
             "pygments.player": "#0000ff",
-            "pygments.leaves": "#00cd00",
-            "pygments.trunk": "#964B00",
+            "pygments.leaves": "#1FB28D",
+            "pygments.trunk": "#5F2311",
             "pygments.bar": "bg:#A55D47 #000000",
             "pygments.fountain": "#ff7a7a",
-            "pygments.water": "#00bafd",
+            "pygments.water": "#57CDFF",
             "pygments.wall.inescapable": "bg:#ed0000",
-            "pygments.grass": "#9ae500",
+            "pygments.grass": "#53D578",
             "pygments.campfire": "#964b00",
-            "pygments.fire": "#ffe100",
+            "pygments.fire": "#FE7B46",
             "pygments.lake": "#00d8ff",
-            "pygments.tent": "#FFA200",
+            "pygments.tent": "#FFE9C2",
             "pygments.house.wall": "#AA3800",
             "pygments.house.roof": "#AAABAA"
         })
