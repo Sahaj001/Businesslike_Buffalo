@@ -4,6 +4,7 @@ This is class for playing diff. sounds in our game
 from gtts import gTTS
 import simpleaudio as sa
 # import playsound
+# import time
 path = "../intro_music.wav"
 
 
@@ -40,9 +41,13 @@ class TTAudio:
 if __name__ == "__main__":
 
     # fc.LeftRightCheck.run()
-    
+    # playsound.playsound('../intro_music.mp3',False)
+    # print("hello")
+    # time.sleep(4)
     # text = "hello welcome to boxed in"
     # text_audio = TTAudio(text)
     # text_audio.play()
-    audio1 = PlayAudio(path)
-    audio1.play()
+    # audio1 = PlayAudio(path)
+    # audio1.play()
+    
+    print('hello')
