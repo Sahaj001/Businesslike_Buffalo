@@ -17,7 +17,7 @@ from prompt_toolkit.layout import HSplit, Layout, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.styles import Style, style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
-from prompt_toolkit.shortcuts import yes_no_dialog
+from prompt_toolkit.shortcuts import yes_no_dialog, set_title
 import bot
 import layout
 
@@ -284,7 +284,7 @@ class GameScreen:
 
 if __name__ == "__main__":
     # start screen
-
+    set_title("Boxed In")
     game = GameScreen()
     game.run()
     # print("dgfh")
