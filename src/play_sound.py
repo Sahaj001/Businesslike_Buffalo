@@ -4,7 +4,7 @@ This is class for playing diff. sounds in our game
 from gtts import gTTS
 import simpleaudio as sa
 # import playsound
-path = "intro_music.wav"
+path = "../intro_music.wav"
 
 
 class PlayAudio:
@@ -13,7 +13,7 @@ class PlayAudio:
     """
     def __init__(self, path: str) -> None:
 
-        self.path = "intro_music.wav"
+        self.path = "../intro_music.wav"
 
         self.wave_obj = sa.WaveObject.from_wave_file(self.path)
 
@@ -33,7 +33,7 @@ class TTAudio:
         self.myobj.save('text_audio.mp3')
 
     def play(self):
-        self.audio = sa.WaveObject.from_wave_file('intro_music.wav')
+        self.audio = sa.WaveObject.from_wave_file('../intro_music.wav')
         self.audio.play()
 
 

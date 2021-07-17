@@ -3,7 +3,7 @@ This is a bot class which moves around the grid
 """
 import numpy as np
 
-path = "assets/ascii/text"
+path = "../assets/ascii/text"
 
 
 class Bot:
@@ -19,7 +19,7 @@ class Bot:
         self.x = x
         self.y = y
         self.facing = facing
-        self.path = "/assets/ascii/text/"
+        self.path = "../assets/ascii/text/"
         self.ascii_bot, self.height, self.width = self.read_text(botfile)
 
     def read_text(self, filename: str):

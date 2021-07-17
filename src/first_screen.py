@@ -1,6 +1,6 @@
 import bot
 # import play_sound
-import playsound
+import simpleaudio as sa
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.layout.controls import FormattedTextControl
@@ -24,10 +24,10 @@ class GameScreen:
         Initialize the class with attributes like bot and screen
         """
         # game 1
-        self.path = "/assets/ascii/text/"
+        self.path = "../assets/ascii/text/"
         self.launch = True
         self.bot_player = bot.Bot(10, 3)
-        self.top_screen = bot.GameScreen(20, 60, [])
+        self.top_screen = bot.GameScreen(20, 50, [])
 
         self.top_screen.render_table(self.bot_player)
 
@@ -248,7 +248,7 @@ class GameScreen:
         Calls the run function from Application to lauch the window
         """
 
-        with open("bot2.txt", 'r') as file:
+        with open(f"{self.path}bot2.txt", 'r') as file:
             bt2 = file.read()
         body = Window(
             FormattedTextControl(bt2),
@@ -263,7 +263,8 @@ class GameScreen:
                            full_screen=True, key_bindings=self.kb, refresh_interval=1,
                            on_invalidate=self.on_invalidate)
 
-        playsound.playsound('intro_music.mp3', False)
+        audio_file_intro = sa.WaveObject.from_wave_file('../intro_music.wav')
+        audio_file_intro.play()
         app1.run()
         self.launch = False
 
