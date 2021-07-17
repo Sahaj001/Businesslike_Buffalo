@@ -58,22 +58,6 @@ class StartScreen:
         self.width = width
         self.table = np.full((self.height, self.width), " ")
 
-    def render_table(self, bot: Bot) -> None:
-        """Render the table screen for bot.
-
-        :param bot : Bot class
-        """
-        self.delete_bot(bot)
-        self.table[bot.x:bot.x + bot.height, bot.y:bot.y + bot.width - 1] = bot.ascii_bot
-        return self.print_st(self.table)
-
-    def delete_bot(self, bot: Bot) -> None:
-        """Deleting the previous position of the bot.
-
-        :param bot: Bot class
-        """
-        self.table[bot.x - 1:bot.x + bot.height + 1, bot.y - 1:bot.y + bot.width + 1] = " "
-
     def print_st(self) -> str:
         """Converts the matrix into a string. It is equivalent as ''.join(np.c_(self.table, "\n").ravel().tolist())."""
         st = ""
@@ -82,3 +66,19 @@ class StartScreen:
                 st += j
             st += '\n'
         return st
+
+    def render_table(self, bot: Bot) -> str:
+        """Render the table screen for bot.
+
+        :param bot : Bot class
+        """
+        self.delete_bot(bot)
+        self.table[bot.x:bot.x + bot.height, bot.y:bot.y + bot.width - 1] = bot.ascii_bot
+        return self.print_st()
+
+    def delete_bot(self, bot: Bot) -> None:
+        """Deleting the previous position of the bot.
+
+        :param bot: Bot class
+        """
+        self.table[bot.x - 1:bot.x + bot.height + 1, bot.y - 1:bot.y + bot.width + 1] = " "
