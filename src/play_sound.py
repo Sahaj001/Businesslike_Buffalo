@@ -1,11 +1,12 @@
 """
 This is class for playing diff. sounds in our game
 """
-from gtts import gTTS
 import simpleaudio as sa
+from gtts import gTTS
+
 # import playsound
 # import time
-path = "../intro_music.wav"
+path = "../assets/audio/intro_music.wav"
 
 
 class PlayAudio:
@@ -31,10 +32,10 @@ class TTAudio:
         self.text = text
         self.language = 'en'
         self.myobj = gTTS(text=self.text, lang=self.language, slow=False)
-        self.myobj.save('text_audio.mp3')
+        self.myobj.save('assets/audio/text_audio.mp3')
 
     def play(self):
-        self.audio = sa.WaveObject.from_wave_file('../intro_music.wav')
+        self.audio = sa.WaveObject.from_wave_file('../assets/audio/intro_music.wav')
         self.audio.play()
 
 
@@ -49,5 +50,5 @@ if __name__ == "__main__":
     # text_audio.play()
     # audio1 = PlayAudio(path)
     # audio1.play()
-    
+
     print('hello')
