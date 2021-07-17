@@ -43,6 +43,15 @@ class Bot:
         self.x = new_x
         self.y = new_y
 
+    def print_st(self):
+        """Converts the matrix into a string. It is equivalent as ''.join(np.c_(self.table, "\n").ravel().tolist())"""
+        st = ""
+        for i in self.table:
+            for j in i:
+                st += j
+            st += '\n'
+        return st
+
 
 class StartScreen:
     """The start screen which displays the bot."""

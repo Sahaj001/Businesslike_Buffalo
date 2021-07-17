@@ -13,14 +13,14 @@ class PlayAudio:
         self.wave_obj = sa.WaveObject.from_wave_file(self.path)
 
     def play(self):
+        """A function used to shorten the original function."""
         play_obj = self.wave_obj.play()
         play_obj.wait_done()
 
 
 class TTAudio:
-    """
-    Converts the given text to audio
-    """
+    """Converts the given text to audio."""
+
     def __init__(self, text: str) -> None:
         self.text = text
         self.language = 'en'
