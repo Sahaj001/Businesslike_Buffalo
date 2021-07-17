@@ -3,6 +3,7 @@ from random import randint, randrange, shuffle
 from typing import Literal
 
 import numpy as np
+from numpy.lib.polynomial import polyval
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
@@ -12,7 +13,7 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
-
+import play_sound
 
 class Maze:
     '''
@@ -126,6 +127,25 @@ class Maze:
             full_screen=True,
             refresh_interval=0.5
         )
+
+    def sfx(self, object: str):
+
+        if object == " ":
+            # play walk.mp3
+            audio = play_sound.PlayAudio(path='../boxedin_walk.wav')
+            # audio.play()
+        elif object == "K":
+            # play key.mp3
+            audio = play_sound.PlayAudio(path='../boxedin_collect.wav')
+            audio.play()
+        elif object == "O":
+            # play game_over.mp3
+            audio = play_sound.PlayAudio(path='../boxedin_levelcomplete.wav')
+            audio.play()
+        else:
+            # play wall.mp3
+            audio = play_sound.PlayAudio(path='../boxedin_wall.wav')
+            audio.play()
 
     def check(self, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
@@ -293,6 +313,7 @@ class Maze:
     def update(self, old_pos, player_pos) -> None:
         cells = self.cells
         new_pos = cells[player_pos[0]][player_pos[1]]
+        self.sfx(object=new_pos)
         if new_pos == ' ':
             self.cells[player_pos[0]][player_pos[1]] = '@'
             self.cells[old_pos[0]][old_pos[1]] = ' '
