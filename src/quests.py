@@ -16,7 +16,6 @@ class Quest:
 
         self.maze = Maze(13, 5, 5, scale=3)
         self.hangman = Hangman("helloWorld", 9)
-        self.hangman.make_set()
 
         self.dialogues = {1: {}, 2: {},
                           3: {}, 4: {}}
@@ -41,6 +40,9 @@ class Quest:
                 return True
         if quest == 3:
             if self.progression[1] == 1:
+                self.reset()
+                return True
+            elif self.progression[0] == 4:
                 self.reset()
                 return True
         if quest == 4:
@@ -167,16 +169,17 @@ class Quest:
                     self.current_msg = self.dialogues[quest]["narrator"][self.progression[0]]
                     return self.current_msg
             elif option == 0:
-                print(self.progression)
                 if not alphabet == '*':
                     if self.hangman.chance > 0:
-                        if self.hangman.letter_guessed(alphabet) is True:
-                            return self.hangman.to_str() + "\nlucky, you guessed correctly !!"
-                        else:
-                            return self.hangman.draw_hangman() + "\nOops, there's no letter " + alphabet + " in the word"
+                        self.hangman.input_letter(alphabet)
+                        self.current_msg = self.hangman.hangman_str() + "\n" + self.hangman.print_word
+                        if self.hangman.game_result():
+                            self.current_msg += "\nYou saved Test1!\n\nYou see an envolope. Press 'X' to open it"
+                            self.progression[3] = 6
+                        return self.current_msg
                     else:
-                        return "You failed Test1\nPress 'J'"
-                    return str(alphabet)
+                        self.progression[3] = 7
+                        return "You failed Test1, may his soul rest in piece.\nYou see an envolope\nPress 'X' to open"
                 elif self.progression[1] == -1:
                     self.progression[1] = 0
                     return self.dialogues[quest]["Test1"][self.progression[1]]
@@ -207,7 +210,8 @@ class Quest:
                     self.progression[3] = 5
                     return self.dialogues[quest]["System"][self.progression[3]]
                 elif self.progression[3] == 5:
-                    return self.hangman.draw_hangman() + "\nGuess a character: "
+                    self.current_msg = self.hangman.hangman_str() + "\n" + self.hangman.hangman_str()
+                    return self.current_msg
             elif option == 2:
                 if self.progression[3] == 1:
                     self.progression[3] = 3
@@ -245,21 +249,24 @@ class Quest:
                 elif self.progression[0] == 4:
                     return self.dialogues[quest]["system"][self.progression[0]]
             elif option == 1:
+                if self.progression[0] == -1:
+                    self.progression[0] = 0
+                    return self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 0:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 1:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 2:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 3:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
             elif option == 2:
                 if self.progression[0] == 0:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 1:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 2:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 3:
                     self.progression[0] = 4
                     return self.dialogues[quest]["system"][self.progression[0]]
@@ -274,9 +281,9 @@ class Quest:
                     self.progression[0] = 3
                     return self.dialogues[quest]["system"][self.progression[0]]
                 if self.progression[0] == 3:
-                    return self.dialogues[quest]["system"][6] + self.dialogues[quest]["system"][self.progression[0]]
+                    return self.dialogues[quest]["system"][5] + self.dialogues[quest]["system"][self.progression[0]]
 
-        # The different scenarios for Quest 3
+        # The different scenarios for Quest 4
         elif quest == 4:
             if option == 0:
                 if self.progression[0] == -1:

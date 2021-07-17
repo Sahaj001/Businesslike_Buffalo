@@ -2,6 +2,6 @@
 	"guy": [
 		"Welcome, may I ask who are you.\n(J) Maze, (K) Hemisphere, (L) Cookies",
 		"Sorry? I don't understand\n(J) Maze, (K) Hemisphere, (L) Cookies",
-		"So the witch has sent you? You want to escape this box, I will send you to a maze and you need to collect the keys in the maze and then after collecting them you just need to press \u2018x\u2019 to escape this box.\n"
+		"So the witch has sent you? \nYou want to escape this box, \nI will send you to a maze and you need to collect the keys.\nPress the any arrow key to start the maze"
 	]
 }
