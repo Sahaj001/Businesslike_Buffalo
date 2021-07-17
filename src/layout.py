@@ -90,7 +90,7 @@ class Game:
             floats=[
                 Float(
                     Frame(
-                        Window(FormattedTextControl("Quests completed: 0/3"), width=22, height=1),
+                        Window(FormattedTextControl("Quests completed: 0/4"), width=22, height=1),
                     ),
                     right=5,
                     top=2,
@@ -495,7 +495,7 @@ class Game:
             self.body.floats = [
                 Float(
                     Frame(
-                        Window(FormattedTextControl("Quests completed: {}/3".format(self.current_quest - 1)),
+                        Window(FormattedTextControl("Quests completed: {}/4".format(self.current_quest - 1)),
                                width=22, height=1),
                     ),
                     right=5,

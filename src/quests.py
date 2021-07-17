@@ -300,14 +300,22 @@ class Quest:
                 return self.dialogues[quest]["guy"][self.progression[0]]
             elif alphabet == "w":
                 self.maze.move("up")
+                if self.maze.num_keys == self.maze.keys_collected:
+                    return "You collected all the keys!"
                 return self.maze.display(self.maze.cells)
             elif alphabet == "a":
                 self.maze.move("left")
+                if self.maze.num_keys == self.maze.keys_collected:
+                    return "You collected all the keys!"
                 return self.maze.display(self.maze.cells)
             elif alphabet == "s":
                 self.maze.move("down")
+                if self.maze.num_keys == self.maze.keys_collected:
+                    return "You collected all the keys!"
                 return self.maze.display(self.maze.cells)
             elif alphabet == "d":
                 self.maze.move("right")
+                if self.maze.num_keys == self.maze.keys_collected:
+                    return "You collected all the keys!"
                 return self.maze.display(self.maze.cells)
         return ""
