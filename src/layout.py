@@ -300,7 +300,7 @@ class Game:
                 ]
                 return
 
-            if self.current_quest == 4 and (self.player.x, self.player.y) in self.maze_trigger_coords:
+            if (self.player.x, self.player.y) in self.maze_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
