@@ -175,12 +175,12 @@ class Quest:
                         self.hangman.input_letter(alphabet)
                         self.current_msg = self.hangman.hangman_str() + "\n" + self.hangman.print_word
                         if self.hangman.game_result():
-                            self.current_msg += "\nYou saved Test1!\n\nYou see an envolope. Press 'X' to open it"
+                            self.current_msg += "\nYou saved Test1!\n\nYou see an envolope. Press 'J' to open it"
                             self.progression[3] = 6
                         return self.current_msg
                     else:
                         self.progression[3] = 7
-                        return "You failed Test1, may his soul rest in piece.\nYou see an envolope\nPress 'X' to open"
+                        return "You failed Test1, may his soul rest in piece.\nYou see an envolope\nPress 'J' to open"
                 elif self.progression[1] == -1:
                     self.progression[1] = 0
                     return self.dialogues[quest]["Test1"][self.progression[1]]
@@ -297,14 +297,15 @@ class Quest:
                 else:
                     return self.current_msg
             elif option == -2:
-                if self.progression[1] == 0:
-                    self.current_msg = self.dialogues[quest]["guy"][self.progression[1]]
+                if self.progression[1] == -1:
+                    self.progression[1] = 0
+                    self.current_msg = self.dialogues[quest]["narrator"][self.progression[1]]
                     return self.current_msg
                 else:
                     return self.current_msg
             elif option in (2, 3):
                 if self.progression[0] in (0, 1):
-                    self.progression[0] = 1
+                    self.progression[0] = 2
                     self.current_msg = self.dialogues[quest]["guy"][self.progression[0]]
                     return self.current_msg
             elif option == 1:
@@ -343,4 +344,6 @@ class Quest:
                     return self.current_msg
                 self.current_msg = self.maze.display(self.maze.cells)
                 return self.current_msg
+        if quest == 5:
+            return self.dialogues[quest-1]["narrator"][0]
         return ""
