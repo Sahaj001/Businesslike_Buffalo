@@ -58,12 +58,20 @@ class Quest:
                 if self.progression[0] == -1:
                     self.progression[0] = 0
                     return self.dialogues[quest]["narrator"][self.progression[0]]
-                self.progression[1] = 0
-                return self.dialogues[quest]["witch"][self.progression[1]]
+                elif option not in (1, 2, 3):
+                    self.progression[1] = 0
+                    return self.dialogues[quest]["witch"][self.progression[1]]
+                else:
+                    return self.dialogues[quest]["narrator"][self.progression[0]]
             elif self.progression[1] == 4:
                 self.progression[0] = 2
                 self.progression[1] = 7
                 return self.dialogues[quest]["narrator"][self.progression[0]]
+            elif option == 0:
+                if self.progression[0] == 2:
+                    return self.dialogues[quest]["narrator"][self.progression[0]]
+                else:
+                    return self.dialogues[quest]["witch"][self.progression[1]]
             elif option == 1:
                 if self.progression[1] == 0:
                     self.reset()
@@ -73,6 +81,8 @@ class Quest:
                     return self.dialogues[quest]["witch"][5]
                 elif self.progression[0] == 2:
                     self.progression[0] = 3
+                    return self.dialogues[quest]["narrator"][self.progression[0]]
+                else:
                     return self.dialogues[quest]["narrator"][self.progression[0]]
             elif option == 2:
                 if self.progression[1] == 0:
@@ -98,9 +108,9 @@ class Quest:
         elif quest == 2:
             if option == -1:
                 if self.progression[0] == -1:
-                    self.progression[0] = 0
-                    return self.dialogues[quest]["narrator"][self.progression[0]]
+                    return self.dialogues[quest]["narrator"][self.progression[0] + 1]
             elif option == 0:
+                print(self.progression)
                 if not alphabet == '*':
                     if self.hangman.chance > 0:
                         if self.hangman.letter_guessed(alphabet) is True:
@@ -113,6 +123,8 @@ class Quest:
                 elif self.progression[1] == -1:
                     self.progression[1] = 0
                     return self.dialogues[quest]["Test1"][self.progression[1]]
+                elif self.progression[0] == 0:
+                    return self.dialogues[quest]["Test1"][self.progression[0]]
                 elif self.progression[3] == 2:
                     self.progression[3] = 4
                     return self.dialogues[quest]["System"][self.progression[3]-2]
@@ -144,11 +156,27 @@ class Quest:
             elif option == 2:
                 if self.progression[3] == 1:
                     self.progression[3] = 3
+                    return self.dialogues[quest]["Test1"][self.progression[1]] + \
+                        self.dialogues[quest]["System"][self.progression[3]]
+                elif self.progression[1] == 1:
+                    return self.dialogues[quest]["Test1"][self.progression[1]]
+                elif self.progression[2] == 0:
+                    return self.dialogues[quest]["Test0"][self.progression[2]]
+                elif self.progression[1] == 0:
+                    return self.dialogues[quest]["Test1"][self.progression[1]]
+            elif option == 3:
+                if self.progression[3] == 1:
                     return self.dialogues[quest]["System"][self.progression[3]]
+                if self.progression[1] == 1:
+                    return self.dialogues[quest]["Test1"][self.progression[1]] + \
+                        self.dialogues[quest]["System"][self.progression[3]]
+                elif self.progression[2] == 0:
+                    return self.dialogues[quest]["Test0"][self.progression[2]]
+                elif self.progression[1] == 0:
+                    return self.dialogues[quest]["Test1"][self.progression[1]]
 
         # The different scenarios for Quest 3
         elif quest == 3:
-            print(self.witch)
             if option == 0:
                 if self.witch and self.progression[1] == -1:
                     self.progression[1] = 0

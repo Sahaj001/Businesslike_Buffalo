@@ -251,11 +251,11 @@ class Game:
                     )
                 ]
                 self.can_walk = False
-            else:
-                self.message_box.body = Window(
-                    FormattedTextControl(str(self.player.x) + str(self.player.y)),
-                    align=WindowAlign.CENTER
-                )
+            #  else:
+            #      self.message_box.body = Window(
+            #          FormattedTextControl(str(self.player.x) + str(self.player.y)),
+            #          align=WindowAlign.CENTER
+            #      )
 
         @kb.add("j")
         def option1(event: KeyPressEvent) -> None:
