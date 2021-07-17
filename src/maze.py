@@ -1,4 +1,10 @@
+import typing
+from random import randint, randrange, shuffle
+from typing import Literal
+
+import numpy as np
 from prompt_toolkit.application import Application
+from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
 from prompt_toolkit.layout.containers import (
     Float, FloatContainer, HSplit, Window, WindowAlign
@@ -6,11 +12,6 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
-from prompt_toolkit.document import Document
-from random import shuffle, randrange, randint
-import typing
-from typing import Literal
-import numpy as np
 
 
 class Maze:
@@ -38,17 +39,7 @@ class Maze:
         self.keys_collected = 0
         self.game_field = TextArea(text=self.display(self.cells))
 
-        self.message_box = Frame(
-            body=Window(
-                FormattedTextControl
-                (
-                    "You have collected " + str(self.keys_collected)+"/" + str(self.num_keys) + " keys"
-                ),
-                align=WindowAlign.CENTER
-            ),
-            title="Keys Collected:",
-            height=8
-        )
+        self.message_box = TextArea(text="You have collected " + str(self.keys_collected)+"/" + str(self.num_keys) + " keys")
 
         self.container = HSplit(
             [
@@ -85,24 +76,48 @@ class Maze:
             self.move('left')
             new_text = self.display(self.cells)
             self.game_field.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+            new_text = "You have collected " + str(self.keys_collected)+ "/" + str(self.num_keys) + " keys"
+            self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+            if self.num_keys == self.keys_collected:
+                new_text = "You have completed the maze, well done!"
+                self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+                event.app.exit()
 
         @self.kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
             self.move('right')
             new_text = self.display(self.cells)
             self.game_field.buffer.document = Document(text=new_text)
+            new_text = "You have collected " + str(self.keys_collected)+ "/" + str(self.num_keys) + " keys"
+            self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+            if self.num_keys == self.keys_collected:
+                new_text = "You have completed the maze, well done!"
+                self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+                event.app.exit()
 
         @self.kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
             self.move('up')
             new_text = self.display(self.cells)
             self.game_field.buffer.document = Document(text=new_text)
+            new_text = "You have collected " + str(self.keys_collected)+ "/" + str(self.num_keys) + " keys"
+            self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+            if self.num_keys == self.keys_collected:
+                new_text = "You have completed the maze, well done!"
+                self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+                event.app.exit()
 
         @self.kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
             self.move('down')
             new_text = self.display(self.cells)
             self.game_field.buffer.document = Document(text=new_text)
+            new_text = "You have collected " + str(self.keys_collected)+ "/" + str(self.num_keys) + " keys"
+            self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+            if self.num_keys == self.keys_collected:
+                new_text = "You have completed the maze, well done!"
+                self.message_box.buffer.document = Document(text=new_text, cursor_position=len(new_text))
+                event.app.exit()
 
         self.application = Application(
             layout=Layout(self.body),
@@ -274,6 +289,7 @@ class Maze:
             empty.append(new_row)
         return str('\n'.join(empty))
 
+    # Update the maze after every move
     def update(self, old_pos, player_pos) -> None:
         cells = self.cells
         new_pos = cells[player_pos[0]][player_pos[1]]
@@ -333,5 +349,5 @@ class Maze:
 
 
 if __name__ == "__main__":
-    maze = Maze(10, 7, 5, scale=5)
+    maze = Maze(13, 5, 5, scale=3)
     maze.application.run()
