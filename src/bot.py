@@ -43,18 +43,9 @@ class Bot:
         self.x = new_x
         self.y = new_y
 
-    def print_st(self):
-        """Returns the character matrix of the bot."""
-        # it is equivalent to doing np.c_(self.table, "\n").ravel().tolist()
-        st = ""
-        for i in self.table:
-            for j in i:
-                st += j
-            st += '\n'
-        return st
-
 
 class StartScreen:
+        """The start screen which displays the bot."""
 
     def __init__(self, height: int, width: int) -> None:
         """Screen at the start of the game.
@@ -63,7 +54,6 @@ class StartScreen:
         :param width : width of the Screen
         :param table : render table
         """
-
         self.height = height
         self.width = width
         self.table = np.full((self.height, self.width), " ")
