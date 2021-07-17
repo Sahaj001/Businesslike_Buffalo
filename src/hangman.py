@@ -23,7 +23,7 @@ class Hangman:
         self.print_word = "" # word with letter encoded
         for i in self.word:
             self.print_word += '*'
-        self.path = '../assets/ascii/' 
+        self.path = '../assets/ascii/'
         self.words = ""     # narrator's word
 
         with open(self.path+ "hangman.txt", "r", encoding="utf8") as file:
@@ -36,13 +36,13 @@ class Hangman:
         ascii_lst = [line + (self.width - len(line)) * " " for line in ascii_lst]
 
         self.rendered_table = np.array([list(line) for line in ascii_lst])
-        
+
         with open(self.path + "hangman_body.txt", "r", encoding="utf8") as file:
             ascii_man = file.read().rstrip().splitlines()
 
         ascii_man = [line for line in ascii_man]
         self.man = np.array([list(line) for line in ascii_man])
-        
+
     def hangman_str(self):
         """ Function to return the table object as string"""
         mat = ""
@@ -57,7 +57,7 @@ class Hangman:
         with open(filename, 'r') as file:
             data = file.read()
         return data
-    
+
     def extend_hangman(self):
         """
         Extend the hangman drawing when the player gusses a wrong letter
@@ -66,13 +66,13 @@ class Hangman:
         y = int(self.draw%3)
         self.draw += 1
         self.chance -= 1
-        print(x, " ", y)
+        #  print(x, " ", y)
         self.rendered_table[3+x, 13+y] = self.man[x, y]
 
     def input_letter(self, val):
         if val in self.gussed_letter_set:
             self.words = "Letter", val, " already guessed, try a different one"
-        
+
         elif val in self.letter_set:
             self.gussed_letter_set += val
             codeword = ""
@@ -89,17 +89,16 @@ class Hangman:
             self.words = "opps, there's no letter ", val ," in the word"
 
     def game_result(self):
-        print(len(self.letter_set))        
+        #  print(len(self.letter_set))
         if self.letter_set == self.print_word:
-            return "Hurray You won the game"
+            return 1
         else:
-            return "You Lost the Game, Better Luck Next time gussinng."
+            return 0
 
 
 if __name__ == "__main__":
-    
+
     game = Hangman("helloWorld",9)
-    
     while game.chance > 0:
         print("\n\n\t\t ######### Number of chances left : ", game.chance)
         val = input("Guess the char: ")
@@ -107,7 +106,4 @@ if __name__ == "__main__":
         print(game.hangman_str())
         print("the decoded letters are: ", game.print_word)
         print(game.words)
-
     print(game.game_result())
-            
-    

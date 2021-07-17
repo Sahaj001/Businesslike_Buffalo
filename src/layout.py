@@ -91,7 +91,7 @@ class Game:
             floats=[
                 Float(
                     Frame(
-                        Window(FormattedTextControl("Quests completed: 0/3"), width=22, height=1),
+                        Window(FormattedTextControl("Quests completed: 0/4"), width=22, height=1),
                     ),
                     right=5,
                     top=2,
@@ -125,6 +125,21 @@ class Game:
         @kb.add("a")
         @kb.add("left")
         def go_left(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'a'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if self.can_walk:
                 self.player.move('left', self.screen.get_current_screen())
                 self.screen.update_entity(self.player, True)
@@ -149,6 +164,21 @@ class Game:
         @kb.add("d")
         @kb.add("right")
         def go_right(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'd'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if self.can_walk:
                 self.player.move('right', self.screen.get_current_screen())
                 self.screen.update_entity(self.player, True)
@@ -173,6 +203,21 @@ class Game:
         @kb.add("w")
         @kb.add("up")
         def go_up(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'w'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if self.can_walk:
                 self.player.move('up', self.screen.get_current_screen())
                 self.screen.update_entity(self.player, True)
@@ -197,6 +242,21 @@ class Game:
         @kb.add("s")
         @kb.add("down")
         def go_down(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     's'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if self.can_walk:
                 self.player.move('down', self.screen.get_current_screen())
                 self.screen.update_entity(self.player, True)
@@ -221,8 +281,23 @@ class Game:
         # Action Key
         @kb.add("x")
         def action(event: KeyPressEvent) -> None:
-            if (self.player.x, self.player.y) == self.maze_trigger_coords:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'x'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
 
+            if (self.player.x, self.player.y) == self.maze_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
@@ -252,14 +327,45 @@ class Game:
                     )
                 ]
                 self.can_walk = False
-            else:
-                self.message_box.body = Window(
-                    FormattedTextControl(str(self.player.x) + str(self.player.y)),
-                    align=WindowAlign.CENTER
-                )
+            #  else:
+            #      self.message_box.body = Window(
+            #          FormattedTextControl(str(self.player.x) + str(self.player.y)),
+            #          align=WindowAlign.CENTER
+            #      )
 
         @kb.add("j")
         def option1(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'j'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
+            if self.current_quest == 2 and self.quests_generator.progression[3] in (6, 7):
+                self.current_quest += 1
+                self.quests_generator.reset()
+                #  print(self.quests_generator.progression)
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     1),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
             if not self.can_walk:
                 self.body.floats = [
                     Float(
@@ -277,6 +383,21 @@ class Game:
 
         @kb.add("k")
         def option2(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'k'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if not self.can_walk:
                 self.body.floats = [
                     Float(
@@ -294,6 +415,21 @@ class Game:
 
         @kb.add("l")
         def option3(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'l'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if not self.can_walk:
                 self.body.floats = [
                     Float(
@@ -322,7 +458,6 @@ class Game:
                         )
                     ]
                 else:
-                    print('yya')
                     self.body.floats = [
                         Float(
                             Frame(
@@ -337,8 +472,23 @@ class Game:
         # Quit mini-game
         @kb.add("q")
         def quit_minigame(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'q'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             self.message_box.body = Window(
-                FormattedTextControl(self.quests_generator.get_message(self.current_quest, 0)),
+                FormattedTextControl(self.quests_generator.get_message(self.current_quest, -2)),
                 align=WindowAlign.CENTER
             )
             if self.quests_generator.is_complete(self.current_quest):
@@ -346,7 +496,7 @@ class Game:
             self.body.floats = [
                 Float(
                     Frame(
-                        Window(FormattedTextControl("Quests completed: {}/3".format(self.current_quest - 1)),
+                        Window(FormattedTextControl("Quests completed: {}/4".format(self.current_quest - 1)),
                                width=22, height=1),
                     ),
                     right=5,
@@ -358,18 +508,37 @@ class Game:
         # Display the next Message
         @kb.add("n")
         def next_message(event: KeyPressEvent) -> None:
+            if self.current_quest == 2 and self.quests_generator.progression[3] == 5:
+                self.body.floats = [
+                    Float(
+                        Frame(
+                            Window(FormattedTextControl(
+                                   self.quests_generator.get_message(self.current_quest,
+                                                                     0,
+                                                                     'n'),
+                                   ),
+                                   width=88,
+                                   height=24),
+                        )
+                    )
+                ]
+                return
             if self.quests_generator.is_complete(self.current_quest):
                 self.current_quest += 1
                 self.body.floats = [
                     Float(
                         Frame(
-                            Window(FormattedTextControl("Quests completed: {}/3".format(self.current_quest - 1)),
+                            Window(FormattedTextControl("Quests completed: {}/4".format(self.current_quest - 1)),
                                    width=22, height=1),
                         ),
                         right=5,
                         top=2,
                     )
                 ]
+                self.message_box.body = Window(
+                    FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),
+                    align=WindowAlign.CENTER
+                )
             else:
                 self.message_box.body = Window(
                     FormattedTextControl(self.quests_generator.get_message(self.current_quest, -1)),

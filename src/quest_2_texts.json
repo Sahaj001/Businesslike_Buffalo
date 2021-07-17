@@ -1,6 +1,7 @@
 {
 	"narrator": [
-		"I see you have been eager to talk to me, In your surrounding, a village is summoned.\n I want you to go to the village and talk to a guy named Test1."
+		"I see you have been eager to talk to me, In your surrounding, a village is summoned.\n I want you to go to the village and talk to a guy named Test1.",
+		"Go to the village, and talk to Test1"
 	],
 	"Test1": [
 		"Test1: Haha, they got someone else, why have they sent you to me?\nPress 'j'",
