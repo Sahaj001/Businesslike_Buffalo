@@ -3,6 +3,7 @@ from random import randint, randrange, shuffle
 from typing import Literal
 
 import numpy as np
+from numpy.lib.polynomial import polyval
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
@@ -12,7 +13,9 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
-
+import play_sound
+import time
+import playsound
 
 class Maze:
     '''
@@ -68,6 +71,7 @@ class Maze:
         @self.kb.add("q")
         @self.kb.add("c-c")
         def _(event: KeyPressEvent) -> None:
+            time.sleep(1)
             event.app.exit()
 
         # Movement
@@ -126,6 +130,25 @@ class Maze:
             full_screen=True,
             refresh_interval=0.5
         )
+
+    def sfx(self, object: str):
+
+        if object == " ":
+            # play walk.mp3
+            playsound.playsound('../boxedin_walksofter.mp3', False)
+            # audio.play()
+        elif object == "K":
+            # play key.mp3
+            playsound.playsound('../boxedin_collect.mp3', False)
+            # audio.play()
+        elif object == "O":
+            # play game_over.mp3
+            playsound.playsound('../boxedin_levelcomplete.mp3', False)
+            # audio.play()
+        elif object == "W":
+            # play wall.mp3
+            playsound.playsound('../boxedin_wall.mp3', False)
+            # audio.play()
 
     def check(self, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
         """Checks whether the user specified point is blank or not
@@ -209,7 +232,7 @@ class Maze:
         copy_cells = self.get_cells()
         for ind1, row in enumerate(copy_cells):
             for ind2, cell in enumerate(row):
-                if str(cell) == ' ' or str(cell) == 'K':
+                if str(cell) == ' ' or str(cell) == 'K' or str(cell) == '@':
                     copy_cells[ind1][ind2] = 0
                 else:
                     copy_cells[ind1][ind2] = 1
@@ -294,12 +317,20 @@ class Maze:
         cells = self.cells
         new_pos = cells[player_pos[0]][player_pos[1]]
         if new_pos == ' ':
+            self.sfx(object=new_pos)
             self.cells[player_pos[0]][player_pos[1]] = '@'
             self.cells[old_pos[0]][old_pos[1]] = ' '
         elif new_pos == 'K':
+            self.sfx(object="K")
             self.cells[player_pos[0]][player_pos[1]] = '@'
             self.cells[old_pos[0]][old_pos[1]] = ' '
             self.keys_collected += 1
+        else:
+            self.sfx(object="W")
+
+        if self.keys_collected == self.num_keys:
+            self.sfx(object="O")
+
         '''
         Updates the position of the player on screen
         and checks whether keys have been collected or not
