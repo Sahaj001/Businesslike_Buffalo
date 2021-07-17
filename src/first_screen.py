@@ -1,6 +1,6 @@
 import time
 
-from prompt_toolkit import styles
+from prompt_toolkit.styles import Style
 from prompt_toolkit.shortcuts.dialogs import message_dialog
 from prompt_toolkit.formatted_text import HTML
 # import play_sound
