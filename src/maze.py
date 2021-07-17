@@ -1,8 +1,10 @@
+import time
 import typing
 from random import randint, randrange, shuffle
 from typing import Literal
 
 import numpy as np
+import playsound
 from numpy.lib.polynomial import polyval
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
@@ -13,9 +15,9 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.widgets import Frame, TextArea
+
 import play_sound
-import time
-import playsound
+
 
 class Maze:
     '''
@@ -135,19 +137,19 @@ class Maze:
 
         if object == " ":
             # play walk.mp3
-            playsound.playsound('../boxedin_walksofter.mp3', False)
+            playsound.playsound('../assets/audio/boxedin_walksofter.mp3', False)
             # audio.play()
         elif object == "K":
             # play key.mp3
-            playsound.playsound('../boxedin_collect.mp3', False)
+            playsound.playsound('../assets/audio/boxedin_collect.mp3', False)
             # audio.play()
         elif object == "O":
             # play game_over.mp3
-            playsound.playsound('../boxedin_levelcomplete.mp3', False)
+            playsound.playsound('../assets/audio/boxedin_levelcomplete.mp3', False)
             # audio.play()
         elif object == "W":
             # play wall.mp3
-            playsound.playsound('../boxedin_wall.mp3', False)
+            playsound.playsound('../assets/audio/boxedin_wall.mp3', False)
             # audio.play()
 
     def check(self, direction: typing.Literal["left", "up", "down", "right"]) -> bool:
@@ -224,7 +226,6 @@ class Maze:
                 if len(b) != 0:
                     self.cells.append(split(''.join(b)))
                     self.bare.append(split(''.join(b)))
-            print(''.join(a + (['\n'] + b)*self.scale))
 
     # Make the sequence of line objects to represent the maze, creates rows attribute
     def make_lines(self) -> np.ndarray:

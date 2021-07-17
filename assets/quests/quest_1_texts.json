@@ -1,0 +1,18 @@
+{
+  "narrator": [
+    "Welcome Bob. You may be wondering 'where the hell am I?!?'. \nWell, this is our facility! A little sandbox if you will where the more you explore the deeper it gets.\nComplete my tasks and you shall be free.\nAlthough, I am feeling generous today. Here's a little hint:\nGo look for the witch, she has a potion that I absolutely looovee, but be aware, she doesn't like stangers.",
+    "Look for the witch",
+    "Look who's back, you sure didn't fail me, now go ahead and take a sip of the potion\n(J) Drink Potion\n(K) Refuse",
+    "Good, test subjects that obey my orders are my favourite\nPress 'n' for next quest",
+    "Wrong choice!\nGame Over"
+  ],
+  "witch": [
+    "Witch: Oh my, who are you! Get away or I will curse you!!\n(J) Run back, (K) Ask for the potion, (L) Charge at her",
+    "Narrator: You Coward!\n\nPress Q to go back",
+    "The witch curses you and kicks you out!\n\nPress Q to go back",
+    "Witch: Oh you must be sent by 'them'. Well, to get this potion you need to solve \nthis little riddle for me.\nThere is a circular platform with a large rod where its length is same as the\nradius of the platform and one end is kept at the center.\nIt moves 90 degree in z axis and burst in thin strips equally and lands at the\nedge of the circle. Which shape does it form?\n\n(J) Sphere, (K) Hemisphere, (L) Cone",
+    "There you go my boy, here is the potion.\n\nPress Q to go back",
+    "Wrong answer my boy!\n\nPress Q to go back",
+    "Press Q to go back"
+  ]
+}

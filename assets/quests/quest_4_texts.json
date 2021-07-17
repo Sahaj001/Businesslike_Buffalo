@@ -1,0 +1,10 @@
+{
+  "guy": [
+    "Who goes there! Mister, it is 9am, why are you at my bar?!?\n(J) Maze, (K) I want a drink (L) Oh, sorry to disturb",
+    "Sorry? I don't understand\n(J) Maze, (K) I want a drink (L) Oh, sorry to disturb",
+    "So the witch has sent you? \nYou want to escape this box, \nI will send you to a maze and you need to collect the keys.\nPress the any arrow key to start the maze"
+  ],
+  "narrator": [
+    "You really thought I'll let you leave?!\nA scientist never lets his lab rat leave, why would I?\nOh my my, you'll be here a long time.\n====\nTHE END."
+  ]
+}

@@ -34,9 +34,12 @@ class Game:
         [self.screen.insert_entity(entity, presence, screen) for entity, presence, screen in mp.map_3]
         self.screen.insert_entity(self.player, True)
 
-        self.maze_trigger_coords = (24, 17)  # (x, y) of the bar door
-        self.hangman_trigger_coords = (59, 17)  # (x, y) of a tree
-        self.puzzle_trigger_coords = (64, 16)  # (x, y) of the fountain
+        # (x, y) of the bar door
+        self.maze_trigger_coords = [(24, 17), (25, 17)]
+        # (x, y) of village tents
+        self.hangman_trigger_coords = [(59, 17), (60, 17), (55, 14), (54, 14), (64, 14), (65, 14), (60, 10), (53, 10)]
+        # (x, y) of the witch hut
+        self.puzzle_trigger_coords = [(64, 16), (65, 16), (63, 16)]
 
         self.can_walk = True
         self.current_quest = 1
@@ -297,7 +300,7 @@ class Game:
                 ]
                 return
 
-            if (self.player.x, self.player.y) == self.maze_trigger_coords:
+            if self.current_quest == 4 and (self.player.x, self.player.y) in self.maze_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
@@ -307,7 +310,7 @@ class Game:
                     )
                 ]
                 self.can_walk = False
-            elif (self.player.x, self.player.y) == self.hangman_trigger_coords:
+            elif self.current_quest == 2 and (self.player.x, self.player.y) in self.hangman_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(
@@ -317,7 +320,7 @@ class Game:
                     )
                 ]
                 self.can_walk = False
-            elif (self.player.x, self.player.y) == self.puzzle_trigger_coords:
+            elif self.current_quest in (1, 2, 3) and (self.player.x, self.player.y) in self.puzzle_trigger_coords:
                 self.body.floats = [
                     Float(
                         Frame(

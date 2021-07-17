@@ -1,4 +1,3 @@
-from ctypes import alignment
 import re
 import time
 from prompt_toolkit import styles
@@ -6,6 +5,7 @@ from prompt_toolkit.shortcuts.dialogs import message_dialog
 from prompt_toolkit.formatted_text import HTML
 # import play_sound
 import simpleaudio as sa
+from prompt_toolkit import styles
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.document import Document
@@ -16,26 +16,26 @@ from prompt_toolkit.key_binding.bindings.focus import (
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout import HSplit, Layout, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
+from prompt_toolkit.shortcuts import yes_no_dialog
 from prompt_toolkit.styles import Style, style
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
-from prompt_toolkit.shortcuts import yes_no_dialog
+
 import bot
 import layout
 
-class GameScreen:
 
-    """
-    Game Screen with a layout of the launch page
-    """
+# noinspection PyTypeChecker
+class GameScreen:
+    """Game Screen with a layout of the launch page."""
+
     def __init__(self) -> None:
-        """
-        Initialize the class with attributes like bot and screen
-        """
+        """Initialize the class with attributes like bot and screen."""
+
         # game 1
         self.path = "../assets/ascii/text/"
         self.launch = True
         self.bot_player = bot.Bot(10, 3)
-        self.top_screen = bot.GameScreen(20, 56, [])
+        self.top_screen = bot.StartScreen(20, 56)
 
         self.top_screen.render_table(self.bot_player)
 
@@ -67,13 +67,13 @@ class GameScreen:
         self.help = False
         self.true_exit = False
         self.container1 = TextArea(text=self.top_text, height=18, style="#ff0000 bg:#f0f0f0 bold")
-        
+
         # Key bindings
         self.kb = KeyBindings()
 
         @self.kb.add("q")
         def _exit(event):
-            "Exit the window."
+            """Exits the windows."""
             get_app().exit()
 
         self.kb.add("tab")(focus_next)
@@ -81,7 +81,7 @@ class GameScreen:
 
         @self.kb.add("left")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y-1)
+            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y - 1)
             new_text = self.top_screen.render_table(self.bot_player)
             self.container1.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
@@ -89,7 +89,7 @@ class GameScreen:
 
         @self.kb.add("right")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y+1)
+            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y + 1)
             new_text = self.top_screen.render_table(self.bot_player)
 
             self.container1.buffer.document = Document(
@@ -98,7 +98,7 @@ class GameScreen:
 
         @self.kb.add("up")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x-1, self.bot_player.y)
+            self.bot_player.new_pos(self.bot_player.x - 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
             self.container1.buffer.document = Document(
@@ -107,7 +107,7 @@ class GameScreen:
 
         @self.kb.add("down")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x+1, self.bot_player.y)
+            self.bot_player.new_pos(self.bot_player.x + 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
             self.container1.buffer.document = Document(
@@ -120,19 +120,19 @@ class GameScreen:
             time.sleep(4)
             self.do_exit()
 
-        if (self.bot_player.y+self.yb) % 50 == 49 and self.yb == 1:
+        if (self.bot_player.y + self.yb) % 50 == 49 and self.yb == 1:
             self.yb = -1
 
-        if (self.bot_player.y+self.yb) == 3 and self.yb == -1:
+        if (self.bot_player.y + self.yb) == 3 and self.yb == -1:
             self.yb = 1
 
-        if (self.bot_player.x+self.xb) % 15 == 14 and self.xb == 1:
+        if (self.bot_player.x + self.xb) % 15 == 14 and self.xb == 1:
             self.xb = -1
 
-        if (self.bot_player.x+self.xb) == 3 and self.xb == -1:
+        if (self.bot_player.x + self.xb) == 3 and self.xb == -1:
             self.xb = 1
 
-        self.bot_player.new_pos(self.bot_player.x+self.xb, self.bot_player.y+self.yb)
+        self.bot_player.new_pos(self.bot_player.x + self.xb, self.bot_player.y + self.yb)
         new_text = self.top_screen.render_table(self.bot_player)
 
         self.container1.buffer.document = Document(
@@ -168,7 +168,7 @@ class GameScreen:
 
     def read_text(self, filename: str):
         """ reading the text file """
-        with open(self.path+filename, 'r', encoding="utf-8") as file:
+        with open(self.path + filename, 'r', encoding="utf-8") as file:
             data = file.read()
         return data
 
@@ -180,7 +180,6 @@ class GameScreen:
         )
 
     def middle(self):
-        width = self.width
         height = self.height
         return Frame(
             Box(
@@ -270,7 +269,7 @@ class GameScreen:
                            full_screen=True, key_bindings=self.kb, refresh_interval=1,
                            on_invalidate=self.on_invalidate)
 
-        audio_file_intro = sa.WaveObject.from_wave_file('../intro_music.wav')
+        audio_file_intro = sa.WaveObject.from_wave_file('../assets/audio/intro_music.wav')
         audio_file_intro.play()
         app1.run()
         self.launch = False
@@ -314,6 +313,3 @@ if __name__ == "__main__":
 
     game = GameScreen()
     game.run()
-    # print("dgfh")
-    # for i in range(0,10):
-    # bot1.new_pos(bot1.x+1,bot1.y)

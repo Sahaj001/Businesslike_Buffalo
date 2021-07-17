@@ -1,0 +1,25 @@
+{
+  "narrator": [
+    "East of here, you'll find a village.\n I want you to go there and talk to Old Clemens.",
+    "Go to the village, and talk to Old Clemens. I find his conversations quite...enlightening."
+  ],
+  "Test1": [
+    "Old Clemens: Haha, they trapped someone else did they?\nAnd why would they have sent you to me...\n\nPress 'J'",
+    "Old Clemens: Oh yes! I remember why they sent you here. I have a letter for you.\nThey wouldn't tell me what it said, but go on! Open it."
+  ],
+  "Test0": [
+    "Bob: Someone else? What do you mean someone else? Were you also trapped????\nYou never escaped??\n\nPress'J'",
+    "Bob: I am here to kill you.\n"
+  ],
+  "System": [
+    "\n\nPress 'J' to open the letter\n",
+    "In the letter it's written: \"The witch is planning to kill you, kill her instead\nbefore she gets the chance.\"\n\n(J) Try to kill the witch (K) Don't kill the witch",
+    "Go to the witch hut, and kill her",
+    "Go talk to the witch",
+    "The witch places a curse on you controlling your mind. You \ntry to kill the witch. You falter and your vision blackens. You hear someone screaming \"Save me!!!\"\nPress 'J'",
+    "You see Old Clemens hanging from a tree. You need to save him.\nPress 'J'",
+    "The narrator hangs the witch.\n",
+    "Old Clemens dies"
+  ],
+  "witch": ["Hello monsieur, how can I help you again.\n"]
+}
