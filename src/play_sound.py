@@ -13,7 +13,7 @@ class PlayAudio:
     """
     def __init__(self, path: str) -> None:
 
-        self.path = "../intro_music.wav"
+        self.path = path
 
         self.wave_obj = sa.WaveObject.from_wave_file(self.path)
 
