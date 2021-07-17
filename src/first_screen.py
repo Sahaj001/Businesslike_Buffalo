@@ -146,7 +146,7 @@ class GameScreen:
 
     def read_text(self, filename: str):
         """ reading the text file """
-        with open(self.path+filename, 'r') as file:
+        with open(self.path+filename, 'r', encoding="utf-8") as file:
             data = file.read()
         return data
 
