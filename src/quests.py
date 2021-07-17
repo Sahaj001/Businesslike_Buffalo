@@ -15,7 +15,7 @@ class Quest:
         self.current_msg = ""
 
         self.maze = Maze(13, 5, 5, scale=3)
-        self.hangman = Hangman("helloWorld", 9)
+        self.hangman = Hangman("helloworld", 9)
 
         self.dialogues = {1: {}, 2: {},
                           3: {}, 4: {}}
