@@ -232,7 +232,7 @@ class Maze:
         copy_cells = self.get_cells()
         for ind1, row in enumerate(copy_cells):
             for ind2, cell in enumerate(row):
-                if str(cell) == ' ' or str(cell) == 'K':
+                if str(cell) == ' ' or str(cell) == 'K' or str(cell) == '@':
                     copy_cells[ind1][ind2] = 0
                 else:
                     copy_cells[ind1][ind2] = 1
