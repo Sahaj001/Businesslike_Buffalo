@@ -13,7 +13,14 @@ class CustomLexer(RegexLexer):
             (r"(\).*?\()", Token.Trunk),
             (r"(║.*?║)|([╠═╔══╗═╣])", Token.Bar),
             (r"[░]", Token.Water),
-            (r"[v/-_|\\]", Token.Fountainbase),
+            (r"(/_\|_\\)|(/__\|__\\)|(v)", Token.Fountain),
             (r"\%*\%", Token.Wall.Inescapable),
+            (r",", Token.Grass),
+            (r"/\|\\", Token.Campfire),
+            (r"\*", Token.Fire),
+            (r"(\\|/)[~_@NИ]+(\\|/)|(_)", Token.Lake),
+            (r"(/\\)|(//\\\\)|(\\/)", Token.Tent),
+            # (r"|.*?|", Token.House.Wall),
+            # (r"*_[\s]", Token.House.Roof),
         ]
     }
