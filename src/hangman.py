@@ -89,11 +89,12 @@ class Hangman:
             self.words = "opps, there's no letter ", val ," in the word"
 
     def game_result(self):
-        print(len(self.letter_set))
-        if game.chance <= 0 and len(self.letter_set) > 0:
-            return "You Lost the Game, Better Luck Next time gussinng."
-        else:
+        print(len(self.letter_set))        
+        if self.letter_set == self.print_word:
             return "Hurray You won the game"
+        else:
+            return "You Lost the Game, Better Luck Next time gussinng."
+
 
 if __name__ == "__main__":
     
