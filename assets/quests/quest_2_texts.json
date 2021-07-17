@@ -4,11 +4,11 @@
 		"Go to the village, and talk to Test1"
 	],
 	"Test1": [
-		"Test1: Haha, they got someone else, why have they sent you to me?\nPress 'j'",
+		"Test1: Haha, they got someone else, why have they sent you to me?\nPress 'J'",
 		"Test1: Its....... complicated, it is what you think.\n       Now, open letter in your pocket and do what it says!\n"
 	],
 	"Test0": [
-		"Test0: You were not here before?? \n       This village was also not here before how are things keep spawning??\n\nPress'j'",
+		"Test0: You were not here before?? \n       This village was also not here before how are things keep spawning??\n\nPress'J'",
 		" Test0: I am here to kill you.\n"
 	],
 	"System": [

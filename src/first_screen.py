@@ -23,27 +23,25 @@ import bot
 import layout
 
 
+# noinspection PyTypeChecker
 class GameScreen:
+    """Game Screen with a layout of the launch page."""
 
-    """
-    Game Screen with a layout of the launch page
-    """
     def __init__(self) -> None:
-        """
-        Initialize the class with attributes like bot and screen
-        """
+        """Initialize the class with attributes like bot and screen."""
+
         # game 1
         self.path = "../assets/ascii/text/"
         self.launch = True
         self.bot_player = bot.Bot(10, 3)
-        self.top_screen = bot.GameScreen(20, 56, [])
+        self.top_screen = bot.StartScreen(20, 56)
 
         self.top_screen.render_table(self.bot_player)
 
-        self.button1 = Button(text= " Play ", width=10 ,
-                              right_symbol= " ", left_symbol= " ", handler=self.do_exit)
-        self.button2 = Button(text=" Exit ", width=30 ,
-                              right_symbol= " ", left_symbol= " ", handler=self.do_exit2)
+        self.button1 = Button(text=" Play ", width=10,
+                              right_symbol=" ", left_symbol=" ", handler=self.do_exit)
+        self.button2 = Button(text=" Exit ", width=30,
+                              right_symbol=" ", left_symbol=" ", handler=self.do_exit2)
         self.exit_button = Button("Exit", handler=self.do_exit)
         self.width = 35
         self.height = 10
@@ -70,7 +68,7 @@ class GameScreen:
 
         @self.kb.add("q")
         def _exit(event):
-            "Exit the window."
+            """Exits the windows."""
             get_app().exit()
 
         self.kb.add("tab")(focus_next)
@@ -78,7 +76,7 @@ class GameScreen:
 
         @self.kb.add("left")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y-1)
+            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y - 1)
             new_text = self.top_screen.render_table(self.bot_player)
             self.container1.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
@@ -86,7 +84,7 @@ class GameScreen:
 
         @self.kb.add("right")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y+1)
+            self.bot_player.new_pos(self.bot_player.x, self.bot_player.y + 1)
             new_text = self.top_screen.render_table(self.bot_player)
 
             self.container1.buffer.document = Document(
@@ -95,7 +93,7 @@ class GameScreen:
 
         @self.kb.add("up")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x-1, self.bot_player.y)
+            self.bot_player.new_pos(self.bot_player.x - 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
             self.container1.buffer.document = Document(
@@ -104,7 +102,7 @@ class GameScreen:
 
         @self.kb.add("down")
         def _(event: KeyPressEvent):
-            self.bot_player.new_pos(self.bot_player.x+1, self.bot_player.y)
+            self.bot_player.new_pos(self.bot_player.x + 1, self.bot_player.y)
             new_text = self.top_screen.render_table(self.bot_player)
 
             self.container1.buffer.document = Document(
@@ -117,19 +115,19 @@ class GameScreen:
             time.sleep(4)
             self.do_exit()
 
-        if (self.bot_player.y+self.yb) % 50 == 49 and self.yb == 1:
+        if (self.bot_player.y + self.yb) % 50 == 49 and self.yb == 1:
             self.yb = -1
 
-        if (self.bot_player.y+self.yb) == 3 and self.yb == -1:
+        if (self.bot_player.y + self.yb) == 3 and self.yb == -1:
             self.yb = 1
 
-        if (self.bot_player.x+self.xb) % 15 == 14 and self.xb == 1:
+        if (self.bot_player.x + self.xb) % 15 == 14 and self.xb == 1:
             self.xb = -1
 
-        if (self.bot_player.x+self.xb) == 3 and self.xb == -1:
+        if (self.bot_player.x + self.xb) == 3 and self.xb == -1:
             self.xb = 1
 
-        self.bot_player.new_pos(self.bot_player.x+self.xb, self.bot_player.y+self.yb)
+        self.bot_player.new_pos(self.bot_player.x + self.xb, self.bot_player.y + self.yb)
         new_text = self.top_screen.render_table(self.bot_player)
 
         self.container1.buffer.document = Document(
@@ -157,7 +155,7 @@ class GameScreen:
 
     def read_text(self, filename: str):
         """ reading the text file """
-        with open(self.path+filename, 'r', encoding="utf-8") as file:
+        with open(self.path + filename, 'r', encoding="utf-8") as file:
             data = file.read()
         return data
 
@@ -169,7 +167,6 @@ class GameScreen:
         )
 
     def middle(self):
-        width = self.width
         height = self.height
         return Frame(
             Box(
@@ -269,19 +266,18 @@ class GameScreen:
 
         app.run()
 
-        if self.true_exit == True:
+        if self.true_exit:
             result = yes_no_dialog(
                 title='Exit the game',
-                text = 'Do you want to confirm ?'
+                text='Do you want to confirm ?'
             ).run()
-            if result == True:
+            if result:
                 return
             else:
                 app.run()
 
-        layoutScreen = layout.Game()
-        layoutScreen.run()
-
+        layoutscreen = layout.Game()
+        layoutscreen.run()
 
 
 if __name__ == "__main__":
@@ -289,6 +285,3 @@ if __name__ == "__main__":
 
     game = GameScreen()
     game.run()
-    # print("dgfh")
-    # for i in range(0,10):
-    # bot1.new_pos(bot1.x+1,bot1.y)

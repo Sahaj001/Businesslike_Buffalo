@@ -226,7 +226,6 @@ class Maze:
                 if len(b) != 0:
                     self.cells.append(split(''.join(b)))
                     self.bare.append(split(''.join(b)))
-            print(''.join(a + (['\n'] + b)*self.scale))
 
     # Make the sequence of line objects to represent the maze, creates rows attribute
     def make_lines(self) -> np.ndarray:
