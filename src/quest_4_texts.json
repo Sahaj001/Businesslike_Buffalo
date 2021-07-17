@@ -3,5 +3,8 @@
 		"Welcome, may I ask who are you.\n(J) Maze, (K) Hemisphere, (L) Cookies",
 		"Sorry? I don't understand\n(J) Maze, (K) Hemisphere, (L) Cookies",
 		"So the witch has sent you? \nYou want to escape this box, \nI will send you to a maze and you need to collect the keys.\nPress the any arrow key to start the maze"
+	],
+	"narrator": [
+		"You really thought I'll let you leave?!\nA scientist never lets his lab rat leave, why would I?"
 	]
 }

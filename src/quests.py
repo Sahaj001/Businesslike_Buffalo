@@ -46,7 +46,8 @@ class Quest:
                 self.reset()
                 return True
         if quest == 4:
-            return True
+            if self.progression[1] == 0:
+                return True
         return False
 
     def get_message(self, quest: int, option: int = -1, alphabet: chr = '*') -> str:
@@ -288,34 +289,58 @@ class Quest:
             if option == 0:
                 if self.progression[0] == -1:
                     self.progression[0] = 0
-                    return self.dialogues[quest]["guy"][self.progression[0]]
+                    self.current_msg = self.dialogues[quest]["guy"][self.progression[0]]
+                    return self.current_msg
                 elif self.progression[0] == 0:
-                    return self.dialogues[quest]["guy"][self.progression[0]]
+                    self.current_msg = self.dialogues[quest]["guy"][self.progression[0]]
+                    return self.current_msg
+                else:
+                    return self.current_msg
+            elif option == -2:
+                if self.progression[1] == 0:
+                    self.current_msg = self.dialogues[quest]["guy"][self.progression[1]]
+                    return self.current_msg
+                else:
+                    return self.current_msg
             elif option in (2, 3):
                 if self.progression[0] in (0, 1):
                     self.progression[0] = 1
-                    return self.dialogues[quest]["guy"][self.progression[0]]
+                    self.current_msg = self.dialogues[quest]["guy"][self.progression[0]]
+                    return self.current_msg
             elif option == 1:
                 self.progression[0] = 2
-                return self.dialogues[quest]["guy"][self.progression[0]]
+                self.current_msg = self.dialogues[quest]["guy"][self.progression[0]]
+                return self.current_msg
             elif alphabet == "w":
                 self.maze.move("up")
                 if self.maze.num_keys == self.maze.keys_collected:
-                    return "You collected all the keys!"
-                return self.maze.display(self.maze.cells)
+                    self.progression[1] = 0
+                    self.current_msg = "You collected all the keys!"
+                    return self.current_msg
+                self.current_msg = self.maze.display(self.maze.cells)
+                return self.current_msg
             elif alphabet == "a":
                 self.maze.move("left")
                 if self.maze.num_keys == self.maze.keys_collected:
-                    return "You collected all the keys!"
-                return self.maze.display(self.maze.cells)
+                    self.progression[1] = 0
+                    self.current_msg = "You collected all the keys!"
+                    return self.current_msg
+                self.current_msg = self.maze.display(self.maze.cells)
+                return self.current_msg
             elif alphabet == "s":
                 self.maze.move("down")
                 if self.maze.num_keys == self.maze.keys_collected:
-                    return "You collected all the keys!"
-                return self.maze.display(self.maze.cells)
+                    self.progression[1] = 0
+                    self.current_msg = "You collected all the keys!"
+                    return self.current_msg
+                self.current_msg = self.maze.display(self.maze.cells)
+                return self.current_msg
             elif alphabet == "d":
                 self.maze.move("right")
                 if self.maze.num_keys == self.maze.keys_collected:
-                    return "You collected all the keys!"
-                return self.maze.display(self.maze.cells)
+                    self.progression[1] = 0
+                    self.current_msg = "You collected all the keys!"
+                    return self.current_msg
+                self.current_msg = self.maze.display(self.maze.cells)
+                return self.current_msg
         return ""
