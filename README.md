@@ -1,17 +1,25 @@
+# Boxed In
+Welcome to Boxed In! A terminal based adventure game created in [prompt-toolkit for Python](https://python-prompt-toolkit.readthedocs.io/).
+
+# Gameplay
+In Boxed In, you play the character of Bob, a teenager who finds himself to be abducted and left in the outdoors. He quickly finds out though, that his surroundings are anything but normal, and that in reality he's been trapped in a large box.
+
+In order to escape, you'll have to think _inside_ the box because, well, you're Boxed In! You don't have a choice!
+
+## Installation and setup
+1. Clone the repository to your local machine.
+2. Install the requirements listed in `requirements.txt` (it is recommended that you initialise a virtual environment for this).
+3. `cd` into the `src` folder.
+4. Run the game by running `python first-screen.py`
+
+while running if it gives an error like module `gi` is not found just do this `pip3 install playsound`
+
 ![](https://cdn.discordapp.com/attachments/862342534616842246/866923028292829204/image1.png)
 
 
 
 ### FRAMEWORK
 Prompt-Toolkit
-
-### INSTALLATION
-python=3.9.6
-`$ python3 -m pip install -r requirements.txt`
-or
-`pip install -r requirements.txt`
-
-while running if it gives an error like module `gi` is not found just do this `pip3 install playsound`
 
 ### SYSTEM SUPPORT
 
@@ -87,3 +95,8 @@ If you encounter some other bugs please make them a issue in our repo.
 
 
 ![](https://cdn.discordapp.com/attachments/862342534616842246/866923028993540107/image3.png)
+
+
+## DEVLOPER'S NOTE
+
+You will find some files which are not used in the main-game, that is because we were thinking of implementing them but we ran out of time, hope you enjoy playing this
